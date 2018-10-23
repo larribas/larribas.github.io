@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Lorenzo Arribas">
+    <meta name="description" content="This is my personal portfolio and blog.">
+    <meta name="keywords" content="blog,portfolio,software,developer,personal">
+
+    <base href="https://larribas.me">
+    <title>
+  5 ways to make your codebase withstand the test of time · Lorenzo Arribas
+</title>
+
+    <link rel="canonical" href="https://medium.com/@larribas/5-ways-to-make-your-codebase-withstand-the-test-of-time-9f9192ff1763">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700|Source+Serif+Pro:400,700|Changa+One|Source+Code+Pro:400,700" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54=" crossorigin="anonymous" />
+
+    
+    
+    <link rel="stylesheet" href="/css/coder.min.d0a8a2d07e0a14d6f3d3581c83f96c9cf082237300cebb3702cc5cdbf6df5df1.css" integrity="sha256-0Kii0H4KFNbz01gcg/lsnPCCI3MAzrs3Asxc2/bfXfE=" crossorigin="anonymous" media="screen" />
+
+    
+
+    <link rel="icon" type="image/png" href="https://larribas.me/images/favicon_32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://larribas.me/images/favicon_16.png" sizes="16x16">
+
+    
+
+    <meta name="generator" content="Hugo 0.49.2" />
+
+    
+    
+<meta itemprop="name" content="5 ways to make your codebase withstand the test of time">
+<meta itemprop="description" content="If you don’t treat your codebase carefully you may end up maintaining a huge pile of technical debt. Here are 5 ideas to fight against legacy code… and win.">
+
+
+<meta itemprop="datePublished" content="2018-10-17T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2018-10-17T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1446">
+
+
+
+<meta itemprop="keywords" content="webdev,architecture,designpatterns,legacy," />
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="5 ways to make your codebase withstand the test of time"/>
+<meta name="twitter:description" content="If you don’t treat your codebase carefully you may end up maintaining a huge pile of technical debt. Here are 5 ideas to fight against legacy code… and win."/>
+
+    <meta property="og:title" content="5 ways to make your codebase withstand the test of time" />
+<meta property="og:description" content="If you don’t treat your codebase carefully you may end up maintaining a huge pile of technical debt. Here are 5 ideas to fight against legacy code… and win." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://larribas.me/posts/5-ways-to-make-your-codebase-withstand-the-test-of-time/" /><meta property="article:published_time" content="2018-10-17T00:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2018-10-17T00:00:00&#43;00:00"/>
+
+  </head>
+
+  <body class="">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://larribas.me">
+      Lorenzo Arribas
+    </a>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
+    <ul class="navigation-list">
+      
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/about">About</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/projects/">Portfolio</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/posts/">Blog</a>
+          </li>
+        
+      
+      
+    </ul>
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">5 ways to make your codebase withstand the test of time</h1>
+        </div>
+        <div class="post-meta">
+          <span class="posted-on">
+            📆
+            <time datetime='2018-10-17'>
+              October 17, 2018
+            </time>
+          </span>
+          <span class="reading-time">
+            🕐
+            7 minutes read
+          </span>
+        </div>
+        <ul class="tags">
+            
+            <li>webdev</li>
+            
+            <li>architecture</li>
+            
+            <li>designpatterns</li>
+            
+            <li>legacy</li>
+            
+        </ul>
+      </header>
+
+      <div>
+        
+
+<p><em>This is the first in a series of articles where @hecrj and I share what we have learned after working on a large, fast-changing codebase for the past 3 years, and being perfectly happy with the result!</em></p>
+
+<hr />
+
+<p>If you are a web developer, you are probably used to having new frameworks, libraries and technologies come out every other week.</p>
+
+<blockquote>
+<p>We are on a never-ending quest to find better tools and patterns, but does that mean our code is doomed to become old and wrinkly?</p>
+</blockquote>
+
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/5-ways-to-make-your-codebase-withstand-the-test-of-time/images/legacy-meme.jpg"
+        alt="Your decisions will always impact many other people"
+        
+    >
+
+    
+
+    
+</figure>
+
+
+
+<p>How do you anchor your project so that it resists the <em>Winds of Trend</em>? Here are 5 tips that have worked out pretty well for us.</p>
+
+<h2 id="1-split-your-code-based-on-domain-concepts-not-tech-concepts">1. Split your code based on domain concepts, not tech concepts</h2>
+
+<p>One of the first questions you may have when starting a new project is how should you structure it. There are two popular schools of thought here: Either we split our files by tech concepts, or by domain concepts.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-md" data-lang="md"># Split by tech concepts        # Split by domain concepts
+<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>|- src                          |- auth<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>|  |- controllers               |  |- controllers<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>|  |  |- auth                   |  |- models<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>|  |  |- profile                |  |- views<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>|  |  |- article                |  |- tests<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>|  |- models                    |- profile<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>|  |- views                     |- article<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>|- test                         (...)<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>|  |- controllers<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>|  |  |- auth<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>(...)</code></pre></div>
+<p>If you’ve read the header you might have an idea of what we’ll recommend, but let’s back that up with a few thoughts.</p>
+
+<p>Say you arrive at the root of a project with a specific goal (hunting down a bug, adding a feature, removing it, etc.). You need to find the appropriate code, navigate through related files, take a look at the tests, and when you feel confident enough, make those changes to the codebase.</p>
+
+<p>As developers, this process is our bread and butter, so we better make it efficient.</p>
+
+<blockquote>
+<p>What is easier to maintain, a codebase with 10 files or one with 100 files?</p>
+</blockquote>
+
+<p>Splitting code by domain concepts allows you to focus on a small part of your codebase, whereas doing it by tech concept forces you to jump around.</p>
+
+<h2 id="2-provide-a-public-contract-api-for-all-your-domain-concepts">2. Provide a public contract (API) for all your domain concepts</h2>
+
+<p>Imagine your project has a <code>payments</code> directory where you keep all 💰-related code. We have a series of components to store our payments in a database or connect to 3rd-party services like <em>Stripe</em>.</p>
+
+<p>All <strong>those components are there to fulfill a contract</strong>, that is, to make sure <code>payments</code> behave they way they should.</p>
+
+<p>Just to be clear, we are <em>not</em> talking about the HTTP API your mobile app will call to charge users. We are talking about an internal API that turns your payments directory into its own &ldquo;microservice&rdquo; (using the term freely).</p>
+
+<p>Why, you ask?</p>
+
+<p>Because having an explicit API provides:</p>
+
+<ul>
+<li>A clear picture of the expected behavior.</li>
+<li>A minimum test coverage everyone can agree upon and commit to.</li>
+<li>The freedom to change anything from the underlying implementation.</li>
+</ul>
+
+<p>Furthermore, <strong>it is important for this API to know as little as possible of external concepts such as users, permissions or environments</strong>. These are not part of the domain. They are the way we solve a problem with the communication layer (a public HTTP endpoint is inherently insecure) or our development workflow.</p>
+
+<p>For instance, we can imagine having:</p>
+
+<ul>
+<li>A public-facing API that exposes <em>some</em> of the domain behavior and controls authentication and authorization.</li>
+<li>A private admin API + panel to provide easy customer support and look into bugs without ever touching any database or console.</li>
+<li>A really easy way to write fixtures, examples and migrations.</li>
+</ul>
+
+<h2 id="3-rely-on-small-interfaces">3. Rely on small interfaces</h2>
+
+<p>This one is pretty popular. As developers, we are constantly reminded to rely on abstractions instead of concrete implementations, <a href="https://en.wikipedia.org/wiki/Interface_segregation_principle">segregate our interfaces</a> and <a href="https://en.wikipedia.org/wiki/Dependency_inversion_principle">invert our dependencies</a>.</p>
+
+<p>You can easily find plenty of material covering the theory, so let’s focus on some practical examples. Our <code>Payments</code> app might need to talk to these interfaces:</p>
+
+<ul>
+<li>An event publisher</li>
+<li>An event subscriber</li>
+<li>A credit card charger</li>
+<li>An email sender</li>
+</ul>
+
+<p>All these interfaces have a small and clearly defined role. Later on, we will inject the particular implementations:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">production <span style="color:#f92672">=</span> <span style="color:#66d9ef">Payments</span><span style="color:#f92672">.</span>new(
+  <span style="color:#e6db74">event_publisher</span>: rabbitmq,
+  <span style="color:#e6db74">event_subscriber</span>: rabbitmq_replicas,
+  <span style="color:#e6db74">credit_card_charger</span>: stripe,
+  <span style="color:#e6db74">email_sender</span>: mailgun,
+)
+
+development <span style="color:#f92672">=</span> <span style="color:#66d9ef">Payments</span><span style="color:#f92672">.</span>new(
+  <span style="color:#e6db74">event_publisher</span>: in_memory_bus,
+  <span style="color:#e6db74">event_subscriber</span>: in_memory_bus,
+  <span style="color:#e6db74">credit_card_charger</span>: stripe_test_mode,
+  <span style="color:#e6db74">email_sender</span>: muted_mailer,
+)</code></pre></div>
+<p>As you can see, small interfaces allow us to create well-defined tests and choose the best strategy for each action depending on the environment. On the other hand, we usually write implementations based on particular technologies, to centralize all the knowledge and helper functions around them.</p>
+
+<h2 id="4-decouple-your-data-from-your-storage-strategy">4. Decouple your data from your storage strategy</h2>
+
+<p>Let’s get it out of the way: We think ORMs are wrong (or maybe it’s people who are doing them wrong). Take a look at this <em>Ruby on Rails</em> code:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Article</span> <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">ActiveRecord</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Base</span>
+  belongs_to <span style="color:#e6db74">:user</span>
+  has_many <span style="color:#e6db74">:comments</span>, <span style="color:#e6db74">dependent</span>: <span style="color:#e6db74">:destroy</span>
+
+  scope <span style="color:#e6db74">:authored_by</span>, <span style="color:#f92672">-&gt;</span>(username) { where(<span style="color:#e6db74">user</span>: <span style="color:#66d9ef">User</span><span style="color:#f92672">.</span>where(<span style="color:#e6db74">username</span>: username)) }
+
+  validates <span style="color:#e6db74">:title</span>, <span style="color:#e6db74">presence</span>: <span style="color:#66d9ef">true</span>, <span style="color:#e6db74">allow_blank</span>: <span style="color:#66d9ef">false</span>
+  validates <span style="color:#e6db74">:body</span>, <span style="color:#e6db74">presence</span>: <span style="color:#66d9ef">true</span>, <span style="color:#e6db74">allow_blank</span>: <span style="color:#66d9ef">false</span>
+
+  before_validation <span style="color:#66d9ef">do</span>
+    self<span style="color:#f92672">.</span>slug <span style="color:#f92672">||=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">#{</span>title<span style="color:#f92672">.</span>to_s<span style="color:#f92672">.</span>parameterize<span style="color:#e6db74">}</span><span style="color:#e6db74">-</span><span style="color:#e6db74">#{</span>rand(<span style="color:#ae81ff">36</span><span style="color:#f92672">**</span><span style="color:#ae81ff">6</span>)<span style="color:#f92672">.</span>to_s(<span style="color:#ae81ff">36</span>)<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+  <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">end</span></code></pre></div>
+<p>There’s a lot to unpack here.</p>
+
+<p>First, we notice this object is describing relationships, cascade deletion and nullable attributes. Exactly what you would expect from an Object-Relational Mapper. Quite transparent!</p>
+
+<p>Next, let’s consider for a moment. What is important for us when representing an Article?:</p>
+
+<ul>
+<li><strong>We should be able to harness the full power of the language we are using</strong>. When we are using Java, we want to be able to use OO patterns and inheritance freely. When we are using Haskell, we want to use union types and records.</li>
+<li><strong>We should be able to store our data in different formats and databases</strong>. This allows us to use ElasticSearch for performant searches, PostgreSQL for a consistent state and Redis to keep our autosave feature fast enough.
+ORM models offer neither, because they are just a way to interface with a SQL database. We still need to represent and manipulate our data somewhere else. The problem is, once you accept this statement, using an ORM seems awkward or overkill. This is what we mean:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#75715e"># Let&#39;s say we have a series of entities in our domain that we use to represent an article.</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Article</span>; <span style="color:#66d9ef">end</span> <span style="color:#75715e"># The big picture</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Tag</span>; <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RichText</span>; <span style="color:#66d9ef">end</span> <span style="color:#75715e"># Headings, bold, cross-references, …</span>
+
+
+<span style="color:#75715e"># Now we need an interface to store the article&#39;s content in our SQL database.</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ArticleStore</span>
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">store</span>(<span style="color:#e6db74">title</span>:, <span style="color:#e6db74">body</span>:, <span style="color:#e6db74">tags</span>:, <span style="color:#e6db74">author</span>:)
+    <span style="color:#75715e"># Ruby doesn&#39;t have explicit interfaces, but you get the point</span>
+    <span style="color:#66d9ef">raise</span> <span style="color:#66d9ef">NotImplementedError</span>
+  <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">end</span>
+
+
+<span style="color:#75715e"># Using an ORM creates an additional level of indirection that looks pointless</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ArticleORMStore</span> <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">ArticleStore</span>
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">store</span>(<span style="color:#e6db74">title</span>:, <span style="color:#e6db74">body</span>:, <span style="color:#e6db74">tags</span>:, <span style="color:#e6db74">author</span>:)
+    <span style="color:#66d9ef">ArticleModel</span><span style="color:#f92672">.</span>create(<span style="color:#e6db74">title</span>: title, <span style="color:#e6db74">body</span>: body, <span style="color:#e6db74">tags</span>: tags, <span style="color:#e6db74">author</span>: <span style="color:#66d9ef">UserModel</span><span style="color:#f92672">.</span>get(author<span style="color:#f92672">.</span>id))
+  <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">end</span>
+
+
+<span style="color:#75715e"># A low-level SQL library feels simpler in comparison.</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ArticleSimpleStore</span> <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">ArticleStore</span>
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">store</span>(<span style="color:#e6db74">title</span>:, <span style="color:#e6db74">body</span>:, <span style="color:#e6db74">tags</span>:, <span style="color:#e6db74">author</span>:)
+    article_table<span style="color:#f92672">.</span>insert(<span style="color:#e6db74">title</span>: title, <span style="color:#e6db74">body</span>: body, <span style="color:#e6db74">tags</span>: tags, <span style="color:#e6db74">author</span>: author<span style="color:#f92672">.</span>id)
+  <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">end</span></code></pre></div>
+<p>The bottom line here is: <strong>You can use ORMs, but don’t use them as the only way to represent and manipulate your data</strong>. That’s far from their purpose.</p>
+
+<h2 id="5-use-events-to-keep-your-application-connected-and-your-code-decoupled">5. Use events to keep your application connected and your code decoupled</h2>
+
+<p>If two parts of an application are connected, the code must connected somehow, right?</p>
+
+<p><a href="https://martinfowler.com/articles/201701-event-driven.html">Event-driven</a> programming does a wonderful job at keeping your app interconnected, but your code easy to write and maintain. In fact it does such a good job that similar ideas have become pervasive in mobile and frontend development under the name of <a href="https://medium.com/exploring-code/what-is-reactive-programming-da37c1611382">Reactive Programming</a>, and in the operations world, with <a href="https://thenewstack.io/event-driven-architecture-wave-future/">cloud providers and companies betting hard on it</a>.</p>
+
+<p>The basic idea is that every change to your domain is represented as an atomic event.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-md" data-lang="md">article_published(...) 1 minute ago<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>article_draft_created(...) 5 minutes ago<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>user_signed_in(...) 25 minutes ago</code></pre></div>
+<p>All events are published through some kind of event bus, and random observers can subscribe and react to interesting events without bothering the other components too much.</p>
+
+<p>It takes a bit of an extra effort at first, as you need to lay the foundation for the event bus and think about the properties and atomicity of each event, but in the long run it’s definitely worth it.</p>
+
+<p>Here are some examples of features that are very easy to implement with event-driven architectures, and hard to think about and maintain otherwise:</p>
+
+<ul>
+<li>Listen for comments on an article and increase a counter (purpose: faster comment counts).</li>
+<li>Send a welcome email to a new user.</li>
+<li>Notify the author of an article that it has new comments.</li>
+</ul>
+
+<p>Try to imagine how you would do each of these tasks in an imperative way vs. a reactive way.</p>
+
+<blockquote>
+<p>Event-driven programming avoids long functions with many different side effects, and makes your tests nicer and more isolated.</p>
+</blockquote>
+
+<hr />
+
+<p>In the next article we’ll explain how we put all these pieces together to create our own architecture.</p>
+
+      </div>
+
+      <footer>
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+     © 2018
+    
+    
+  </section>
+</footer>
+
+    </main>
+
+    
+
+  </body>
+
+</html>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Lorenzo Arribas</title>
+    <link>https://larribas.me/tags/</link>
+    <description>Recent content in Tags on Lorenzo Arribas</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 17 Oct 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://larribas.me/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Architecture</title>
+      <link>https://larribas.me/tags/architecture/</link>
+      <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/architecture/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Cqrs</title>
+      <link>https://larribas.me/tags/cqrs/</link>
+      <pubDate>Wed, 10 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/cqrs/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Designpatterns</title>
+      <link>https://larribas.me/tags/designpatterns/</link>
+      <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/designpatterns/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Domain Driven Design</title>
+      <link>https://larribas.me/tags/domain-driven-design/</link>
+      <pubDate>Wed, 10 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/domain-driven-design/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Elm</title>
+      <link>https://larribas.me/tags/elm/</link>
+      <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/elm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Event Sourcing</title>
+      <link>https://larribas.me/tags/event-sourcing/</link>
+      <pubDate>Wed, 10 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/event-sourcing/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Hexagonal Architecture</title>
+      <link>https://larribas.me/tags/hexagonal-architecture/</link>
+      <pubDate>Wed, 10 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/hexagonal-architecture/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Kubernetes</title>
+      <link>https://larribas.me/tags/kubernetes/</link>
+      <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Legacy</title>
+      <link>https://larribas.me/tags/legacy/</link>
+      <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/legacy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Postgres</title>
+      <link>https://larribas.me/tags/postgres/</link>
+      <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/postgres/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Pwa</title>
+      <link>https://larribas.me/tags/pwa/</link>
+      <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/pwa/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Rabbitmq</title>
+      <link>https://larribas.me/tags/rabbitmq/</link>
+      <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/rabbitmq/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Ruby</title>
+      <link>https://larribas.me/tags/ruby/</link>
+      <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/ruby/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Webdev</title>
+      <link>https://larribas.me/tags/webdev/</link>
+      <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/webdev/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

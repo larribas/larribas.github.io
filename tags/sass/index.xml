@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Sass on Lorenzo Arribas</title>
+    <link>https://larribas.me/tags/sass/</link>
+    <description>Recent content in Sass on Lorenzo Arribas</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 10 Mar 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://larribas.me/tags/sass/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Sand Capsule</title>
+      <link>https://larribas.me/projects/sandcapsule/</link>
+      <pubDate>Fri, 10 Mar 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/projects/sandcapsule/</guid>
+      <description>I developed SandCapsule together with @hecrj back in early 2017 mainly for fun and to give Elm and Haskell (two pure functional languages) a test run (before deciding if we would use them in a more serious project). At first we released it for ourselves, and since then we&amp;rsquo;ve used it to surprise some of our friends and loved ones, make predictions of some games or TV shows, and to send our friends silly messages.</description>
+    </item>
+    
+  </channel>
+</rss>

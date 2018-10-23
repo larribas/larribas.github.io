@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Lorenzo Arribas</title>
+    <link>https://larribas.me/</link>
+    <description>Recent content on Lorenzo Arribas</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 17 Oct 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://larribas.me/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>5 ways to make your codebase withstand the test of time</title>
+      <link>https://larribas.me/posts/5-ways-to-make-your-codebase-withstand-the-test-of-time/</link>
+      <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/posts/5-ways-to-make-your-codebase-withstand-the-test-of-time/</guid>
+      <description>This is the first in a series of articles where @hecrj and I share what we have learned after working on a large, fast-changing codebase for the past 3 years, and being perfectly happy with the result!
+If you are a web developer, you are probably used to having new frameworks, libraries and technologies come out every other week.
+ We are on a never-ending quest to find better tools and patterns, but does that mean our code is doomed to become old and wrinkly?</description>
+    </item>
+    
+    <item>
+      <title>SchoolHouse.io</title>
+      <link>https://larribas.me/projects/schoolhouse-io/</link>
+      <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/projects/schoolhouse-io/</guid>
+      <description>I am one of the co-founders of SchoolHouse.io, an ed-tech startup that&amp;rsquo;s been on production since late 2016 and now helps hundreds of teachers provide a better experience to their students.
+On the technical side, we are a 2-person team (@hecrj and I) who take care of the full stack, from graphical design to deployment and infrastructure monitoring.
+Main challenges  Building interactive presentations in real time with WebSocket.</description>
+    </item>
+    
+    <item>
+      <title>Colmena</title>
+      <link>https://larribas.me/projects/colmena/</link>
+      <pubDate>Wed, 10 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/projects/colmena/</guid>
+      <description>Around 2015, @hecrj and I were having serious trouble maintaining a Django codebase we had started just one year ago!
+We knew we were doing something wrong, and we had serious doubts about MVC as a healthy, long-term architecture for complex applications.
+After doing some research and debating a few ideas, we decided to ditch frameworks and experiment with our own system, drawing inspiration from many other patterns we liked, such as the Hexagonal Architecture, Event Sourcing, CQRS, Domain-Driven Design.</description>
+    </item>
+    
+    <item>
+      <title>About me</title>
+      <link>https://larribas.me/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/about/</guid>
+      <description>I&amp;rsquo;m Lorenzo Arribas, a Software Engineer and Entrepreneur based in Barcelona, Spain.
+Over the past 5 years I have worked in 10+ projects in both the enterprise and startup worlds, covering a wide range of technologies and business requirements. Here are a few of my latest interests:
+ DevOps, designing fully automated Continuous Integration and Delivery pipelines for Runtastic and SchoolHouse.io. Distributed computing, optimizing how a fleet of microservices communicate with one another using RabbitMQ and GRPC.</description>
+    </item>
+    
+  </channel>
+</rss>

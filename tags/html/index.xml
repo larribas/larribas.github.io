@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Html on Lorenzo Arribas</title>
+    <link>https://larribas.me/tags/html/</link>
+    <description>Recent content in Html on Lorenzo Arribas</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 05 Aug 2017 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://larribas.me/tags/html/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Cualy</title>
+      <link>https://larribas.me/projects/cualy/</link>
+      <pubDate>Sat, 05 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/projects/cualy/</guid>
+      <description>Cualy is a side project I developed and tried to sell in late 2017. The idea behind it is to enable businesses to improve their quality control over products that are not closely monitored (such as vending machines, gym equipment, public spaces, public bikes&amp;hellip;).
+Businesses can generate and print stickers with NFC + QR for their products and keep track of them via a simple backoffice.
+Main challenges  Making the most lightweight and fast page I could so that users could give feedback almost instantly on any connection.</description>
+    </item>
+    
+  </channel>
+</rss>

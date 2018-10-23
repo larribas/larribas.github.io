@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Postgres on Lorenzo Arribas</title>
+    <link>https://larribas.me/tags/postgres/</link>
+    <description>Recent content in Postgres on Lorenzo Arribas</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 17 Oct 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://larribas.me/tags/postgres/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>SchoolHouse.io</title>
+      <link>https://larribas.me/projects/schoolhouse-io/</link>
+      <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/projects/schoolhouse-io/</guid>
+      <description>I am one of the co-founders of SchoolHouse.io, an ed-tech startup that&amp;rsquo;s been on production since late 2016 and now helps hundreds of teachers provide a better experience to their students.
+On the technical side, we are a 2-person team (@hecrj and I) who take care of the full stack, from graphical design to deployment and infrastructure monitoring.
+Main challenges  Building interactive presentations in real time with WebSocket.</description>
+    </item>
+    
+  </channel>
+</rss>
