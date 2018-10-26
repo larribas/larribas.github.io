@@ -18,6 +18,16 @@
   </url>
   
   <url>
+    <loc>https://larribas.me/projects/cualy/</loc>
+    <lastmod>2017-08-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://larribas.me/projects/sandcapsule/</loc>
+    <lastmod>2017-03-10T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://larribas.me/</loc>
     <lastmod>2018-10-17T00:00:00+00:00</lastmod>
   </url>
@@ -55,6 +65,12 @@
   </url>
   
   <url>
+    <loc>https://larribas.me/tags/docker/</loc>
+    <lastmod>2017-08-05T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://larribas.me/tags/domain-driven-design/</loc>
     <lastmod>2018-10-10T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -73,8 +89,20 @@
   </url>
   
   <url>
+    <loc>https://larribas.me/tags/haskell/</loc>
+    <lastmod>2017-08-05T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://larribas.me/tags/hexagonal-architecture/</loc>
     <lastmod>2018-10-10T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://larribas.me/tags/html/</loc>
+    <lastmod>2017-08-05T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -111,6 +139,12 @@
   <url>
     <loc>https://larribas.me/tags/ruby/</loc>
     <lastmod>2018-10-17T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://larribas.me/tags/sass/</loc>
+    <lastmod>2017-03-10T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

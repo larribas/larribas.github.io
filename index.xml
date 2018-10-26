@@ -45,6 +45,26 @@ After doing some research and debating a few ideas, we decided to ditch framewor
     </item>
     
     <item>
+      <title>Cualy</title>
+      <link>https://larribas.me/projects/cualy/</link>
+      <pubDate>Sat, 05 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/projects/cualy/</guid>
+      <description>Cualy is a side project I developed and tried to sell in late 2017. The idea behind it is to enable businesses to improve their quality control over products that are not closely monitored (such as vending machines, gym equipment, public spaces, public bikes&amp;hellip;).
+Businesses can generate and print stickers with NFC + QR for their products and keep track of them via a simple backoffice.
+Main challenges  Making the most lightweight and fast page I could so that users could give feedback almost instantly on any connection.</description>
+    </item>
+    
+    <item>
+      <title>Sand Capsule</title>
+      <link>https://larribas.me/projects/sandcapsule/</link>
+      <pubDate>Fri, 10 Mar 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/projects/sandcapsule/</guid>
+      <description>I developed SandCapsule together with @hecrj back in early 2017 mainly for fun and to give Elm and Haskell (two pure functional languages) a test run (before deciding if we would use them in a more serious project). At first we released it for ourselves, and since then we&amp;rsquo;ve used it to surprise some of our friends and loved ones, make predictions of some games or TV shows, and to send our friends silly messages.</description>
+    </item>
+    
+    <item>
       <title>About me</title>
       <link>https://larribas.me/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

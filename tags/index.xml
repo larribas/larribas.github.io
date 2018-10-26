@@ -39,6 +39,15 @@
     </item>
     
     <item>
+      <title>Docker</title>
+      <link>https://larribas.me/tags/docker/</link>
+      <pubDate>Sat, 05 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Domain Driven Design</title>
       <link>https://larribas.me/tags/domain-driven-design/</link>
       <pubDate>Wed, 10 Oct 2018 00:00:00 +0000</pubDate>
@@ -66,11 +75,29 @@
     </item>
     
     <item>
+      <title>Haskell</title>
+      <link>https://larribas.me/tags/haskell/</link>
+      <pubDate>Sat, 05 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/haskell/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Hexagonal Architecture</title>
       <link>https://larribas.me/tags/hexagonal-architecture/</link>
       <pubDate>Wed, 10 Oct 2018 00:00:00 +0000</pubDate>
       
       <guid>https://larribas.me/tags/hexagonal-architecture/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Html</title>
+      <link>https://larribas.me/tags/html/</link>
+      <pubDate>Sat, 05 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/html/</guid>
       <description></description>
     </item>
     
@@ -125,6 +152,15 @@
       <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
       
       <guid>https://larribas.me/tags/ruby/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Sass</title>
+      <link>https://larribas.me/tags/sass/</link>
+      <pubDate>Fri, 10 Mar 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/sass/</guid>
       <description></description>
     </item>
     
