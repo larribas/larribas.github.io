@@ -15,7 +15,7 @@
 
 
     <meta property="og:title" content="Colmena, an Architecture for Highly-Scalable Web Services">
-<meta property="og:description" content="We ditched MVC frameworks and created our own architecture, combining other good ideas with our own. Here&#39;s what we learned">
+<meta property="og:description" content="We ditched MVC frameworks and designed our own architecture, combining ideas like Event Sourcing, CQRS &amp; Hexagonal. Here&#39;s what we learned.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/">
 
@@ -25,12 +25,12 @@
 
     
 <meta itemprop="name" content="Colmena, an Architecture for Highly-Scalable Web Services">
-<meta itemprop="description" content="We ditched MVC frameworks and created our own architecture, combining other good ideas with our own. Here&#39;s what we learned">
+<meta itemprop="description" content="We ditched MVC frameworks and designed our own architecture, combining ideas like Event Sourcing, CQRS &amp; Hexagonal. Here&#39;s what we learned.">
 
 
 <meta itemprop="datePublished" content="2018-11-06T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2018-11-06T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="1884">
+<meta itemprop="wordCount" content="1887">
 
 
 
@@ -38,7 +38,7 @@
 
     <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Colmena, an Architecture for Highly-Scalable Web Services"/>
-<meta name="twitter:description" content="We ditched MVC frameworks and created our own architecture, combining other good ideas with our own. Here&#39;s what we learned"/>
+<meta name="twitter:description" content="We ditched MVC frameworks and designed our own architecture, combining ideas like Event Sourcing, CQRS &amp; Hexagonal. Here&#39;s what we learned."/>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -119,6 +119,18 @@
             9 minutes read
           </span>
           
+          <span class="read-on-other-platforms indicator">
+              Read on
+              
+              
+                
+                <a href="https://medium.com/@larribas/colmena-an-architecture-for-highly-scalable-web-services-aa3d97898c2a">Medium</a>
+              
+                 | 
+                <a href="https://dev.to/larribas/colmena-an-architecture-for-highly-scalable-web-services-2mlo">Dev.to</a>
+              
+          </span>
+          
         </div>
         <ul class="tags">
             
@@ -146,10 +158,10 @@
 
 <p>(sigh)</p>
 
-<p>We were clearly doing something wrong, and we wanted to understand <em>what</em>, so we made a list of our <strong>main painpoints</strong>:</p>
+<p>We were clearly doing something wrong, and we wanted to understand <em>what</em>, so we made a list of our <strong>main pain points</strong>:</p>
 
 <ul>
-<li><p>To understand how a feature worked, we needed to jump a lot between our code and the framework&rsquo;s, sometimes through long inheritance hierarchies, decorators, hooks and conventions documented somewhere. Thus, everytime we needed to trace a bug or make a change we needed to put on our Indiana Jones hat.</p></li>
+<li><p>To understand how a feature worked, we needed to jump a lot between our code and the framework&rsquo;s, sometimes through long inheritance hierarchies, decorators, hooks and conventions documented somewhere. Thus, every time we needed to trace a bug or make a change we needed to put on our Indiana Jones hat.</p></li>
 
 <li><p>It wasn&rsquo;t obvious where many changes (like some permissions, relationships or validations) belonged. This generated a lot of interesting but ultimately time-wasting debates.</p></li>
 
@@ -180,11 +192,11 @@
 
 <p>Those issues made us unproductive and made our codebase messy over time.</p>
 
-<p>On top of that, we suspected we wouldn&rsquo;t be able to solve our painpoints if we kept using an MVC framework by the book, so we set out to <strong>design our own architecture<sup class="footnote-ref" id="fnref:researching-ideas"><a href="#fn:researching-ideas">1</a></sup>, optimized for long-term productivity and maintainability</strong>.</p>
+<p>On top of that, we suspected we wouldn&rsquo;t be able to solve our pain points if we kept using an MVC framework by the book, so we set out to <strong>design our own architecture<sup class="footnote-ref" id="fnref:researching-ideas"><a href="#fn:researching-ideas">1</a></sup>, optimized for long-term productivity and maintainability</strong>.</p>
 
 <h2 id="so-was-it-worth-it">&hellip; So, was it worth it?</h2>
 
-<p>3 years later, we&rsquo;ve seen our product change A LOT, fell in love with functional languages like Elm and Haskell, and went beyond full-stack, taking care of graphic design, frontend engineering, system administration and data science. And despite all these changes, we believe something extraordinary has happened: <strong>We are as comfortable with our backend as the first day (no large refactors!).</strong></p>
+<p>3 years later, we&rsquo;ve seen our product change A LOT, fell in love with functional languages like Elm and Haskell, and went beyond full-stack, taking care of graphic design, frontend engineering, system administration, and data science. And despite all these changes, we believe something extraordinary has happened: <strong>We are as comfortable with our backend as the first day (no large refactors!).</strong></p>
 
 <p>Our architectural choices have consistently made our lives easier, and now we&rsquo;d like to share what we&rsquo;ve learned with the community. We&rsquo;ve also published <a href="https://github.com/schoolhouse-io/colmena-realworld-example-app">an implementation of the RealWorld spec</a> to provide realistic code examples<sup class="footnote-ref" id="fnref:not-only-ruby"><a href="#fn:not-only-ruby">2</a></sup>.</p>
 
@@ -221,7 +233,7 @@
 
 
 
-<p>You can think of cells as <strong>very small microservices</strong>. In fact, we encourage you to try to make your cells as small as possible. In our experience, granulating your domain around entities and relationships helps understand, test and maintain the codebase in the long run. These are the cells of the <a href="https://github.com/schoolhouse-io/colmena-realworld-example-app">RealWorld backend</a>:</p>
+<p>You can think of cells as <strong>very small microservices</strong>. In fact, we encourage you to try to make your cells as small as possible. In our experience, granulating your domain around entities and relationships helps you understand, test and maintain the codebase in the long run. These are the cells of the <a href="https://github.com/schoolhouse-io/colmena-realworld-example-app">RealWorld backend</a>:</p>
 
 <ul>
 <li><strong>user</strong></li>
@@ -284,7 +296,7 @@
 
 <p>Every <em>useful</em> application needs to let the world do something with it. We&rsquo;ll continue with our RealWorld example.</p>
 
-<p>Our <code>follow</code> cell is there to fulfil a few use cases:</p>
+<p>Our <code>follow</code> cell is there to fulfill a few use cases:</p>
 
 <ul>
 <li>A user follows another profile.</li>
@@ -359,7 +371,7 @@
 
 <ul>
 <li>Store the whole article in a document-oriented database (e.g. MongoDB) to optimize read operations.</li>
-<li>Store the the article in a reverse index of <code>tag -&gt; articles</code> to fetch articles with certain tags.</li>
+<li>Store the article in a reverse index of <code>tag -&gt; articles</code> to fetch articles with certain tags.</li>
 <li>Store the article&rsquo;s title and description in a database optimized for search (e.g. ElasticSearch).</li>
 </ul>
 
@@ -459,9 +471,9 @@
 
 <hr />
 
-<p><em>In this article we&rsquo;ve presented an overview of the Colmena architecture and the reasons that brought us to use it in the first place.</em></p>
+<p><em>In this article, we&rsquo;ve presented an overview of the Colmena architecture and the reasons that brought us to use it in the first place.</em></p>
 
-<p><em>In the next ones we&rsquo;ll zoom into some of the main features and provide more details and code examples.</em></p>
+<p><em>In the next ones, we&rsquo;ll zoom into some of the main features and provide more details and code examples.</em></p>
 <div class="footnotes">
 
 <hr />
