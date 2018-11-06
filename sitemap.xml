@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/</loc>
+    <lastmod>2018-11-06T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://larribas.me/posts/5-ways-to-make-your-codebase-withstand-the-test-of-time/</loc>
     <lastmod>2018-10-17T00:00:00+00:00</lastmod>
   </url>
@@ -29,7 +34,7 @@
   
   <url>
     <loc>https://larribas.me/</loc>
-    <lastmod>2018-10-17T00:00:00+00:00</lastmod>
+    <lastmod>2018-11-06T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -38,13 +43,13 @@
   
   <url>
     <loc>https://larribas.me/tags/architecture/</loc>
-    <lastmod>2018-10-17T00:00:00+00:00</lastmod>
+    <lastmod>2018-11-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://larribas.me/posts/</loc>
-    <lastmod>2018-10-17T00:00:00+00:00</lastmod>
+    <lastmod>2018-11-06T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -54,13 +59,13 @@
   
   <url>
     <loc>https://larribas.me/tags/cqrs/</loc>
-    <lastmod>2018-10-10T00:00:00+00:00</lastmod>
+    <lastmod>2018-11-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://larribas.me/tags/designpatterns/</loc>
-    <lastmod>2018-10-17T00:00:00+00:00</lastmod>
+    <loc>https://larribas.me/tags/design-patterns/</loc>
+    <lastmod>2018-11-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -84,7 +89,7 @@
   
   <url>
     <loc>https://larribas.me/tags/event-sourcing/</loc>
-    <lastmod>2018-10-10T00:00:00+00:00</lastmod>
+    <lastmod>2018-11-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -115,6 +120,12 @@
   <url>
     <loc>https://larribas.me/tags/legacy/</loc>
     <lastmod>2018-10-17T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://larribas.me/tags/microservices/</loc>
+    <lastmod>2018-11-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -155,13 +166,19 @@
   
   <url>
     <loc>https://larribas.me/tags/</loc>
+    <lastmod>2018-11-06T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://larribas.me/tags/web-dev/</loc>
     <lastmod>2018-10-17T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://larribas.me/tags/webdev/</loc>
-    <lastmod>2018-10-17T00:00:00+00:00</lastmod>
+    <loc>https://larribas.me/tags/web-services/</loc>
+    <lastmod>2018-11-06T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Webdev on Lorenzo Arribas</title>
-    <link>https://larribas.me/tags/webdev/</link>
-    <description>Recent content in Webdev on Lorenzo Arribas</description>
+    <title>Web Dev on Lorenzo Arribas</title>
+    <link>https://larribas.me/tags/web-dev/</link>
+    <description>Recent content in Web Dev on Lorenzo Arribas</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 17 Oct 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://larribas.me/tags/webdev/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://larribas.me/tags/web-dev/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+    
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117511810-2"></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
+
+ gtag('config', 'UA-117511810-2');
+</script>
+
+
+    <meta property="og:title" content="Colmena, an Architecture for Highly-Scalable Web Services">
+<meta property="og:description" content="We ditched MVC frameworks and created our own architecture, combining other good ideas with our own. Here&#39;s what we learned">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/">
+
+
+  <meta property="og:image" content="https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/images/beehive.jpg">
+
+
+    
+<meta itemprop="name" content="Colmena, an Architecture for Highly-Scalable Web Services">
+<meta itemprop="description" content="We ditched MVC frameworks and created our own architecture, combining other good ideas with our own. Here&#39;s what we learned">
+
+
+<meta itemprop="datePublished" content="2018-11-06T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2018-11-06T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1884">
+
+
+
+<meta itemprop="keywords" content="architecture,design-patterns,event-sourcing,cqrs,microservices,web-services," />
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Colmena, an Architecture for Highly-Scalable Web Services"/>
+<meta name="twitter:description" content="We ditched MVC frameworks and created our own architecture, combining other good ideas with our own. Here&#39;s what we learned"/>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Lorenzo Arribas">
+    <meta name="description" content="This is my personal portfolio and blog.">
+    <meta name="keywords" content="blog,portfolio,software,developer,personal">
+
+    <title>
+  Colmena, an Architecture for Highly-Scalable Web Services · Lorenzo Arribas
+</title>
+    <link rel="canonical" href="https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700|Source+Serif+Pro:400,700|Changa+One|Source+Code+Pro:400,700" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54=" crossorigin="anonymous" />
+
+    
+    
+    <link rel="stylesheet" href="/css/coder.min.a087bcf0872810d670908634cab5996db9d917968a485aed90656226efae70c6.css" integrity="sha256-oIe88IcoENZwkIY0yrWZbbnZF5aKSFrtkGViJu&#43;ucMY=" crossorigin="anonymous" media="screen" />
+
+    
+
+    <link rel="icon" type="image/png" href="https://larribas.me/images/favicon_32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://larribas.me/images/favicon_16.png" sizes="16x16">
+
+    <meta name="generator" content="Hugo 0.49.2" />
+  </head>
+
+  <body class="">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://larribas.me">
+      Lorenzo Arribas
+    </a>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
+    <ul class="navigation-list">
+      
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/about">About</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/projects/">Portfolio</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/posts/">Blog</a>
+          </li>
+        
+      
+      
+    </ul>
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">Colmena, an Architecture for Highly-Scalable Web Services</h1>
+        </div>
+        <div class="post-meta">
+          <span class="posted-on indicator">
+            📆
+            <time datetime='2018-11-06'>
+              November 6, 2018
+            </time>
+          </span>
+          <span class="reading-time indicator">
+            🕐
+            9 minutes read
+          </span>
+          
+        </div>
+        <ul class="tags">
+            
+            <li>architecture</li>
+            
+            <li>design-patterns</li>
+            
+            <li>event-sourcing</li>
+            
+            <li>cqrs</li>
+            
+            <li>microservices</li>
+            
+            <li>web-services</li>
+            
+        </ul>
+      </header>
+
+      <div>
+        
+
+<p>About 3 years ago, our startup pivoted from a Q&amp;A app for doctors to an education platform (which we named <a href="https://schoolhouse.io/en/">SchoolHouse.io</a>). It was a big product shift, and we knew many technical changes would follow.</p>
+
+<p>At the time, we had a 1-year-old Python+Django codebase that was <em>already</em> getting rusty and hard to maintain. How did we cross the legacy line so fast?</p>
+
+<p>(sigh)</p>
+
+<p>We were clearly doing something wrong, and we wanted to understand <em>what</em>, so we made a list of our <strong>main painpoints</strong>:</p>
+
+<ul>
+<li><p>To understand how a feature worked, we needed to jump a lot between our code and the framework&rsquo;s, sometimes through long inheritance hierarchies, decorators, hooks and conventions documented somewhere. Thus, everytime we needed to trace a bug or make a change we needed to put on our Indiana Jones hat.</p></li>
+
+<li><p>It wasn&rsquo;t obvious where many changes (like some permissions, relationships or validations) belonged. This generated a lot of interesting but ultimately time-wasting debates.</p></li>
+
+<li><p>Unit tests were ridden with stubs and mocks, and when they weren&rsquo;t, they had to be busy understanding HTTP parameters or making sure the database was clean.</p></li>
+</ul>
+
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/colmena-an-architecture-for-highly-scalable-web-services/images/dry.jpg"
+        alt="We&#39;re good. This framework is DRY"
+        
+    >
+
+    
+
+    <figcaption>We tried to be DRY, but working on our codebase felt like drowning.</figcaption>
+</figure>
+
+
+
+<h2 id="we-ditched-mvc-frameworks-and-did-it-our-way">We ditched MVC frameworks and did it our way</h2>
+
+<p>Those issues made us unproductive and made our codebase messy over time.</p>
+
+<p>On top of that, we suspected we wouldn&rsquo;t be able to solve our painpoints if we kept using an MVC framework by the book, so we set out to <strong>design our own architecture<sup class="footnote-ref" id="fnref:researching-ideas"><a href="#fn:researching-ideas">1</a></sup>, optimized for long-term productivity and maintainability</strong>.</p>
+
+<h2 id="so-was-it-worth-it">&hellip; So, was it worth it?</h2>
+
+<p>3 years later, we&rsquo;ve seen our product change A LOT, fell in love with functional languages like Elm and Haskell, and went beyond full-stack, taking care of graphic design, frontend engineering, system administration and data science. And despite all these changes, we believe something extraordinary has happened: <strong>We are as comfortable with our backend as the first day (no large refactors!).</strong></p>
+
+<p>Our architectural choices have consistently made our lives easier, and now we&rsquo;d like to share what we&rsquo;ve learned with the community. We&rsquo;ve also published <a href="https://github.com/schoolhouse-io/colmena-realworld-example-app">an implementation of the RealWorld spec</a> to provide realistic code examples<sup class="footnote-ref" id="fnref:not-only-ruby"><a href="#fn:not-only-ruby">2</a></sup>.</p>
+
+<h2 id="ok-i-m-listening-what-is-it-about">OK. I&rsquo;m listening. What is it about?</h2>
+
+<p>A <em>Colmena</em> app is composed of multiple cells.</p>
+
+<p><strong>Cells are self-contained services</strong> that follow the <a href="https://fideloper.com/hexagonal-architecture">hexagonal architecture</a>. Each cell:</p>
+
+<ol>
+<li>Has a clear purpose and responsibility.</li>
+<li>Has some internal domain that represents, validates and transforms the cell&rsquo;s state.</li>
+<li>Relies on a series of interfaces to receive input from (and send output to) external services and technologies.</li>
+<li>Exposes a public API (a contract stating what it can do).</li>
+</ol>
+
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/colmena-an-architecture-for-highly-scalable-web-services/images/basic_cell.png"
+        alt="A basic authentication cell exposes operations to create new credentials, check them and update them. It also needs to communicate with an Oauth service and a database."
+        
+    >
+
+    
+
+    
+</figure>
+
+
+
+<p>You can think of cells as <strong>very small microservices</strong>. In fact, we encourage you to try to make your cells as small as possible. In our experience, granulating your domain around entities and relationships helps understand, test and maintain the codebase in the long run. These are the cells of the <a href="https://github.com/schoolhouse-io/colmena-realworld-example-app">RealWorld backend</a>:</p>
+
+<ul>
+<li><strong>user</strong></li>
+<li><strong>auth</strong></li>
+<li><strong>follow</strong> (user)</li>
+<li><strong>article</strong></li>
+<li><strong>tag</strong></li>
+<li><strong>comment</strong> (article)</li>
+<li>(article) <strong>feed</strong></li>
+</ul>
+
+<p>If we told you our app is a blogging platform, the purpose of each cell becomes pretty clear. It would only take a glance at the <a href="https://github.com/schoolhouse-io/colmena-realworld-example-app/tree/master/lib/real_world"><code>lib/real_world</code> directory</a> to find out where a certain feature might be defined. From there, a developer can quickly look at the API to learn about the operations it supports and navigate the implementation in a very gradual and natural way.</p>
+
+<h3 id="an-event-based-functional-domain">An event-based, functional domain</h3>
+
+<p>Each cell models a small domain. This domain may correspond to an entity (e.g. a user), a relationship (e.g. a user follows another), or a special feature (e.g. each user has their own materialized feed of articles).</p>
+
+<p>In <em>Colmena</em>, <strong>changes to the domain are represented as a sequence of events</strong>. This sequence of events is append-only, as events are immutable (they are <em>facts</em> that have already taken place). In <a href="https://www.youtube.com/watch?v=8JKjvY4etTY">event sourcing</a>, this sequence is called a &ldquo;Source of truth&rdquo;, and it provides:</p>
+
+<ul>
+<li>An audit log of all the actions that have modified the domain.</li>
+<li>The ability for other components (in the same or different cells) to listen to certain events and react to them.</li>
+</ul>
+
+<p>The latter practice is commonly known as <em>event-driven</em> or <em>reactive programming</em>, and it has proven a really useful way to implement certain features with very low coupling.</p>
+
+<p>Moreover, since we have a sequence of immutable data, <strong>everything the domain does can be conceived as a pure function</strong> (no side effects, just deterministic data transformations). In Ruby (or any other object-oriented language for that matter), this translates to:</p>
+
+<ul>
+<li>No classes, class instances, or methods.</li>
+<li>No calls to any external technology or service.</li>
+<li>No need for stubs, mocks, or any other test artifacts that make our tests slow or complicated.</li>
+</ul>
+
+<blockquote>
+<p>We can <a href="https://github.com/schoolhouse-io/colmena-realworld-example-app/blob/master/lib/real_world/follow/domain.rb">validate and describe our app&rsquo;s behavior</a> in a way that is both simple and very powerful, forgetting about the noise.</p>
+</blockquote>
+
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/colmena-an-architecture-for-highly-scalable-web-services/images/evented_domain.png"
+        alt="A functional, evented domain takes a current state (pure data), some arguments (pure data) and produces a deterministic output (pure data)."
+        
+    >
+
+    
+
+    
+</figure>
+
+
+
+<h3 id="a-public-contract">A public contract</h3>
+
+<p>Every <em>useful</em> application needs to let the world do something with it. We&rsquo;ll continue with our RealWorld example.</p>
+
+<p>Our <code>follow</code> cell is there to fulfil a few use cases:</p>
+
+<ul>
+<li>A user follows another profile.</li>
+<li>A user stops following another profile.</li>
+<li>Someone wants to know whether a particular user follows a particular profile.</li>
+<li>Someone wants to know which profiles a user is following.</li>
+</ul>
+
+<p>You&rsquo;ll notice the first two use cases are actions that <em>may</em> (if validation rules allow it) change the cell&rsquo;s state, whereas the last two use cases are just querying the current state.</p>
+
+<p>In <em>Colmena</em>, we call the former <em>commands</em> and the latter <em>queries</em>, and we deal with them in a slightly different way. This pattern is called <a href="https://martinfowler.com/bliki/CQRS.html">CQRS (command-query responsibility segregation)</a>. The linked article does a very good job at explaining the pros and cons of this approach, so we&rsquo;ll focus on our particular implementation for this RealWorld codebase:</p>
+
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/colmena-an-architecture-for-highly-scalable-web-services/images/cqrs_sequence_diagram.png"
+        alt="A query reads from a database (which could be optimized for a particular kind of read operation), whereas a command might need to read from a database, find out what to do and store the changes, all of this within a transaction."
+        
+    >
+
+    
+
+    
+</figure>
+
+
+
+<p>It is extremely valuable for a project to <strong>make sure the contracts for all these public-facing components are properly documented and semantically versioned</strong>. Developers need to be able to learn and trust, at any point:</p>
+
+<ul>
+<li>What types of events does this cell publish? What data do they contain?</li>
+<li>Which are the arguments to this command? How about this query?</li>
+</ul>
+
+<h3 id="keep-acid-properties-in-mind">Keep ACID properties in mind</h3>
+
+<p>Given that this is a distributed architecture with many components and cells working separately, it&rsquo;s fair to wonder&hellip; Are changes atomic? How do we keep them consistent?</p>
+
+<p>When commands need to be atomic (they usually do), they are decorated by a transaction. This transaction is responsible for publishing the sequence of events the command generates and running the proper materializers. In turn, these <strong>materializers enforce consistency and integrity</strong>. A materializer takes a sequence of events and propagates their changes to the several &ldquo;read models&rdquo; the queries use.</p>
+
+<p>For instance, the transaction in the previous diagram might call these materializers:</p>
+
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/colmena-an-architecture-for-highly-scalable-web-services/images/materialization_diagram.png"
+        alt="A transaction makes sure the events are materialized in different ways."
+        
+    >
+
+    
+
+    
+</figure>
+
+
+
+<p>Let&rsquo;s try with a second example as well. We&rsquo;re dealing with <em>articles</em> now. A materializer might get the following sequence of events:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-markdown" data-lang="markdown">article_published(...)<span style="color:#960050;background-color:#1e0010">
+</span><span style="color:#960050;background-color:#1e0010"></span>article_tagged(...)</code></pre></div>
+<p>And perform the following operations:</p>
+
+<ul>
+<li>Store the whole article in a document-oriented database (e.g. MongoDB) to optimize read operations.</li>
+<li>Store the the article in a reverse index of <code>tag -&gt; articles</code> to fetch articles with certain tags.</li>
+<li>Store the article&rsquo;s title and description in a database optimized for search (e.g. ElasticSearch).</li>
+</ul>
+
+<p>Some parts of this materialization process must happen synchronously (if consistency is a requirement). Others may happen asynchronously (when <a href="http://guide.couchdb.org/draft/consistency.html">eventual consistency</a> is enough).</p>
+
+<h3 id="rely-on-interfaces-not-concrete-implementations">Rely on interfaces, not concrete implementations</h3>
+
+<p>At this point, our cell accepts requests from a potentially untrusted source, stores and retrieves data from a database, and may need to call other cells.</p>
+
+<p>These operations are the weak links of software development. The network can fail, databases can be corrupted and public APIs can&rsquo;t be trusted. So, what can we do to minimize these risks?</p>
+
+<p>In <em>Colmena</em>, <strong>we define every input/output component as an interface (a port in the hexagonal jargon)</strong>. A particular cell might rely on:</p>
+
+<ul>
+<li>A <code>repository</code> port, which persists and reads domain data.</li>
+<li>An <code>event publisher</code> port, which allows events to be made public.</li>
+<li>A <code>router</code> port, which communicates with other cells.</li>
+</ul>
+
+<p>In Ruby, we specify the behavior these interfaces should satisfy with a <a href="https://github.com/schoolhouse-io/colmena-realworld-example-app/blob/master/lib/real_world/follow/ports/repository/spec_shared_examples.rb">shared example</a>. All implementations (adapters in the hexagonal jargon) must comply with the spec if they are to be trusted, and provide explicit error handling so that risks can be gracefully handled, logged, and mitigated.</p>
+
+<p>Relying on interfaces is one of the most basic design principles, and it has immediate practical benefits:</p>
+
+<ul>
+<li>We can write a single test for multiple components.</li>
+<li>We can apply the <a href="https://softwareengineering.stackexchange.com/questions/234747/dependency-inversion-principle-vs-program-to-an-interface-not-an-implementatio">dependency inversion principle</a> to inject the adapters we need for each environment (e.g. a fast SQLite database for testing and a fully scalable cloud database in production).<sup class="footnote-ref" id="fnref:test-everything"><a href="#fn:test-everything">3</a></sup></li>
+<li>We can switch to a different technology without changing our cell&rsquo;s code.</li>
+</ul>
+
+<h3 id="your-application-is-made-up-of-multiple-cells">Your application is made up of multiple cells</h3>
+
+<p>Cells have clearly defined boundaries, but they still need to communicate with one another. In <em>Colmena</em>, cells can talk to each other in two different ways:</p>
+
+<ul>
+<li>Synchronously, invoking a command or query on the other cell. This is a traditional <a href="https://en.wikipedia.org/wiki/Remote_procedure_call">remote procedure call</a> we perform through a <a href="https://microservices.io/patterns/service-registry.html">central service registry</a> we call <a href="https://github.com/schoolhouse-io/colmena-realworld-example-app/blob/master/lib/real_world/ports/router/in_memory.rb"><em>the router</em></a>.</li>
+<li>Asynchronously, listening to events produced by the other cell and reacting to them. We do this through an <a href="https://github.com/schoolhouse-io/colmena-realworld-example-app/blob/master/lib/real_world/ports/event_broker/in_memory.rb">event broker</a>.</li>
+</ul>
+
+<blockquote>
+<p>In our example app, both the router and event broker ports are implemented in-memory. The beauty of these interfaces is that they can be implemented by a service like RabbitMQ or Amazon Kinesis and connect cells deployed on different parts of the world; or even cells written in different programming languages!</p>
+</blockquote>
+
+<p>Here are a few examples of how we glue cells together in this RealWorld service:</p>
+
+<ul>
+<li>A <a href="https://github.com/schoolhouse-io/colmena-realworld-example-app/blob/master/lib/real_world/tag/listeners/counter.rb">counter listener</a> reacts to tags being added to or removed from an article and it updates a total count on the times a tag has been used. All the while, the <code>article</code> cell doesn&rsquo;t even know the <code>tag</code> cell exists.</li>
+<li>The <code>api</code> cell is a bit special. It exposes some of the behavior of all cells in a RESTful HTTP API. As such, it needs to deal with authentication and authorization, hiding private data and aggregating several operations into <a href="https://github.com/schoolhouse-io/colmena-realworld-example-app/blob/master/lib/real_world/api/commands/api_register.rb">a more useful endpoint</a>, making several sub-calls to other cells in the process. We&rsquo;ve recently found out this pattern <a href="https://microservices.io/patterns/data/api-composition.html">has its own name</a>.</li>
+</ul>
+
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/colmena-an-architecture-for-highly-scalable-web-services/images/cell_layers.png"
+        alt="In the hexagonal architecture, a cell has several layers. The outmost layer is the framework layer, where we interface with specific tools, services or libraries. Beneath it is the aplication layer, where we expose all public-facing features (commands, queries and listeners in our case). Beneath the application is the domain."
+        
+    >
+
+    
+
+    <figcaption>The layers in the hexagonal architecture, as applied to the concepts in <em>Colmena</em>.</figcaption>
+</figure>
+
+
+
+<h2 id="hence-colmena">Hence, <em>Colmena</em></h2>
+
+<p>We felt it was better to start explaining this architecture from the bottom up, so we haven&rsquo;t had the time to explain properly what the heck a <em>Colmena</em> is.</p>
+
+<p><em>Colmena</em> means Beehive in Spanish. Like our architecture, 🐝-hives are composed of many small hexagonal units that are isolated from one another but work together as a powerful system. Isn&rsquo;t that beautiful?</p>
+
+<p>Hence, the name.</p>
+
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/colmena-an-architecture-for-highly-scalable-web-services/images/beehive.jpg"
+        alt="A beehive is made up of many hexagonal cells that work together"
+        
+    >
+
+    
+
+    
+</figure>
+
+
+
+<hr />
+
+<p><em>In this article we&rsquo;ve presented an overview of the Colmena architecture and the reasons that brought us to use it in the first place.</em></p>
+
+<p><em>In the next ones we&rsquo;ll zoom into some of the main features and provide more details and code examples.</em></p>
+<div class="footnotes">
+
+<hr />
+
+<ol>
+<li id="fn:researching-ideas">By what we mean, do a lot of research and combine the ideas we liked the most with our own use cases
+ <a class="footnote-return" href="#fnref:researching-ideas"><sup>[return]</sup></a></li>
+<li id="fn:not-only-ruby">The example app is written in Ruby, but we&rsquo;ve applied the same ideas to codebases in Go and Haskell, with the same effects.
+ <a class="footnote-return" href="#fnref:not-only-ruby"><sup>[return]</sup></a></li>
+<li id="fn:test-everything">Just remember to <strong>test every adapter</strong> before releasing to production, not just the ones you use for your development environment.
+ <a class="footnote-return" href="#fnref:test-everything"><sup>[return]</sup></a></li>
+</ol>
+</div>
+
+      </div>
+
+      <footer>
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+     © 2018
+    
+    
+  </section>
+</footer>
+
+    </main>
+  </body>
+</html>
