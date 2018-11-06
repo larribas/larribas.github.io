@@ -6,7 +6,7 @@
     <description>Recent content in Tags on Lorenzo Arribas</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 06 Nov 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 17 Oct 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://larribas.me/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Architecture</title>
       <link>https://larribas.me/tags/architecture/</link>
-      <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
       
       <guid>https://larribas.me/tags/architecture/</guid>
       <description></description>
@@ -23,18 +23,18 @@
     <item>
       <title>Cqrs</title>
       <link>https://larribas.me/tags/cqrs/</link>
-      <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 10 Oct 2018 00:00:00 +0000</pubDate>
       
       <guid>https://larribas.me/tags/cqrs/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Design Patterns</title>
-      <link>https://larribas.me/tags/design-patterns/</link>
-      <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
+      <title>Designpatterns</title>
+      <link>https://larribas.me/tags/designpatterns/</link>
+      <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://larribas.me/tags/design-patterns/</guid>
+      <guid>https://larribas.me/tags/designpatterns/</guid>
       <description></description>
     </item>
     
@@ -68,7 +68,7 @@
     <item>
       <title>Event Sourcing</title>
       <link>https://larribas.me/tags/event-sourcing/</link>
-      <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 10 Oct 2018 00:00:00 +0000</pubDate>
       
       <guid>https://larribas.me/tags/event-sourcing/</guid>
       <description></description>
@@ -120,15 +120,6 @@
     </item>
     
     <item>
-      <title>Microservices</title>
-      <link>https://larribas.me/tags/microservices/</link>
-      <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://larribas.me/tags/microservices/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Postgres</title>
       <link>https://larribas.me/tags/postgres/</link>
       <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
@@ -174,20 +165,11 @@
     </item>
     
     <item>
-      <title>Web Dev</title>
-      <link>https://larribas.me/tags/web-dev/</link>
+      <title>Webdev</title>
+      <link>https://larribas.me/tags/webdev/</link>
       <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://larribas.me/tags/web-dev/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Web Services</title>
-      <link>https://larribas.me/tags/web-services/</link>
-      <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://larribas.me/tags/web-services/</guid>
+      <guid>https://larribas.me/tags/webdev/</guid>
       <description></description>
     </item>
     
