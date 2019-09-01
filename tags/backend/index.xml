@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Web Services on Lorenzo Arribas</title>
-    <link>https://larribas.me/tags/web-services/</link>
-    <description>Recent content in Web Services on Lorenzo Arribas</description>
+    <title>Backend on Lorenzo Arribas</title>
+    <link>https://larribas.me/tags/backend/</link>
+    <description>Recent content in Backend on Lorenzo Arribas</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 20 Aug 2019 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="https://larribas.me/tags/web-services/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://larribas.me/tags/backend/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -20,18 +20,6 @@
       <description>At Glovo, we have one vision: Connecting our customers to their cities. We do that by facilitating access to different services (like restaurants, supermarkets, and other stores) through a single mobile application and a fleet of independent couriers.
  Anything you want. Delivered in minutes.
  Of course, that is easier said than done. Behind the scenes, there are hundreds of factors that affect the experience of our customers and couriers.</description>
-    </item>
-    
-    <item>
-      <title>Colmena, an Architecture for Highly-Scalable Web Services</title>
-      <link>https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/</link>
-      <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/</guid>
-      <description>About 3 years ago, our startup pivoted from a Q&amp;amp;A app for doctors to an education platform (which we named SchoolHouse.io). It was a big product shift, and we knew many technical changes would follow.
-At the time, we had a 1-year-old Python+Django codebase that was already getting rusty and hard to maintain. How did we cross the legacy line so fast?
-(sigh)
-We were clearly doing something wrong, and we wanted to understand what, so we made a list of our main pain points:</description>
     </item>
     
   </channel>

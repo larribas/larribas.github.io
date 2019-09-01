@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+    
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117511810-2"></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
+
+ gtag('config', 'UA-117511810-2');
+</script>
+
+
+    <meta property="og:title" content="Migrating Glovo’s dispatching service from a single machine to a distributed system">
+<meta property="og:description" content="How we re-engineered one of our main web services to make it highly available. Part One.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://larribas.me/posts/migrating-glovos-dispatching-service-from-a-single-machine-to-a-distributed-system/">
+
+
+  <meta property="og:image" content="https://larribas.me/posts/migrating-glovos-dispatching-service-from-a-single-machine-to-a-distributed-system/images/diagram.png">
+
+
+    
+<meta itemprop="name" content="Migrating Glovo’s dispatching service from a single machine to a distributed system">
+<meta itemprop="description" content="How we re-engineered one of our main web services to make it highly available. Part One.">
+
+
+<meta itemprop="datePublished" content="2019-08-20T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-08-20T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="820">
+
+
+
+<meta itemprop="keywords" content="distributed-systems,web-services,high-availability,backend," />
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Migrating Glovo’s dispatching service from a single machine to a distributed system"/>
+<meta name="twitter:description" content="How we re-engineered one of our main web services to make it highly available. Part One."/>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Lorenzo Arribas">
+    <meta name="description" content="This is my personal portfolio and blog.">
+    <meta name="keywords" content="blog,portfolio,software,developer,personal">
+
+    <title>
+  Migrating Glovo’s dispatching service from a single machine to a distributed system · Lorenzo Arribas
+</title>
+    <link rel="canonical" href="https://medium.com/glovo-engineering/migrating-glovos-dispatching-service-from-a-single-machine-to-a-distributed-system-863cf6388fdd">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700|Source+Serif+Pro:400,700|Changa+One|Source+Code+Pro:400,700" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54=" crossorigin="anonymous" />
+
+    
+    
+    <link rel="stylesheet" href="/css/coder.min.a087bcf0872810d670908634cab5996db9d917968a485aed90656226efae70c6.css" integrity="sha256-oIe88IcoENZwkIY0yrWZbbnZF5aKSFrtkGViJu&#43;ucMY=" crossorigin="anonymous" media="screen" />
+
+    
+
+    <link rel="icon" type="image/png" href="https://larribas.me/images/favicon_32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://larribas.me/images/favicon_16.png" sizes="16x16">
+
+    <meta name="generator" content="Hugo 0.49.2" />
+  </head>
+
+  <body class="">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://larribas.me">
+      Lorenzo Arribas
+    </a>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
+    <ul class="navigation-list">
+      
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/about">About</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/projects/">Portfolio</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/posts/">Blog</a>
+          </li>
+        
+      
+      
+    </ul>
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">Migrating Glovo’s dispatching service from a single machine to a distributed system</h1>
+        </div>
+        <div class="post-meta">
+          <span class="posted-on indicator">
+            📆
+            <time datetime='2019-08-20'>
+              August 20, 2019
+            </time>
+          </span>
+          <span class="reading-time indicator">
+            🕐
+            4 minutes read
+          </span>
+          
+          <span class="read-on-other-platforms indicator">
+              Read on
+              
+              
+                
+                <a href="https://medium.com/glovo-engineering/migrating-glovos-dispatching-service-from-a-single-machine-to-a-distributed-system-863cf6388fdd">Medium</a>
+              
+          </span>
+          
+        </div>
+        <ul class="tags">
+            
+            <li>distributed-systems</li>
+            
+            <li>web-services</li>
+            
+            <li>high-availability</li>
+            
+            <li>backend</li>
+            
+        </ul>
+      </header>
+
+      <div>
+        
+
+<p>At Glovo, we have one vision: Connecting our customers to their cities. We do that by facilitating access to different services (like restaurants, supermarkets, and other stores) through a single mobile application and a fleet of independent couriers.</p>
+
+<blockquote>
+<p>Anything you want. Delivered in minutes.</p>
+</blockquote>
+
+<p>Of course, that is easier said than done. Behind the scenes, there are hundreds of factors that affect the experience of our customers and couriers.</p>
+
+<p>One of the key factors in this equation is <strong>who is the perfect courier to deliver an order</strong>. This is very important for us because finding the best match means our customers will receive their orders faster, our couriers will deliver more orders every hour (and earn more money), and our partners will be able to receive more orders.</p>
+
+<p>Answering that question is the main job of our dispatching team. And more specifically: the job of <em>Jarvis</em>.</p>
+
+<h2 id="meet-jarvis-our-dispatching-service">Meet Jarvis, our Dispatching Service</h2>
+
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/migrating-glovos-dispatching-service-from-a-single-machine-to-a-distributed-system/images/mainframe.jpeg"
+        alt="Busy people around an old mainframe computer"
+        
+    >
+
+    
+
+    <figcaption>This is how I feel our team works when we&rsquo;re having a live issue with Jarvis. <a href="http://explorepahistory.com/displayimage.php?imgId=1-2-1536">Source</a></figcaption>
+</figure>
+
+
+
+<p>Jarvis is Glovo&rsquo;s dispatching service. Its goal is to make cities as efficient as possible. I&rsquo;d say Jarvis stands out from other services in three different ways:</p>
+
+<ul>
+<li><strong>Its domain is very mathematical</strong>. We are running an optimisation problem based on estimations we get from machine learning models (e.g. how much time will it take the courier to reach a point? When will the partner have the order ready?).</li>
+<li><strong>Its behavior is different in every city</strong>. Each city has its own geography, its own demographic distribution, its own traffic… and, most importantly, its own personality. We need to account for those differences; adjusting thresholds, activating different heuristics, and so on.</li>
+<li>During peak hours, our highest-volume cities will have tens of thousands of couriers in different areas and states. At the same time, we will have hundreds of new orders coming in every minute. We need to be able to evaluate every possible combination of orders and couriers, and choose the best match in real-time, so <strong>high performance is critical</strong>.</li>
+</ul>
+
+<h2 id="from-pets-to-cattle">From pets to cattle</h2>
+
+<p>A few months ago, we had a big problem: Jarvis was one of the most critical pieces in our system. However, it was also one of the most fragile.</p>
+
+<p>This is how everything worked back then:</p>
+
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/migrating-glovos-dispatching-service-from-a-single-machine-to-a-distributed-system/images/diagram.png"
+        alt="Diagram of our dispatching system running on a single instance, and how releases and rollbacks affected its availability"
+        
+    >
+
+    
+
+    <figcaption>Jarvis ran on one single instance. This instance used the actor concurrency model to make decisions for different cities concurrently. Whenever there was a release (and a rollback), we would have a few minutes of downtime, delaying order delivery.</figcaption>
+</figure>
+
+
+
+<p>We used the actor model to run hundreds of concurrent actors. Each actor would control a particular city. Our main problem was that two actors could not be in charge of the same city, as they could potentially make conflicting decisions. This meant we could not distribute the service: we needed to rely on a single physical machine.</p>
+
+<p>As a result, every time we deployed a new version we would have a few minutes of downtime, increasing our delivery time (one of our most important KPIs). If the version was faulty and we needed to roll back, we would have twice as much downtime.</p>
+
+<p>Last quarter, we decided to change this and transition from a we-have-a-single-machine-please-cross-your-fingers architecture to a highly available, distributed architecture.</p>
+
+<p>The task was at the same time daunting and very interesting. We had to make some fundamental changes to our system, but it was absolutely essential to make them gradually, without disrupting the service at all. To put it another way: we needed to change the plane&rsquo;s engine in the middle of the flight.</p>
+
+<h2 id="whiteboard-session-no-1-requirements">Whiteboard session No.1: Requirements</h2>
+
+<p>The first thing we did was gather the whole team and come up with a list of requirements. Roughly speaking:</p>
+
+<ol>
+<li>The service should be distributed. At any time, there should be multiple machines in different availability zones or regions, competing to run the assignment problem for a city.</li>
+<li>It is vital that we ensure the service&rsquo;s liveness: if a machine dies while making decisions for a particular city, it should not prevent other machines from picking up that city in the future.</li>
+<li>The decisions we make must not cause conflicts (e.g. we don&rsquo;t want to assign two orders to a courier at the same time). Therefore, two tasks for the same city may not run concurrently or, if they do, both should not publish the decisions.</li>
+<li>We should strive for simplicity. Jarvis is a critical piece of our system. The more technical complexity we add, and the more services we depend upon, the higher the chance of service unavailability.</li>
+</ol>
+
+<h2 id="whiteboard-session-no-2-and-beyond">Whiteboard session No.2: (And beyond…)</h2>
+
+<p>We don&rsquo;t want to make this post overly long and, to tell the truth, we would be really glad to hear from you and how you would approach this problem! So let&rsquo;s leave it here for now.</p>
+
+<p>In the next article, we&rsquo;ll follow up with our approach, with a couple of surprising plot twists that made us redefine our solution.</p>
+
+      </div>
+
+      <footer>
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+     © 2019
+    
+    
+  </section>
+</footer>
+
+    </main>
+  </body>
+</html>

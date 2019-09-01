@@ -21,6 +21,15 @@
     </item>
     
     <item>
+      <title>Backend</title>
+      <link>https://larribas.me/tags/backend/</link>
+      <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/backend/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Cqrs</title>
       <link>https://larribas.me/tags/cqrs/</link>
       <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
@@ -35,6 +44,15 @@
       <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>https://larribas.me/tags/design-patterns/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Distributed Systems</title>
+      <link>https://larribas.me/tags/distributed-systems/</link>
+      <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/distributed-systems/</guid>
       <description></description>
     </item>
     
@@ -89,6 +107,15 @@
       <pubDate>Wed, 10 Oct 2018 00:00:00 +0000</pubDate>
       
       <guid>https://larribas.me/tags/hexagonal-architecture/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>High Availability</title>
+      <link>https://larribas.me/tags/high-availability/</link>
+      <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/high-availability/</guid>
       <description></description>
     </item>
     
@@ -185,7 +212,7 @@
     <item>
       <title>Web Services</title>
       <link>https://larribas.me/tags/web-services/</link>
-      <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
       
       <guid>https://larribas.me/tags/web-services/</guid>
       <description></description>
