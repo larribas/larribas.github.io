@@ -6,10 +6,20 @@
     <description>Recent content in Distributed Systems on Lorenzo Arribas</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 20 Aug 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 25 Oct 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://larribas.me/tags/distributed-systems/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Paving the way for distributed asynchronous tasks</title>
+      <link>https://larribas.me/posts/paving-the-way-for-distributed-asynchronous-tasks/</link>
+      <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/posts/paving-the-way-for-distributed-asynchronous-tasks/</guid>
+      <description>Source: http://sarahrussellpottery.com/galleries/clocks/  In a previous article, we discussed the dispatching system we use at Glovo to find the best courier to deliver each order.
+To recap, we have a service named Jarvis. Every few seconds, Jarvis retrieves the current state of the city and makes a series of decisions based on mathematical models and optimisation algorithms. We can think of it as N tasks running periodically, where N is the number of cities.</description>
+    </item>
     
     <item>
       <title>Migrating Glovo’s dispatching service from a single machine to a distributed system</title>

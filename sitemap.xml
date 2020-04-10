@@ -3,6 +3,21 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://larribas.me/posts/the-identity-of-a-microservice/</loc>
+    <lastmod>2020-02-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://larribas.me/posts/paving-the-way-for-distributed-asynchronous-tasks/</loc>
+    <lastmod>2019-10-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://larribas.me/posts/meaningful-web-service-health-checks/</loc>
+    <lastmod>2019-10-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://larribas.me/posts/migrating-glovos-dispatching-service-from-a-single-machine-to-a-distributed-system/</loc>
     <lastmod>2019-08-20T00:00:00+00:00</lastmod>
   </url>
@@ -39,7 +54,7 @@
   
   <url>
     <loc>https://larribas.me/</loc>
-    <lastmod>2019-08-20T00:00:00+00:00</lastmod>
+    <lastmod>2020-02-22T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -54,17 +69,23 @@
   
   <url>
     <loc>https://larribas.me/tags/backend/</loc>
-    <lastmod>2019-08-20T00:00:00+00:00</lastmod>
+    <lastmod>2019-10-25T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://larribas.me/posts/</loc>
-    <lastmod>2019-08-20T00:00:00+00:00</lastmod>
+    <lastmod>2020-02-22T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://larribas.me/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://larribas.me/tags/continuous-deployment/</loc>
+    <lastmod>2019-10-03T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -81,8 +102,14 @@
   </url>
   
   <url>
+    <loc>https://larribas.me/tags/dev-ops/</loc>
+    <lastmod>2019-10-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://larribas.me/tags/distributed-systems/</loc>
-    <lastmod>2019-08-20T00:00:00+00:00</lastmod>
+    <lastmod>2019-10-25T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -94,7 +121,7 @@
   
   <url>
     <loc>https://larribas.me/tags/domain-driven-design/</loc>
-    <lastmod>2018-10-10T00:00:00+00:00</lastmod>
+    <lastmod>2020-02-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -124,7 +151,7 @@
   
   <url>
     <loc>https://larribas.me/tags/high-availability/</loc>
-    <lastmod>2019-08-20T00:00:00+00:00</lastmod>
+    <lastmod>2019-10-25T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -148,7 +175,7 @@
   
   <url>
     <loc>https://larribas.me/tags/microservices/</loc>
-    <lastmod>2018-11-06T00:00:00+00:00</lastmod>
+    <lastmod>2020-02-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -201,7 +228,7 @@
   
   <url>
     <loc>https://larribas.me/tags/web-services/</loc>
-    <lastmod>2019-08-20T00:00:00+00:00</lastmod>
+    <lastmod>2020-02-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   

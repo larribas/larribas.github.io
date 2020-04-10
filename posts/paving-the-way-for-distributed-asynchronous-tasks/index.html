@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+    
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117511810-2"></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
+
+ gtag('config', 'UA-117511810-2');
+</script>
+
+
+    <meta property="og:title" content="Paving the way for distributed asynchronous tasks">
+<meta property="og:description" content="In this article, we discuss queues, schedulers, idempotency and optimistic/pessimistic locking, and how we designed our distributed system.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://larribas.me/posts/paving-the-way-for-distributed-asynchronous-tasks/">
+
+
+  <meta property="og:image" content="https://larribas.me/posts/paving-the-way-for-distributed-asynchronous-tasks/images/fencing.png">
+
+
+    
+<meta itemprop="name" content="Paving the way for distributed asynchronous tasks">
+<meta itemprop="description" content="In this article, we discuss queues, schedulers, idempotency and optimistic/pessimistic locking, and how we designed our distributed system.">
+
+
+<meta itemprop="datePublished" content="2019-10-25T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2019-10-25T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1076">
+
+
+
+<meta itemprop="keywords" content="distributed-systems,high-availability,backend,web-services," />
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Paving the way for distributed asynchronous tasks"/>
+<meta name="twitter:description" content="In this article, we discuss queues, schedulers, idempotency and optimistic/pessimistic locking, and how we designed our distributed system."/>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Lorenzo Arribas">
+    <meta name="description" content="Personal blog and portfolio of Lorenzo Arribas, a Software Engineer based in Barcelona, Spain">
+    <meta name="keywords" content="blog,portfolio,software,developer,personal">
+
+    <title>
+  Paving the way for distributed asynchronous tasks · Lorenzo Arribas
+</title>
+    <link rel="canonical" href="https://larribas.me/posts/paving-the-way-for-distributed-asynchronous-tasks/">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700|Source+Serif+Pro:400,700|Changa+One|Source+Code+Pro:400,700" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54=" crossorigin="anonymous" />
+
+    
+    
+    <link rel="stylesheet" href="/css/coder.min.4f374ed0593701c08094167dae6e559a3d7c259b23df0ad063460282ced6647d.css" integrity="sha256-TzdO0Fk3AcCAlBZ9rm5Vmj18JZsj3wrQY0YCgs7WZH0=" crossorigin="anonymous" media="screen" />
+
+    
+
+    <link rel="icon" type="image/png" href="https://larribas.me/images/favicon_32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://larribas.me/images/favicon_16.png" sizes="16x16">
+
+    <meta name="generator" content="Hugo 0.49.2" />
+  </head>
+
+  <body class="">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://larribas.me">
+      Lorenzo Arribas
+    </a>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
+    <ul class="navigation-list">
+      
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/about">About</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/projects/">Portfolio</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/posts/">Blog</a>
+          </li>
+        
+      
+      
+    </ul>
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">Paving the way for distributed asynchronous tasks</h1>
+        </div>
+        <div class="post-meta">
+          <span class="posted-on indicator">
+            📆
+            <time datetime='2019-10-25'>
+              October 25, 2019
+            </time>
+          </span>
+          <span class="reading-time indicator">
+            🕐
+            6 minutes read
+          </span>
+          
+          <span class="read-on-other-platforms indicator">
+              Read on
+              
+              
+                
+                <a href="https://medium.com/glovo-engineering/paving-the-way-for-distributed-asynchronous-tasks-d54cab346a9f">Medium</a>
+              
+          </span>
+          
+        </div>
+        <ul class="tags">
+            
+            <li>distributed-systems</li>
+            
+            <li>high-availability</li>
+            
+            <li>backend</li>
+            
+            <li>web-services</li>
+            
+        </ul>
+      </header>
+
+      <div>
+        
+
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/paving-the-way-for-distributed-asynchronous-tasks/images/clock.jpeg"
+        alt="Clock with a road in the background"
+        
+    >
+
+    
+
+    <figcaption>Source: <a href="http://sarahrussellpottery.com/galleries/clocks/">http://sarahrussellpottery.com/galleries/clocks/</a></figcaption>
+</figure>
+
+
+
+<p>In a <a href="/posts/migrating-glovos-dispatching-service-from-a-single-machine-to-a-distributed-system/">previous article</a>, we discussed the dispatching system we use at Glovo to find the best courier to deliver each order.</p>
+
+<p>To recap, we have a service named Jarvis. Every few seconds, Jarvis retrieves the current state of the city and makes a series of decisions based on mathematical models and optimisation algorithms. We can think of it as <strong><em>N</em> tasks running periodically, where <em>N</em> is the number of cities</strong>.</p>
+
+<p>Up until a few months ago, Jarvis ran on a single machine. Our goal with this project was to make it run in a distributed cluster and reach high availability.</p>
+
+<p>In this article, we’ll talk about our journey: the different solutions we considered and how we decided to implement it.</p>
+
+<h1 id="making-your-wish-list">Making your wish list</h1>
+
+<p>One of the main challenges of designing a distributed system is guaranteeing that it will behave correctly under the uncertainty introduced by network latencies and partitions, instance failures and so on.</p>
+
+<p>In distributed systems, there are two properties that are hard to guarantee at the same time:</p>
+
+<ul>
+<li><strong>Liveness</strong>, or the promise that the system will eventually work as expected.</li>
+<li><strong>Safety</strong>, or the promise that the system will not produce the wrong behavior.</li>
+</ul>
+
+<p><a href="https://pt.coursera.org/lecture/cloud-computing/1-4-safety-and-liveness-sFeOE">This video</a> provides a good explanation for both.</p>
+
+<p>In our case, we <em>needed</em> safety. If two workers published conflicting decisions about the same city, it would be extremely difficult to understand the consequences of these decisions and fix them after the fact.</p>
+
+<p>At the same time, liveness was important. If a worker suffered, say, a hardware failure, we wanted another worker to eventually pick up the task, with no human intervention.</p>
+
+<p>So we decided to evaluate different solutions in terms of these properties. On top of that, we added other nice-to-haves, like simplicity, ease to onboard people, or ease to mitigate and debug if something goes very wrong.</p>
+
+<blockquote>
+<p>Lesson one: Before you start evaluating different potential implementations, make sure you have a good framework to compare them.</p>
+</blockquote>
+
+<h1 id="queues-and-workers">Queues and Workers</h1>
+
+<p>A very common pattern is to have a series of workers subscribed to a queue. Every time there is a task to run, a worker would pick it up and start processing it.</p>
+
+<p>This is a very common architecture, and there are many technologies that would make the implementation somewhat trivial, such as <a href="https://aws.amazon.com/sqs/">AWS SQS</a>, <a href="https://www.rabbitmq.com/">RabbitMQ</a>, <a href="https://kafka.apache.org/">Kafka</a>.</p>
+
+<p>That said, since we are dealing with a periodic task, we would still need to have some kind of process that schedules new jobs, tries not to overflow the queue, and is aware of domain events like a city being created or disabled. On top of this, the workers would still need to ensure they don’t make conflicting decisions for the same city at the same time, either by being idempotent, or having some kind of locking mechanism.</p>
+
+<blockquote>
+<p>Lesson two: If a solution for a complex problem looks too easy, be suspicious. Is it that great, or is it hiding the complexity under the rug?</p>
+</blockquote>
+
+<p><em>Note: If you ever go with a queue system to distribute a task, keep in mind that <a href="https://bravenewgeek.com/you-cannot-have-exactly-once-delivery/">queues cannot guarantee each message is delivered exactly once</a>. Your options are either at-most-once delivery (if you’re okay with missing some executions), and at-least-once delivery, which would require your task to be idempotent.</em></p>
+
+<h1 id="do-developers-dream-of-idempotent-tasks">Do developers dream of idempotent tasks?</h1>
+
+<p>Generally speaking, when you want to distribute a task (or a message subscriber), your ideal scenario is making the behavior idempotent which means that it doesn’t really matter whether it runs once or ten times: the outcome will be the same. Then, issues like race conditions become irrelevant and distributing the tasks is somewhat trivial.</p>
+
+<p>For a while, we were toying with the idea, but pretty soon we realised it would have required a radical redesign of our service.</p>
+
+<blockquote>
+<p>Lesson three: When the ideal solution is not practical, it’s not a solution.</p>
+</blockquote>
+
+<h1 id="trusting-the-scheduler">Trusting the scheduler</h1>
+
+<p>Another popular option is to rely on a task scheduling system to ensure tasks are run periodically and with specific constraints. This is the job of technologies like <a href="https://sidekiq.org/">Sidekiq</a> in the Ruby community, or <a href="http://www.quartz-scheduler.org/">Quartz</a> in Java’s.</p>
+
+<p>These tools were designed to solve a lot of the problems we had but, in order to ensure high availability, we would need to deploy and maintain a cluster of schedulers that worked in consensus. Otherwise, they would become a single point of failure for our own system.</p>
+
+<p>Our dispatching system was complex enough as it was, and the simpler the solution we managed to find, the easier it would be to maintain it in the future.</p>
+
+<blockquote>
+<p>Lesson four: Some problems are complex, but so is maintaining 3rd-party services. Think about which of the two would minimise the error surface of your application.</p>
+</blockquote>
+
+<h1 id="shared-resources-and-locks">Shared resources and locks</h1>
+
+<p>Once we discarded the idea of having an external system telling our workers what to do and when to do it, we started thinking about alternative ways to coordinate them.</p>
+
+<p>The conclusion we came to was that we needed a central resource (say, a database table) that contained locks for all existing cities. When a worker found a lock that was free, it would grab it and execute the task.</p>
+
+<p>From the very beginning, our team was divided between <a href="https://en.wikipedia.org/wiki/Record_locking">pessimistic</a> and <a href="https://en.wikipedia.org/wiki/Optimistic_concurrency_control">optimistic locking</a>. The first technique involves creating a lock that, while held by a worker, blocks any other worker from acquiring the same resource. This would be safe and avoid situations like two couriers being assigned to the same order (scary stuff!).</p>
+
+<p>That said, the other half of our team was even more scared of the following situation:</p>
+
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/paving-the-way-for-distributed-asynchronous-tasks/images/fencing.png"
+        alt="Without any fencing strategy, if a worker took longer than its timeout to complete, it would not be able to commit."
+        
+    >
+
+    
+
+    <figcaption>Without any fencing strategy, if a worker took longer than its timeout to complete, it would not be able to commit.</figcaption>
+</figure>
+
+
+
+<p>What would happen if a machine hung up or died? Sure, we could have a reasonable timeout for the lock and have another worker pick up the task after a while, but even that wouldn’t protect us completely from livelocks.</p>
+
+<blockquote>
+<p>After some interesting <span style="text-decoration:line-through">bribes</span> debates, we decided to see the glass half full and go with an optimistic locking strategy, where two tasks may run at the same time, but ultimately only one will be able to modify the database, via a <a href="https://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html">fencing strategy</a>.</p>
+</blockquote>
+
+<hr />
+
+<p><em>I’d like to thank Andre Lopes for his review and his constant search for new edge cases and guarantees :P</em></p>
+
+<p>In the next article, we’ll get a bit more practical and discuss the implementation of an optimistic locking mechanism using MySQL 5.6 and Java. Stay tuned!</p>
+
+      </div>
+
+      <footer>
+        
+        <hr>
+        <span>
+            Got any comments? Please, write them on
+            
+            
+              
+              <a href="https://medium.com/glovo-engineering/paving-the-way-for-distributed-asynchronous-tasks-d54cab346a9f">Medium</a>
+            
+        </span>
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+     © 2020
+    
+    
+  </section>
+</footer>
+
+    </main>
+  </body>
+</html>

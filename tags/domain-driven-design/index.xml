@@ -6,10 +6,20 @@
     <description>Recent content in Domain Driven Design on Lorenzo Arribas</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 10 Oct 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 22 Feb 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://larribas.me/tags/domain-driven-design/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>The identity of a Microservice</title>
+      <link>https://larribas.me/posts/the-identity-of-a-microservice/</link>
+      <pubDate>Sat, 22 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/posts/the-identity-of-a-microservice/</guid>
+      <description>Little boxes on the hillside&amp;hellip;  My current company is undergoing a transition to microservices. This is a new challenge for the company since, until this point, all our processes and tooling revolve around a monolith, shaped by all the decisions we made in the past (the good ones and the bad ones).
+The way we decided to start is by migrating one single component into a microservice, and laying down a “golden path” for other services to follow.</description>
+    </item>
     
     <item>
       <title>Colmena</title>

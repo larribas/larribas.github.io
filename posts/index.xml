@@ -6,10 +6,40 @@
     <description>Recent content in Blog Posts on Lorenzo Arribas</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 20 Aug 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 22 Feb 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://larribas.me/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>The identity of a Microservice</title>
+      <link>https://larribas.me/posts/the-identity-of-a-microservice/</link>
+      <pubDate>Sat, 22 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/posts/the-identity-of-a-microservice/</guid>
+      <description>Little boxes on the hillside&amp;hellip;  My current company is undergoing a transition to microservices. This is a new challenge for the company since, until this point, all our processes and tooling revolve around a monolith, shaped by all the decisions we made in the past (the good ones and the bad ones).
+The way we decided to start is by migrating one single component into a microservice, and laying down a “golden path” for other services to follow.</description>
+    </item>
+    
+    <item>
+      <title>Paving the way for distributed asynchronous tasks</title>
+      <link>https://larribas.me/posts/paving-the-way-for-distributed-asynchronous-tasks/</link>
+      <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/posts/paving-the-way-for-distributed-asynchronous-tasks/</guid>
+      <description>Source: http://sarahrussellpottery.com/galleries/clocks/  In a previous article, we discussed the dispatching system we use at Glovo to find the best courier to deliver each order.
+To recap, we have a service named Jarvis. Every few seconds, Jarvis retrieves the current state of the city and makes a series of decisions based on mathematical models and optimisation algorithms. We can think of it as N tasks running periodically, where N is the number of cities.</description>
+    </item>
+    
+    <item>
+      <title>Meaningful web service /health checks</title>
+      <link>https://larribas.me/posts/meaningful-web-service-health-checks/</link>
+      <pubDate>Thu, 03 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/posts/meaningful-web-service-health-checks/</guid>
+      <description>About 10 years ago, I deployed my first web service. It was a nice, silly PHP application to store game cheat sheets. Interestingly, what made me really proud about it was the fact that I was able to release new versions with a single command, with a weird mix of git hooks and rsync-powered bash scripts.
+When I think about the massive transformation that our field has undergone in the last few years in terms of continuous delivery and service orchestration, I always come back to that memory, and I can&amp;rsquo;t help laughing a bit.</description>
+    </item>
     
     <item>
       <title>Migrating Glovo’s dispatching service from a single machine to a distributed system</title>

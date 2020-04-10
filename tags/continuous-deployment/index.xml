@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Continuous Deployment on Lorenzo Arribas</title>
+    <link>https://larribas.me/tags/continuous-deployment/</link>
+    <description>Recent content in Continuous Deployment on Lorenzo Arribas</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 03 Oct 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://larribas.me/tags/continuous-deployment/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Meaningful web service /health checks</title>
+      <link>https://larribas.me/posts/meaningful-web-service-health-checks/</link>
+      <pubDate>Thu, 03 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/posts/meaningful-web-service-health-checks/</guid>
+      <description>About 10 years ago, I deployed my first web service. It was a nice, silly PHP application to store game cheat sheets. Interestingly, what made me really proud about it was the fact that I was able to release new versions with a single command, with a weird mix of git hooks and rsync-powered bash scripts.
+When I think about the massive transformation that our field has undergone in the last few years in terms of continuous delivery and service orchestration, I always come back to that memory, and I can&amp;rsquo;t help laughing a bit.</description>
+    </item>
+    
+  </channel>
+</rss>

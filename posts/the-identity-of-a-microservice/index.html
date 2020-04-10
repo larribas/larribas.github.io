@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+    
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117511810-2"></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
+
+ gtag('config', 'UA-117511810-2');
+</script>
+
+
+    <meta property="og:title" content="The identity of a Microservice">
+<meta property="og:description" content="Do deployment strategies and infrastructure patterns affect what we define as a microservice?">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://larribas.me/posts/the-identity-of-a-microservice/">
+
+
+  <meta property="og:image" content="https://larribas.me/posts/the-identity-of-a-microservice/images/logical_interface.png">
+
+
+    
+<meta itemprop="name" content="The identity of a Microservice">
+<meta itemprop="description" content="Do deployment strategies and infrastructure patterns affect what we define as a microservice?">
+
+
+<meta itemprop="datePublished" content="2020-02-22T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2020-02-22T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1161">
+
+
+
+<meta itemprop="keywords" content="microservices,web-services,domain-driven-design," />
+
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="The identity of a Microservice"/>
+<meta name="twitter:description" content="Do deployment strategies and infrastructure patterns affect what we define as a microservice?"/>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Lorenzo Arribas">
+    <meta name="description" content="Personal blog and portfolio of Lorenzo Arribas, a Software Engineer based in Barcelona, Spain">
+    <meta name="keywords" content="blog,portfolio,software,developer,personal">
+
+    <title>
+  The identity of a Microservice · Lorenzo Arribas
+</title>
+    <link rel="canonical" href="https://larribas.me/posts/the-identity-of-a-microservice/">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700|Source+Serif+Pro:400,700|Changa+One|Source+Code+Pro:400,700" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54=" crossorigin="anonymous" />
+
+    
+    
+    <link rel="stylesheet" href="/css/coder.min.4f374ed0593701c08094167dae6e559a3d7c259b23df0ad063460282ced6647d.css" integrity="sha256-TzdO0Fk3AcCAlBZ9rm5Vmj18JZsj3wrQY0YCgs7WZH0=" crossorigin="anonymous" media="screen" />
+
+    
+
+    <link rel="icon" type="image/png" href="https://larribas.me/images/favicon_32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://larribas.me/images/favicon_16.png" sizes="16x16">
+
+    <meta name="generator" content="Hugo 0.49.2" />
+  </head>
+
+  <body class="">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://larribas.me">
+      Lorenzo Arribas
+    </a>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
+    <ul class="navigation-list">
+      
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/about">About</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/projects/">Portfolio</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/posts/">Blog</a>
+          </li>
+        
+      
+      
+    </ul>
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">The identity of a Microservice</h1>
+        </div>
+        <div class="post-meta">
+          <span class="posted-on indicator">
+            📆
+            <time datetime='2020-02-22'>
+              February 22, 2020
+            </time>
+          </span>
+          <span class="reading-time indicator">
+            🕐
+            6 minutes read
+          </span>
+          
+          <span class="read-on-other-platforms indicator">
+              Read on
+              
+              
+                
+                <a href="https://levelup.gitconnected.com/the-identity-of-a-microservice-fb845816126a">Medium</a>
+              
+          </span>
+          
+        </div>
+        <ul class="tags">
+            
+            <li>microservices</li>
+            
+            <li>web-services</li>
+            
+            <li>domain-driven-design</li>
+            
+        </ul>
+      </header>
+
+      <div>
+        
+
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/the-identity-of-a-microservice/images/little_boxes_on_the_hillside.jpeg"
+        alt="Aerial photo of a suburban area"
+        
+    >
+
+    
+
+    <figcaption>Little boxes on the hillside&hellip;</figcaption>
+</figure>
+
+
+
+<p>My current company is undergoing a transition to microservices. This is a new challenge for the company since, until this point, all our processes and tooling revolve around a monolith, shaped by all the decisions we made in the past (the good ones and the bad ones).</p>
+
+<p>The way we decided to start is by migrating one single component into a microservice, and laying down a “golden path” for other services to follow. This is helping us streamline the process, and kicking off some really interesting discussions about the topic.</p>
+
+<p>Today was the last big debate. 15 people in a room, all with different backgrounds, debating whether it made sense for us to deploy a service to 2 clusters of machines (one serving the HTTP API and the other listening to different event streams and materializing information to the database), or to a single cluster of machines with those 2 responsibilities.</p>
+
+<p>The outcome of the debate was pragmatic and the right fit for our current needs, but I was surprised to discover that we could not agree on one of the most basic aspects: <strong>When does a microservice stop being a microservice?</strong></p>
+
+<p>I was going home and I couldn’t shake the thought out of my head, so I decided to write this (highly opinionated) article. Hopefully it will resonate with some people, and some comments will challenge my current assumptions.</p>
+
+<h1 id="setting-some-boundaries">Setting some boundaries</h1>
+
+<p>One of the first concepts we learn when doing microservices is the concept of bounded contexts, or boundaries between two different parts of our business. Setting the right boundaries is really hard, because all the parts of a business are interconnected one way or the other. But let’s say we’ve found a reasonable approximation to a bounded context, and we have a service P which handles payments.</p>
+
+<p>Service P (as you can imagine) is quite popular in the company. And it has a lot of other components that want to talk to it, so it needs to define a way for them to speak. That’s the interface, or the API of the service.</p>
+
+<h1 id="a-foreword-on-interfaces-and-sharing-the-database">A foreword on interfaces and sharing the database</h1>
+
+<p>Now, us, the people who work on Web Services, tend to associate the term interface with a classical Java interface, and the term API with a REST HTTP API, but for this article’s sake I would like to emphasize that an interface can be ANYTHING!</p>
+
+<ol>
+<li>It can be an series of HTTP endpoints.</li>
+<li>A queue where you send job parameters encoded in JSON.</li>
+<li>A series of CSV files in an S3 bucket.</li>
+<li>A SQL database.</li>
+<li>Your colleague Mike, owner of <em>the script</em> you need to run when a customer calls you with <em>that</em> problem.</li>
+</ol>
+
+<p>If you work on backend/frontend, chances are you’re used to options 1–2, and options 3–4 sound deranged. If you work on data, you’re probably doing 3–4 quite often. And if you’ve been in the industry for a while, you’ve probably experienced the pain of option 5.</p>
+
+<p>But the point is, they are all interfaces, and they all make sense given the right context. <strong>The important part is to find a contract the client can use, and the server can guarantee.</strong></p>
+
+<p>So I think when we hear one of those strong statements about microservices, we should put it into context.</p>
+
+<blockquote>
+<p>Myth: “2 microservices must not share the same database”</p>
+
+<p>Reality: “2 microservices must not share the same database to store internal state”</p>
+</blockquote>
+
+<h1 id="the-logical-and-physical-interfaces-of-a-microservice">The logical and physical interfaces of a microservice</h1>
+
+<p>I usually look at a service’s interface from two angles.</p>
+
+<p>On the one hand, we have the “logical” interface. This is comprised by the way the inputs and outputs are structured, or the way we name and organize different endpoints, commands or tables.</p>
+
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/the-identity-of-a-microservice/images/logical_interface.png"
+        alt="A service’s interface may be composed of different parts. In this example, the service exposes an HTTP API and emits events with a specific schema."
+        
+    >
+
+    
+
+    <figcaption>A service’s interface may be composed of different parts. In this example, the service exposes an HTTP API and emits events with a specific schema.</figcaption>
+</figure>
+
+
+
+<p>On the other hand, we have the “physical” interface. This has to do with the way the interface is exposed. How do we address the HTTP API or the Database? Is it exposed publicly or through a private network/vpn?</p>
+
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/the-identity-of-a-microservice/images/physical_interface.png"
+        alt="The physical interface for the example above might expose the HTTP API on a public domain, emit events to a specific Kafka topic and store events inside of an S3 bucket for easier access later on."
+        
+    >
+
+    
+
+    <figcaption>The physical interface for the example above might expose the HTTP API on a public domain, emit events to a specific Kafka topic and store events inside of an S3 bucket for easier access later on.</figcaption>
+</figure>
+
+
+
+<p>What I’ve come to realize today is that the intersection between the logical and the physical, and between the interface and the implementation details, is a grey area that causes a lot of confusion. So I’m going to ask you some philosophical questions, and as a thought exercise, you can jot down what your first intuition is.</p>
+
+<h1 id="does-a-microservice-stop-being-a-microservice-because-we-refactor-the-internal-code">Does a microservice stop being a microservice because we refactor the internal code?</h1>
+
+<p>If we carried out an internal refactor of our code, preserving the current interface, would we call it a different microservice?</p>
+
+<p>If we modularized certain parts of the service, would it become something else?</p>
+
+<h1 id="does-a-microservice-stop-being-a-microservice-because-we-change-how-we-deploy-it">Does a microservice stop being a microservice because we change how we deploy it?</h1>
+
+<p>If we deployed a service to multiple regions, or <a href="https://en.wikipedia.org/wiki/Multicloud">multiple clouds</a>, would they become different services?</p>
+
+<p>If we deployed a service to 2 independent clusters (one handling iOS clients and the other Android clients, for isolation purposes), would that make them different? What if this required implementing custom logic for the load balancer?</p>
+
+<p>If we deployed the same codebase in 2 different flavors (one handling HTTP requests and the other consuming events), would that mean we’re not doing microservices?</p>
+
+<p>If our deployment was composed of 6 serverless functions, 2 HTTP servers and 1 database, all deployed and updated independently, but sharing the same codebase, would you identify them as two separate microservices?</p>
+
+<h1 id="got-your-answers">Got your answers?</h1>
+
+<p>If your intuition was to answer “no” to the questions in the first section, and “yes” to some of the questions in the second section, I have to tell you I disagree with you. But let me ask for two favors:</p>
+
+<ol>
+<li>Hear me out.</li>
+<li>Share your thoughts and counter-arguments in the comment section. I’d really like to know!</li>
+</ol>
+
+<h1 id="my-current-point-of-view">My (Current) Point of View</h1>
+
+<p>For me, a microservice is identified exclusively by the interface it exposes.</p>
+
+<p>How the different code files, modules and variables are laid out internally does not change its identity, and I feel that&rsquo;s easy to agree on.</p>
+
+<p>But I would argue that the same reasoning should be applied to the physical implementation details. At any point, we may:</p>
+
+<ul>
+<li>Deploy the service to multiple regions or clouds.</li>
+<li>Split the deployment in each region between 3 clusters, to bulkhead different workloads.</li>
+<li>Deploy version 2 as a canary release, to only 10% of our users.</li>
+<li>Rewrite 2 event listeners as serverless functions.</li>
+</ul>
+
+<p>These decisions will make the solution more reliable. They will also make it much more complex to maintain. But they won&rsquo;t change the identity of our microservice in any way, nor will they represent an antipattern of microservice architectures.</p>
+
+<p>&hellip; Right?</p>
+
+      </div>
+
+      <footer>
+        
+        <hr>
+        <span>
+            Got any comments? Please, write them on
+            
+            
+              
+              <a href="https://levelup.gitconnected.com/the-identity-of-a-microservice-fb845816126a">Medium</a>
+            
+        </span>
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+     © 2020
+    
+    
+  </section>
+</footer>
+
+    </main>
+  </body>
+</html>

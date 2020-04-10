@@ -23,9 +23,18 @@
     <item>
       <title>Backend</title>
       <link>https://larribas.me/tags/backend/</link>
-      <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
       
       <guid>https://larribas.me/tags/backend/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Continuous Deployment</title>
+      <link>https://larribas.me/tags/continuous-deployment/</link>
+      <pubDate>Thu, 03 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/continuous-deployment/</guid>
       <description></description>
     </item>
     
@@ -48,9 +57,18 @@
     </item>
     
     <item>
+      <title>Dev Ops</title>
+      <link>https://larribas.me/tags/dev-ops/</link>
+      <pubDate>Thu, 03 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/dev-ops/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Distributed Systems</title>
       <link>https://larribas.me/tags/distributed-systems/</link>
-      <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
       
       <guid>https://larribas.me/tags/distributed-systems/</guid>
       <description></description>
@@ -68,7 +86,7 @@
     <item>
       <title>Domain Driven Design</title>
       <link>https://larribas.me/tags/domain-driven-design/</link>
-      <pubDate>Wed, 10 Oct 2018 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 22 Feb 2020 00:00:00 +0000</pubDate>
       
       <guid>https://larribas.me/tags/domain-driven-design/</guid>
       <description></description>
@@ -113,7 +131,7 @@
     <item>
       <title>High Availability</title>
       <link>https://larribas.me/tags/high-availability/</link>
-      <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
       
       <guid>https://larribas.me/tags/high-availability/</guid>
       <description></description>
@@ -149,7 +167,7 @@
     <item>
       <title>Microservices</title>
       <link>https://larribas.me/tags/microservices/</link>
-      <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 22 Feb 2020 00:00:00 +0000</pubDate>
       
       <guid>https://larribas.me/tags/microservices/</guid>
       <description></description>
@@ -212,7 +230,7 @@
     <item>
       <title>Web Services</title>
       <link>https://larribas.me/tags/web-services/</link>
-      <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 22 Feb 2020 00:00:00 +0000</pubDate>
       
       <guid>https://larribas.me/tags/web-services/</guid>
       <description></description>
