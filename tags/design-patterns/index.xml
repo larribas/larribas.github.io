@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Design Patterns on Lorenzo Arribas</title>
+    <title>design-patterns on Lorenzo Arribas</title>
     <link>https://larribas.me/tags/design-patterns/</link>
-    <description>Recent content in Design Patterns on Lorenzo Arribas</description>
+    <description>Recent content in design-patterns on Lorenzo Arribas</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 06 Nov 2018 00:00:00 +0000</lastBuildDate>
@@ -30,7 +30,7 @@ We were clearly doing something wrong, and we wanted to understand what, so we m
       
       <guid>https://larribas.me/posts/5-ways-to-make-your-codebase-withstand-the-test-of-time/</guid>
       <description>This is the first in a series of articles where @hecrj and I share what we have learned after working on a large, fast-changing codebase for the past 3 years, and being perfectly happy with the result!
-If you are a web developer, you are probably used to having new frameworks, libraries and technologies come out every other week.
+ If you are a web developer, you are probably used to having new frameworks, libraries and technologies come out every other week.
  We are on a never-ending quest to find better tools and patterns, but does that mean our code is doomed to become old and wrinkly?</description>
     </item>
     

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Lorenzo Arribas</title>
@@ -6,85 +6,13 @@
     <description>Recent content in Tags on Lorenzo Arribas</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 06 Nov 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 22 Feb 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://larribas.me/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Architecture</title>
-      <link>https://larribas.me/tags/architecture/</link>
-      <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://larribas.me/tags/architecture/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Backend</title>
-      <link>https://larribas.me/tags/backend/</link>
-      <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://larribas.me/tags/backend/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Continuous Deployment</title>
-      <link>https://larribas.me/tags/continuous-deployment/</link>
-      <pubDate>Thu, 03 Oct 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://larribas.me/tags/continuous-deployment/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Cqrs</title>
-      <link>https://larribas.me/tags/cqrs/</link>
-      <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://larribas.me/tags/cqrs/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Design Patterns</title>
-      <link>https://larribas.me/tags/design-patterns/</link>
-      <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://larribas.me/tags/design-patterns/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Dev Ops</title>
-      <link>https://larribas.me/tags/dev-ops/</link>
-      <pubDate>Thu, 03 Oct 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://larribas.me/tags/dev-ops/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Distributed Systems</title>
-      <link>https://larribas.me/tags/distributed-systems/</link>
-      <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://larribas.me/tags/distributed-systems/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Docker</title>
-      <link>https://larribas.me/tags/docker/</link>
-      <pubDate>Sat, 05 Aug 2017 00:00:00 +0000</pubDate>
-      
-      <guid>https://larribas.me/tags/docker/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Domain Driven Design</title>
+      <title>domain-driven-design</title>
       <link>https://larribas.me/tags/domain-driven-design/</link>
       <pubDate>Sat, 22 Feb 2020 00:00:00 +0000</pubDate>
       
@@ -93,79 +21,7 @@
     </item>
     
     <item>
-      <title>Elm</title>
-      <link>https://larribas.me/tags/elm/</link>
-      <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://larribas.me/tags/elm/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Event Sourcing</title>
-      <link>https://larribas.me/tags/event-sourcing/</link>
-      <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://larribas.me/tags/event-sourcing/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Haskell</title>
-      <link>https://larribas.me/tags/haskell/</link>
-      <pubDate>Sat, 05 Aug 2017 00:00:00 +0000</pubDate>
-      
-      <guid>https://larribas.me/tags/haskell/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Hexagonal Architecture</title>
-      <link>https://larribas.me/tags/hexagonal-architecture/</link>
-      <pubDate>Wed, 10 Oct 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://larribas.me/tags/hexagonal-architecture/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>High Availability</title>
-      <link>https://larribas.me/tags/high-availability/</link>
-      <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
-      
-      <guid>https://larribas.me/tags/high-availability/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Html</title>
-      <link>https://larribas.me/tags/html/</link>
-      <pubDate>Sat, 05 Aug 2017 00:00:00 +0000</pubDate>
-      
-      <guid>https://larribas.me/tags/html/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Kubernetes</title>
-      <link>https://larribas.me/tags/kubernetes/</link>
-      <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://larribas.me/tags/kubernetes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Legacy</title>
-      <link>https://larribas.me/tags/legacy/</link>
-      <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://larribas.me/tags/legacy/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Microservices</title>
+      <title>microservices</title>
       <link>https://larribas.me/tags/microservices/</link>
       <pubDate>Sat, 22 Feb 2020 00:00:00 +0000</pubDate>
       
@@ -174,7 +30,124 @@
     </item>
     
     <item>
-      <title>Postgres</title>
+      <title>web-services</title>
+      <link>https://larribas.me/tags/web-services/</link>
+      <pubDate>Sat, 22 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/web-services/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>backend</title>
+      <link>https://larribas.me/tags/backend/</link>
+      <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/backend/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>distributed-systems</title>
+      <link>https://larribas.me/tags/distributed-systems/</link>
+      <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/distributed-systems/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>high-availability</title>
+      <link>https://larribas.me/tags/high-availability/</link>
+      <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/high-availability/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>continuous-deployment</title>
+      <link>https://larribas.me/tags/continuous-deployment/</link>
+      <pubDate>Thu, 03 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/continuous-deployment/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>dev-ops</title>
+      <link>https://larribas.me/tags/dev-ops/</link>
+      <pubDate>Thu, 03 Oct 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/dev-ops/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>architecture</title>
+      <link>https://larribas.me/tags/architecture/</link>
+      <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/architecture/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>cqrs</title>
+      <link>https://larribas.me/tags/cqrs/</link>
+      <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/cqrs/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>design-patterns</title>
+      <link>https://larribas.me/tags/design-patterns/</link>
+      <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/design-patterns/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>event-sourcing</title>
+      <link>https://larribas.me/tags/event-sourcing/</link>
+      <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/event-sourcing/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>elm</title>
+      <link>https://larribas.me/tags/elm/</link>
+      <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/elm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kubernetes</title>
+      <link>https://larribas.me/tags/kubernetes/</link>
+      <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>legacy</title>
+      <link>https://larribas.me/tags/legacy/</link>
+      <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/legacy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>postgres</title>
       <link>https://larribas.me/tags/postgres/</link>
       <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
       
@@ -183,7 +156,7 @@
     </item>
     
     <item>
-      <title>Pwa</title>
+      <title>pwa</title>
       <link>https://larribas.me/tags/pwa/</link>
       <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
       
@@ -192,7 +165,7 @@
     </item>
     
     <item>
-      <title>Rabbitmq</title>
+      <title>rabbitmq</title>
       <link>https://larribas.me/tags/rabbitmq/</link>
       <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
       
@@ -201,7 +174,7 @@
     </item>
     
     <item>
-      <title>Ruby</title>
+      <title>ruby</title>
       <link>https://larribas.me/tags/ruby/</link>
       <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
       
@@ -210,16 +183,7 @@
     </item>
     
     <item>
-      <title>Sass</title>
-      <link>https://larribas.me/tags/sass/</link>
-      <pubDate>Fri, 10 Mar 2017 00:00:00 +0000</pubDate>
-      
-      <guid>https://larribas.me/tags/sass/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Web Dev</title>
+      <title>web-dev</title>
       <link>https://larribas.me/tags/web-dev/</link>
       <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
       
@@ -228,11 +192,47 @@
     </item>
     
     <item>
-      <title>Web Services</title>
-      <link>https://larribas.me/tags/web-services/</link>
-      <pubDate>Sat, 22 Feb 2020 00:00:00 +0000</pubDate>
+      <title>hexagonal-architecture</title>
+      <link>https://larribas.me/tags/hexagonal-architecture/</link>
+      <pubDate>Wed, 10 Oct 2018 00:00:00 +0000</pubDate>
       
-      <guid>https://larribas.me/tags/web-services/</guid>
+      <guid>https://larribas.me/tags/hexagonal-architecture/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>docker</title>
+      <link>https://larribas.me/tags/docker/</link>
+      <pubDate>Sat, 05 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>haskell</title>
+      <link>https://larribas.me/tags/haskell/</link>
+      <pubDate>Sat, 05 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/haskell/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>html</title>
+      <link>https://larribas.me/tags/html/</link>
+      <pubDate>Sat, 05 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/html/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>sass</title>
+      <link>https://larribas.me/tags/sass/</link>
+      <pubDate>Fri, 10 Mar 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/sass/</guid>
       <description></description>
     </item>
     
