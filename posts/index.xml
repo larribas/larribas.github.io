@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Blog Posts on Lorenzo Arribas</title>
     <link>https://larribas.me/posts/</link>
@@ -17,16 +17,7 @@
       <pubDate>Sat, 22 Feb 2020 00:00:00 +0000</pubDate>
       
       <guid>https://larribas.me/posts/the-identity-of-a-microservice/</guid>
-      
-      <category>microservices</category>
-      
-      <category>web-services</category>
-      
-      <category>domain-driven-design</category>
-      
-      <description>Little boxes on the hillside&amp;hellip;  My current company is undergoing a transition to microservices. This is a new challenge for the company since, until this point, all our processes and tooling revolve around a monolith, shaped by all the decisions we made in the past (the good ones and the bad ones).
-The way we decided to start is by migrating one single component into a microservice, and laying down a “golden path” for other services to follow.</description>
-      <content:encoded>
+      <description>
 
 &lt;figure&gt;
     
@@ -138,7 +129,7 @@ The way we decided to start is by migrating one single component into a microser
 &lt;/ul&gt;
 &lt;p&gt;These decisions will make the solution more reliable. They will also make it much more complex to maintain. But they won&amp;rsquo;t change the identity of our microservice in any way, nor will they represent an antipattern of microservice architectures.&lt;/p&gt;
 &lt;p&gt;&amp;hellip; Right?&lt;/p&gt;
-</content:encoded>
+</description>
     </item>
     
     <item>
@@ -147,18 +138,7 @@ The way we decided to start is by migrating one single component into a microser
       <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
       
       <guid>https://larribas.me/posts/paving-the-way-for-distributed-asynchronous-tasks/</guid>
-      
-      <category>distributed-systems</category>
-      
-      <category>high-availability</category>
-      
-      <category>backend</category>
-      
-      <category>web-services</category>
-      
-      <description>Source: http://sarahrussellpottery.com/galleries/clocks/  In a previous article, we discussed the dispatching system we use at Glovo to find the best courier to deliver each order.
-To recap, we have a service named Jarvis. Every few seconds, Jarvis retrieves the current state of the city and makes a series of decisions based on mathematical models and optimisation algorithms. We can think of it as N tasks running periodically, where N is the number of cities.</description>
-      <content:encoded>
+      <description>
 
 &lt;figure&gt;
     
@@ -247,7 +227,7 @@ To recap, we have a service named Jarvis. Every few seconds, Jarvis retrieves th
 &lt;hr&gt;
 &lt;p&gt;&lt;em&gt;I’d like to thank Andre Lopes for his review and his constant search for new edge cases and guarantees :P&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;In the next article, we’ll get a bit more practical and discuss the implementation of an optimistic locking mechanism using MySQL 5.6 and Java. Stay tuned!&lt;/p&gt;
-</content:encoded>
+</description>
     </item>
     
     <item>
@@ -256,18 +236,7 @@ To recap, we have a service named Jarvis. Every few seconds, Jarvis retrieves th
       <pubDate>Thu, 03 Oct 2019 00:00:00 +0000</pubDate>
       
       <guid>https://larribas.me/posts/meaningful-web-service-health-checks/</guid>
-      
-      <category>dev-ops</category>
-      
-      <category>backend</category>
-      
-      <category>web-services</category>
-      
-      <category>continuous-deployment</category>
-      
-      <description>About 10 years ago, I deployed my first web service. It was a nice, silly PHP application to store game cheat sheets. Interestingly, what made me really proud about it was the fact that I was able to release new versions with a single command, with a weird mix of git hooks and rsync-powered bash scripts.
-When I think about the massive transformation that our field has undergone in the last few years in terms of continuous delivery and service orchestration, I always come back to that memory, and I can&amp;rsquo;t help laughing a bit.</description>
-      <content:encoded>&lt;p&gt;About 10 years ago, I deployed my first web service. It was a nice, silly PHP application to store game cheat sheets. Interestingly, what made me &lt;em&gt;really&lt;/em&gt; proud about it was the fact that I was able to release new versions with a single command, with a weird mix of git hooks and rsync-powered bash scripts.&lt;/p&gt;
+      <description>&lt;p&gt;About 10 years ago, I deployed my first web service. It was a nice, silly PHP application to store game cheat sheets. Interestingly, what made me &lt;em&gt;really&lt;/em&gt; proud about it was the fact that I was able to release new versions with a single command, with a weird mix of git hooks and rsync-powered bash scripts.&lt;/p&gt;
 &lt;p&gt;When I think about the massive transformation that our field has undergone in the last few years in terms of continuous delivery and service orchestration, I always come back to that memory, and I can&amp;rsquo;t help laughing a bit.&lt;/p&gt;
 &lt;p&gt;Cloud platforms such as &lt;em&gt;AWS&lt;/em&gt;, &lt;em&gt;Heroku&lt;/em&gt;, &lt;em&gt;Azure&lt;/em&gt; or &lt;em&gt;Kubernetes&lt;/em&gt; have enabled us to use deployment strategies, such as canary releases, staged rollouts, or blue-green deployments, regardless of whether we&amp;rsquo;re deploying a side project or a critical enterprise service.&lt;/p&gt;
 &lt;p&gt;All of these strategies have but one goal: to &lt;strong&gt;minimise client-facing downtime&lt;/strong&gt;. Which brings me to an important (yet somehow easily forgotten) topic: Health checks.&lt;/p&gt;
@@ -397,7 +366,7 @@ When I think about the massive transformation that our field has undergone in th
 &lt;p&gt;Orchestration platforms allow us to control the availability and reliability of our services, and reduce the risk of deploying a bad version of our code.&lt;/p&gt;
 &lt;p&gt;These deployment strategies rely heavily on our ability to report the health of our instances in an accurate and timely way.&lt;/p&gt;
 &lt;p&gt;Our services have a rich business logic, and the health checks we write should reflect that wealth of use cases and follow some best practices to ensure we make the most out of them.&lt;/p&gt;
-</content:encoded>
+</description>
     </item>
     
     <item>
@@ -406,19 +375,7 @@ When I think about the massive transformation that our field has undergone in th
       <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
       
       <guid>https://larribas.me/posts/migrating-glovos-dispatching-service-from-a-single-machine-to-a-distributed-system/</guid>
-      
-      <category>distributed-systems</category>
-      
-      <category>web-services</category>
-      
-      <category>high-availability</category>
-      
-      <category>backend</category>
-      
-      <description>At Glovo, we have one vision: Connecting our customers to their cities. We do that by facilitating access to different services (like restaurants, supermarkets, and other stores) through a single mobile application and a fleet of independent couriers.
- Anything you want. Delivered in minutes.
- Of course, that is easier said than done. Behind the scenes, there are hundreds of factors that affect the experience of our customers and couriers.</description>
-      <content:encoded>&lt;p&gt;At Glovo, we have one vision: Connecting our customers to their cities. We do that by facilitating access to different services (like restaurants, supermarkets, and other stores) through a single mobile application and a fleet of independent couriers.&lt;/p&gt;
+      <description>&lt;p&gt;At Glovo, we have one vision: Connecting our customers to their cities. We do that by facilitating access to different services (like restaurants, supermarkets, and other stores) through a single mobile application and a fleet of independent couriers.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Anything you want. Delivered in minutes.&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -488,7 +445,7 @@ When I think about the massive transformation that our field has undergone in th
 &lt;h2 id=&#34;whiteboard-session-no2-andbeyond&#34;&gt;Whiteboard session No.2: (And beyond…)&lt;/h2&gt;
 &lt;p&gt;We don&amp;rsquo;t want to make this post overly long and, to tell the truth, we would be really glad to hear from you and how you would approach this problem! So let&amp;rsquo;s leave it here for now.&lt;/p&gt;
 &lt;p&gt;In the next article, we&amp;rsquo;ll follow up with our approach, with a couple of surprising plot twists that made us redefine our solution.&lt;/p&gt;
-</content:encoded>
+</description>
     </item>
     
     <item>
@@ -497,24 +454,7 @@ When I think about the massive transformation that our field has undergone in th
       <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/</guid>
-      
-      <category>architecture</category>
-      
-      <category>design-patterns</category>
-      
-      <category>event-sourcing</category>
-      
-      <category>cqrs</category>
-      
-      <category>microservices</category>
-      
-      <category>web-services</category>
-      
-      <description>About 3 years ago, our startup pivoted from a Q&amp;amp;A app for doctors to an education platform (which we named SchoolHouse.io). It was a big product shift, and we knew many technical changes would follow.
-At the time, we had a 1-year-old Python+Django codebase that was already getting rusty and hard to maintain. How did we cross the legacy line so fast?
-(sigh)
-We were clearly doing something wrong, and we wanted to understand what, so we made a list of our main pain points:</description>
-      <content:encoded>&lt;p&gt;About 3 years ago, our startup pivoted from a Q&amp;amp;A app for doctors to an education platform (which we named &lt;a href=&#34;https://schoolhouse.io/en/&#34;&gt;SchoolHouse.io&lt;/a&gt;). It was a big product shift, and we knew many technical changes would follow.&lt;/p&gt;
+      <description>&lt;p&gt;About 3 years ago, our startup pivoted from a Q&amp;amp;A app for doctors to an education platform (which we named &lt;a href=&#34;https://schoolhouse.io/en/&#34;&gt;SchoolHouse.io&lt;/a&gt;). It was a big product shift, and we knew many technical changes would follow.&lt;/p&gt;
 &lt;p&gt;At the time, we had a 1-year-old Python+Django codebase that was &lt;em&gt;already&lt;/em&gt; getting rusty and hard to maintain. How did we cross the legacy line so fast?&lt;/p&gt;
 &lt;p&gt;(sigh)&lt;/p&gt;
 &lt;p&gt;We were clearly doing something wrong, and we wanted to understand &lt;em&gt;what&lt;/em&gt;, so we made a list of our &lt;strong&gt;main pain points&lt;/strong&gt;:&lt;/p&gt;
@@ -786,7 +726,7 @@ article_tagged(...)
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;/section&gt;
-</content:encoded>
+</description>
     </item>
     
     <item>
@@ -795,19 +735,7 @@ article_tagged(...)
       <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
       
       <guid>https://larribas.me/posts/5-ways-to-make-your-codebase-withstand-the-test-of-time/</guid>
-      
-      <category>web-dev</category>
-      
-      <category>architecture</category>
-      
-      <category>design-patterns</category>
-      
-      <category>legacy</category>
-      
-      <description>This is the first in a series of articles where @hecrj and I share what we have learned after working on a large, fast-changing codebase for the past 3 years, and being perfectly happy with the result!
- If you are a web developer, you are probably used to having new frameworks, libraries and technologies come out every other week.
- We are on a never-ending quest to find better tools and patterns, but does that mean our code is doomed to become old and wrinkly?</description>
-      <content:encoded>&lt;p&gt;&lt;em&gt;This is the first in a series of articles where @hecrj and I share what we have learned after working on a large, fast-changing codebase for the past 3 years, and being perfectly happy with the result!&lt;/em&gt;&lt;/p&gt;
+      <description>&lt;p&gt;&lt;em&gt;This is the first in a series of articles where @hecrj and I share what we have learned after working on a large, fast-changing codebase for the past 3 years, and being perfectly happy with the result!&lt;/em&gt;&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;If you are a web developer, you are probably used to having new frameworks, libraries and technologies come out every other week.&lt;/p&gt;
 &lt;blockquote&gt;
@@ -971,7 +899,7 @@ user_signed_in(...) 25 minutes ago
 &lt;/blockquote&gt;
 &lt;hr&gt;
 &lt;p&gt;In the next article we’ll explain how we put all these pieces together to create our own architecture.&lt;/p&gt;
-</content:encoded>
+</description>
     </item>
     
   </channel>

@@ -17,8 +17,96 @@
       <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
       
       <guid>https://larribas.me/posts/paving-the-way-for-distributed-asynchronous-tasks/</guid>
-      <description>Source: http://sarahrussellpottery.com/galleries/clocks/  In a previous article, we discussed the dispatching system we use at Glovo to find the best courier to deliver each order.
-To recap, we have a service named Jarvis. Every few seconds, Jarvis retrieves the current state of the city and makes a series of decisions based on mathematical models and optimisation algorithms. We can think of it as N tasks running periodically, where N is the number of cities.</description>
+      <description>
+
+&lt;figure&gt;
+    
+
+    
+
+    &lt;img
+        src=&#34;https://larribas.me/posts/paving-the-way-for-distributed-asynchronous-tasks/images/clock.jpeg&#34;
+        alt=&#34;Clock with a road in the background&#34;
+        
+    &gt;
+
+    
+
+    &lt;figcaption&gt;Source: &lt;!-- raw HTML omitted --&gt;&lt;a href=&#34;http://sarahrussellpottery.com/galleries/clocks/&#34;&gt;http://sarahrussellpottery.com/galleries/clocks/&lt;/a&gt;&lt;!-- raw HTML omitted --&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+
+&lt;p&gt;In a &lt;a href=&#34;https://larribas.me/posts/migrating-glovos-dispatching-service-from-a-single-machine-to-a-distributed-system/&#34;&gt;previous article&lt;/a&gt;, we discussed the dispatching system we use at Glovo to find the best courier to deliver each order.&lt;/p&gt;
+&lt;p&gt;To recap, we have a service named Jarvis. Every few seconds, Jarvis retrieves the current state of the city and makes a series of decisions based on mathematical models and optimisation algorithms. We can think of it as &lt;strong&gt;&lt;em&gt;N&lt;/em&gt; tasks running periodically, where &lt;em&gt;N&lt;/em&gt; is the number of cities&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Up until a few months ago, Jarvis ran on a single machine. Our goal with this project was to make it run in a distributed cluster and reach high availability.&lt;/p&gt;
+&lt;p&gt;In this article, we’ll talk about our journey: the different solutions we considered and how we decided to implement it.&lt;/p&gt;
+&lt;h1 id=&#34;making-your-wish-list&#34;&gt;Making your wish list&lt;/h1&gt;
+&lt;p&gt;One of the main challenges of designing a distributed system is guaranteeing that it will behave correctly under the uncertainty introduced by network latencies and partitions, instance failures and so on.&lt;/p&gt;
+&lt;p&gt;In distributed systems, there are two properties that are hard to guarantee at the same time:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Liveness&lt;/strong&gt;, or the promise that the system will eventually work as expected.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Safety&lt;/strong&gt;, or the promise that the system will not produce the wrong behavior.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a href=&#34;https://pt.coursera.org/lecture/cloud-computing/1-4-safety-and-liveness-sFeOE&#34;&gt;This video&lt;/a&gt; provides a good explanation for both.&lt;/p&gt;
+&lt;p&gt;In our case, we &lt;em&gt;needed&lt;/em&gt; safety. If two workers published conflicting decisions about the same city, it would be extremely difficult to understand the consequences of these decisions and fix them after the fact.&lt;/p&gt;
+&lt;p&gt;At the same time, liveness was important. If a worker suffered, say, a hardware failure, we wanted another worker to eventually pick up the task, with no human intervention.&lt;/p&gt;
+&lt;p&gt;So we decided to evaluate different solutions in terms of these properties. On top of that, we added other nice-to-haves, like simplicity, ease to onboard people, or ease to mitigate and debug if something goes very wrong.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Lesson one: Before you start evaluating different potential implementations, make sure you have a good framework to compare them.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;queues-and-workers&#34;&gt;Queues and Workers&lt;/h1&gt;
+&lt;p&gt;A very common pattern is to have a series of workers subscribed to a queue. Every time there is a task to run, a worker would pick it up and start processing it.&lt;/p&gt;
+&lt;p&gt;This is a very common architecture, and there are many technologies that would make the implementation somewhat trivial, such as &lt;a href=&#34;https://aws.amazon.com/sqs/&#34;&gt;AWS SQS&lt;/a&gt;, &lt;a href=&#34;https://www.rabbitmq.com/&#34;&gt;RabbitMQ&lt;/a&gt;, &lt;a href=&#34;https://kafka.apache.org/&#34;&gt;Kafka&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;That said, since we are dealing with a periodic task, we would still need to have some kind of process that schedules new jobs, tries not to overflow the queue, and is aware of domain events like a city being created or disabled. On top of this, the workers would still need to ensure they don’t make conflicting decisions for the same city at the same time, either by being idempotent, or having some kind of locking mechanism.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Lesson two: If a solution for a complex problem looks too easy, be suspicious. Is it that great, or is it hiding the complexity under the rug?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;em&gt;Note: If you ever go with a queue system to distribute a task, keep in mind that &lt;a href=&#34;https://bravenewgeek.com/you-cannot-have-exactly-once-delivery/&#34;&gt;queues cannot guarantee each message is delivered exactly once&lt;/a&gt;. Your options are either at-most-once delivery (if you’re okay with missing some executions), and at-least-once delivery, which would require your task to be idempotent.&lt;/em&gt;&lt;/p&gt;
+&lt;h1 id=&#34;do-developers-dream-of-idempotent-tasks&#34;&gt;Do developers dream of idempotent tasks?&lt;/h1&gt;
+&lt;p&gt;Generally speaking, when you want to distribute a task (or a message subscriber), your ideal scenario is making the behavior idempotent which means that it doesn’t really matter whether it runs once or ten times: the outcome will be the same. Then, issues like race conditions become irrelevant and distributing the tasks is somewhat trivial.&lt;/p&gt;
+&lt;p&gt;For a while, we were toying with the idea, but pretty soon we realised it would have required a radical redesign of our service.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Lesson three: When the ideal solution is not practical, it’s not a solution.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;trusting-the-scheduler&#34;&gt;Trusting the scheduler&lt;/h1&gt;
+&lt;p&gt;Another popular option is to rely on a task scheduling system to ensure tasks are run periodically and with specific constraints. This is the job of technologies like &lt;a href=&#34;https://sidekiq.org/&#34;&gt;Sidekiq&lt;/a&gt; in the Ruby community, or &lt;a href=&#34;http://www.quartz-scheduler.org/&#34;&gt;Quartz&lt;/a&gt; in Java’s.&lt;/p&gt;
+&lt;p&gt;These tools were designed to solve a lot of the problems we had but, in order to ensure high availability, we would need to deploy and maintain a cluster of schedulers that worked in consensus. Otherwise, they would become a single point of failure for our own system.&lt;/p&gt;
+&lt;p&gt;Our dispatching system was complex enough as it was, and the simpler the solution we managed to find, the easier it would be to maintain it in the future.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Lesson four: Some problems are complex, but so is maintaining 3rd-party services. Think about which of the two would minimise the error surface of your application.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;shared-resources-and-locks&#34;&gt;Shared resources and locks&lt;/h1&gt;
+&lt;p&gt;Once we discarded the idea of having an external system telling our workers what to do and when to do it, we started thinking about alternative ways to coordinate them.&lt;/p&gt;
+&lt;p&gt;The conclusion we came to was that we needed a central resource (say, a database table) that contained locks for all existing cities. When a worker found a lock that was free, it would grab it and execute the task.&lt;/p&gt;
+&lt;p&gt;From the very beginning, our team was divided between &lt;a href=&#34;https://en.wikipedia.org/wiki/Record_locking&#34;&gt;pessimistic&lt;/a&gt; and &lt;a href=&#34;https://en.wikipedia.org/wiki/Optimistic_concurrency_control&#34;&gt;optimistic locking&lt;/a&gt;. The first technique involves creating a lock that, while held by a worker, blocks any other worker from acquiring the same resource. This would be safe and avoid situations like two couriers being assigned to the same order (scary stuff!).&lt;/p&gt;
+&lt;p&gt;That said, the other half of our team was even more scared of the following situation:&lt;/p&gt;
+
+
+&lt;figure&gt;
+    
+
+    
+
+    &lt;img
+        src=&#34;https://larribas.me/posts/paving-the-way-for-distributed-asynchronous-tasks/images/fencing.png&#34;
+        alt=&#34;Without any fencing strategy, if a worker took longer than its timeout to complete, it would not be able to commit.&#34;
+        
+    &gt;
+
+    
+
+    &lt;figcaption&gt;Without any fencing strategy, if a worker took longer than its timeout to complete, it would not be able to commit.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+
+&lt;p&gt;What would happen if a machine hung up or died? Sure, we could have a reasonable timeout for the lock and have another worker pick up the task after a while, but even that wouldn’t protect us completely from livelocks.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;After some interesting &lt;!-- raw HTML omitted --&gt;bribes&lt;!-- raw HTML omitted --&gt; debates, we decided to see the glass half full and go with an optimistic locking strategy, where two tasks may run at the same time, but ultimately only one will be able to modify the database, via a &lt;a href=&#34;https://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html&#34;&gt;fencing strategy&lt;/a&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;I’d like to thank Andre Lopes for his review and his constant search for new edge cases and guarantees :P&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;In the next article, we’ll get a bit more practical and discuss the implementation of an optimistic locking mechanism using MySQL 5.6 and Java. Stay tuned!&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -27,9 +115,77 @@ To recap, we have a service named Jarvis. Every few seconds, Jarvis retrieves th
       <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
       
       <guid>https://larribas.me/posts/migrating-glovos-dispatching-service-from-a-single-machine-to-a-distributed-system/</guid>
-      <description>At Glovo, we have one vision: Connecting our customers to their cities. We do that by facilitating access to different services (like restaurants, supermarkets, and other stores) through a single mobile application and a fleet of independent couriers.
- Anything you want. Delivered in minutes.
- Of course, that is easier said than done. Behind the scenes, there are hundreds of factors that affect the experience of our customers and couriers.</description>
+      <description>&lt;p&gt;At Glovo, we have one vision: Connecting our customers to their cities. We do that by facilitating access to different services (like restaurants, supermarkets, and other stores) through a single mobile application and a fleet of independent couriers.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Anything you want. Delivered in minutes.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Of course, that is easier said than done. Behind the scenes, there are hundreds of factors that affect the experience of our customers and couriers.&lt;/p&gt;
+&lt;p&gt;One of the key factors in this equation is &lt;strong&gt;who is the perfect courier to deliver an order&lt;/strong&gt;. This is very important for us because finding the best match means our customers will receive their orders faster, our couriers will deliver more orders every hour (and earn more money), and our partners will be able to receive more orders.&lt;/p&gt;
+&lt;p&gt;Answering that question is the main job of our dispatching team. And more specifically: the job of &lt;em&gt;Jarvis&lt;/em&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;meet-jarvis-our-dispatching-service&#34;&gt;Meet Jarvis, our Dispatching Service&lt;/h2&gt;
+
+
+&lt;figure&gt;
+    
+
+    
+
+    &lt;img
+        src=&#34;https://larribas.me/posts/migrating-glovos-dispatching-service-from-a-single-machine-to-a-distributed-system/images/mainframe.jpeg&#34;
+        alt=&#34;Busy people around an old mainframe computer&#34;
+        
+    &gt;
+
+    
+
+    &lt;figcaption&gt;This is how I feel our team works when we&amp;rsquo;re having a live issue with Jarvis. &lt;!-- raw HTML omitted --&gt;Source&lt;!-- raw HTML omitted --&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+
+&lt;p&gt;Jarvis is Glovo&amp;rsquo;s dispatching service. Its goal is to make cities as efficient as possible. I&amp;rsquo;d say Jarvis stands out from other services in three different ways:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Its domain is very mathematical&lt;/strong&gt;. We are running an optimisation problem based on estimations we get from machine learning models (e.g. how much time will it take the courier to reach a point? When will the partner have the order ready?).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Its behavior is different in every city&lt;/strong&gt;. Each city has its own geography, its own demographic distribution, its own traffic… and, most importantly, its own personality. We need to account for those differences; adjusting thresholds, activating different heuristics, and so on.&lt;/li&gt;
+&lt;li&gt;During peak hours, our highest-volume cities will have tens of thousands of couriers in different areas and states. At the same time, we will have hundreds of new orders coming in every minute. We need to be able to evaluate every possible combination of orders and couriers, and choose the best match in real-time, so &lt;strong&gt;high performance is critical&lt;/strong&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;from-pets-tocattle&#34;&gt;From pets to cattle&lt;/h2&gt;
+&lt;p&gt;A few months ago, we had a big problem: Jarvis was one of the most critical pieces in our system. However, it was also one of the most fragile.&lt;/p&gt;
+&lt;p&gt;This is how everything worked back then:&lt;/p&gt;
+
+
+&lt;figure&gt;
+    
+
+    
+
+    &lt;img
+        src=&#34;https://larribas.me/posts/migrating-glovos-dispatching-service-from-a-single-machine-to-a-distributed-system/images/diagram.png&#34;
+        alt=&#34;Diagram of our dispatching system running on a single instance, and how releases and rollbacks affected its availability&#34;
+        
+    &gt;
+
+    
+
+    &lt;figcaption&gt;Jarvis ran on one single instance. This instance used the actor concurrency model to make decisions for different cities concurrently. Whenever there was a release (and a rollback), we would have a few minutes of downtime, delaying order delivery.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+
+&lt;p&gt;We used the actor model to run hundreds of concurrent actors. Each actor would control a particular city. Our main problem was that two actors could not be in charge of the same city, as they could potentially make conflicting decisions. This meant we could not distribute the service: we needed to rely on a single physical machine.&lt;/p&gt;
+&lt;p&gt;As a result, every time we deployed a new version we would have a few minutes of downtime, increasing our delivery time (one of our most important KPIs). If the version was faulty and we needed to roll back, we would have twice as much downtime.&lt;/p&gt;
+&lt;p&gt;Last quarter, we decided to change this and transition from a we-have-a-single-machine-please-cross-your-fingers architecture to a highly available, distributed architecture.&lt;/p&gt;
+&lt;p&gt;The task was at the same time daunting and very interesting. We had to make some fundamental changes to our system, but it was absolutely essential to make them gradually, without disrupting the service at all. To put it another way: we needed to change the plane&amp;rsquo;s engine in the middle of the flight.&lt;/p&gt;
+&lt;h2 id=&#34;whiteboard-session-no1-requirements&#34;&gt;Whiteboard session No.1: Requirements&lt;/h2&gt;
+&lt;p&gt;The first thing we did was gather the whole team and come up with a list of requirements. Roughly speaking:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The service should be distributed. At any time, there should be multiple machines in different availability zones or regions, competing to run the assignment problem for a city.&lt;/li&gt;
+&lt;li&gt;It is vital that we ensure the service&amp;rsquo;s liveness: if a machine dies while making decisions for a particular city, it should not prevent other machines from picking up that city in the future.&lt;/li&gt;
+&lt;li&gt;The decisions we make must not cause conflicts (e.g. we don&amp;rsquo;t want to assign two orders to a courier at the same time). Therefore, two tasks for the same city may not run concurrently or, if they do, both should not publish the decisions.&lt;/li&gt;
+&lt;li&gt;We should strive for simplicity. Jarvis is a critical piece of our system. The more technical complexity we add, and the more services we depend upon, the higher the chance of service unavailability.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;whiteboard-session-no2-andbeyond&#34;&gt;Whiteboard session No.2: (And beyond…)&lt;/h2&gt;
+&lt;p&gt;We don&amp;rsquo;t want to make this post overly long and, to tell the truth, we would be really glad to hear from you and how you would approach this problem! So let&amp;rsquo;s leave it here for now.&lt;/p&gt;
+&lt;p&gt;In the next article, we&amp;rsquo;ll follow up with our approach, with a couple of surprising plot twists that made us redefine our solution.&lt;/p&gt;
+</description>
     </item>
     
   </channel>

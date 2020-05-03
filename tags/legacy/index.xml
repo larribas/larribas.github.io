@@ -17,9 +17,171 @@
       <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
       
       <guid>https://larribas.me/posts/5-ways-to-make-your-codebase-withstand-the-test-of-time/</guid>
-      <description>This is the first in a series of articles where @hecrj and I share what we have learned after working on a large, fast-changing codebase for the past 3 years, and being perfectly happy with the result!
- If you are a web developer, you are probably used to having new frameworks, libraries and technologies come out every other week.
- We are on a never-ending quest to find better tools and patterns, but does that mean our code is doomed to become old and wrinkly?</description>
+      <description>&lt;p&gt;&lt;em&gt;This is the first in a series of articles where @hecrj and I share what we have learned after working on a large, fast-changing codebase for the past 3 years, and being perfectly happy with the result!&lt;/em&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;If you are a web developer, you are probably used to having new frameworks, libraries and technologies come out every other week.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;We are on a never-ending quest to find better tools and patterns, but does that mean our code is doomed to become old and wrinkly?&lt;/p&gt;
+&lt;/blockquote&gt;
+
+
+&lt;figure&gt;
+    
+
+    
+
+    &lt;img
+        src=&#34;https://larribas.me/posts/5-ways-to-make-your-codebase-withstand-the-test-of-time/images/legacy-meme.jpg&#34;
+        alt=&#34;Your decisions will always impact many other people&#34;
+        
+    &gt;
+
+    
+
+    
+&lt;/figure&gt;
+
+
+&lt;p&gt;How do you anchor your project so that it resists the &lt;em&gt;Winds of Trend&lt;/em&gt;? Here are 5 tips that have worked out pretty well for us.&lt;/p&gt;
+&lt;h2 id=&#34;1-split-your-code-based-on-domain-concepts-not-tech-concepts&#34;&gt;1. Split your code based on domain concepts, not tech concepts&lt;/h2&gt;
+&lt;p&gt;One of the first questions you may have when starting a new project is how should you structure it. There are two popular schools of thought here: Either we split our files by tech concepts, or by domain concepts.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-md&#34; data-lang=&#34;md&#34;&gt;# Split by tech concepts        # Split by domain concepts
+
+|- src                          |- auth
+|  |- controllers               |  |- controllers
+|  |  |- auth                   |  |- models
+|  |  |- profile                |  |- views
+|  |  |- article                |  |- tests
+|  |- models                    |- profile
+|  |- views                     |- article
+|- test                         (...)
+|  |- controllers
+|  |  |- auth
+(...)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;If you’ve read the header you might have an idea of what we’ll recommend, but let’s back that up with a few thoughts.&lt;/p&gt;
+&lt;p&gt;Say you arrive at the root of a project with a specific goal (hunting down a bug, adding a feature, removing it, etc.). You need to find the appropriate code, navigate through related files, take a look at the tests, and when you feel confident enough, make those changes to the codebase.&lt;/p&gt;
+&lt;p&gt;As developers, this process is our bread and butter, so we better make it efficient.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;What is easier to maintain, a codebase with 10 files or one with 100 files?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Splitting code by domain concepts allows you to focus on a small part of your codebase, whereas doing it by tech concept forces you to jump around.&lt;/p&gt;
+&lt;h2 id=&#34;2-provide-a-public-contract-api-for-all-your-domain-concepts&#34;&gt;2. Provide a public contract (API) for all your domain concepts&lt;/h2&gt;
+&lt;p&gt;Imagine your project has a &lt;code&gt;payments&lt;/code&gt; directory where you keep all 💰-related code. We have a series of components to store our payments in a database or connect to 3rd-party services like &lt;em&gt;Stripe&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;All &lt;strong&gt;those components are there to fulfill a contract&lt;/strong&gt;, that is, to make sure &lt;code&gt;payments&lt;/code&gt; behave they way they should.&lt;/p&gt;
+&lt;p&gt;Just to be clear, we are &lt;em&gt;not&lt;/em&gt; talking about the HTTP API your mobile app will call to charge users. We are talking about an internal API that turns your payments directory into its own &amp;ldquo;microservice&amp;rdquo; (using the term freely).&lt;/p&gt;
+&lt;p&gt;Why, you ask?&lt;/p&gt;
+&lt;p&gt;Because having an explicit API provides:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A clear picture of the expected behavior.&lt;/li&gt;
+&lt;li&gt;A minimum test coverage everyone can agree upon and commit to.&lt;/li&gt;
+&lt;li&gt;The freedom to change anything from the underlying implementation.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Furthermore, &lt;strong&gt;it is important for this API to know as little as possible of external concepts such as users, permissions or environments&lt;/strong&gt;. These are not part of the domain. They are the way we solve a problem with the communication layer (a public HTTP endpoint is inherently insecure) or our development workflow.&lt;/p&gt;
+&lt;p&gt;For instance, we can imagine having:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A public-facing API that exposes &lt;em&gt;some&lt;/em&gt; of the domain behavior and controls authentication and authorization.&lt;/li&gt;
+&lt;li&gt;A private admin API + panel to provide easy customer support and look into bugs without ever touching any database or console.&lt;/li&gt;
+&lt;li&gt;A really easy way to write fixtures, examples and migrations.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;3-rely-on-small-interfaces&#34;&gt;3. Rely on small interfaces&lt;/h2&gt;
+&lt;p&gt;This one is pretty popular. As developers, we are constantly reminded to rely on abstractions instead of concrete implementations, &lt;a href=&#34;https://en.wikipedia.org/wiki/Interface_segregation_principle&#34;&gt;segregate our interfaces&lt;/a&gt; and &lt;a href=&#34;https://en.wikipedia.org/wiki/Dependency_inversion_principle&#34;&gt;invert our dependencies&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;You can easily find plenty of material covering the theory, so let’s focus on some practical examples. Our &lt;code&gt;Payments&lt;/code&gt; app might need to talk to these interfaces:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;An event publisher&lt;/li&gt;
+&lt;li&gt;An event subscriber&lt;/li&gt;
+&lt;li&gt;A credit card charger&lt;/li&gt;
+&lt;li&gt;An email sender&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;All these interfaces have a small and clearly defined role. Later on, we will inject the particular implementations:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;production &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Payments&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;new(
+  &lt;span style=&#34;color:#e6db74&#34;&gt;event_publisher&lt;/span&gt;: rabbitmq,
+  &lt;span style=&#34;color:#e6db74&#34;&gt;event_subscriber&lt;/span&gt;: rabbitmq_replicas,
+  &lt;span style=&#34;color:#e6db74&#34;&gt;credit_card_charger&lt;/span&gt;: stripe,
+  &lt;span style=&#34;color:#e6db74&#34;&gt;email_sender&lt;/span&gt;: mailgun,
+)
+
+development &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Payments&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;new(
+  &lt;span style=&#34;color:#e6db74&#34;&gt;event_publisher&lt;/span&gt;: in_memory_bus,
+  &lt;span style=&#34;color:#e6db74&#34;&gt;event_subscriber&lt;/span&gt;: in_memory_bus,
+  &lt;span style=&#34;color:#e6db74&#34;&gt;credit_card_charger&lt;/span&gt;: stripe_test_mode,
+  &lt;span style=&#34;color:#e6db74&#34;&gt;email_sender&lt;/span&gt;: muted_mailer,
+)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;As you can see, small interfaces allow us to create well-defined tests and choose the best strategy for each action depending on the environment. On the other hand, we usually write implementations based on particular technologies, to centralize all the knowledge and helper functions around them.&lt;/p&gt;
+&lt;h2 id=&#34;4-decouple-your-data-from-your-storage-strategy&#34;&gt;4. Decouple your data from your storage strategy&lt;/h2&gt;
+&lt;p&gt;Let’s get it out of the way: We think ORMs are wrong (or maybe it’s people who are doing them wrong). Take a look at this &lt;em&gt;Ruby on Rails&lt;/em&gt; code:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Article&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;ActiveRecord&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;::&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Base&lt;/span&gt;
+  belongs_to &lt;span style=&#34;color:#e6db74&#34;&gt;:user&lt;/span&gt;
+  has_many &lt;span style=&#34;color:#e6db74&#34;&gt;:comments&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;dependent&lt;/span&gt;: &lt;span style=&#34;color:#e6db74&#34;&gt;:destroy&lt;/span&gt;
+
+  scope &lt;span style=&#34;color:#e6db74&#34;&gt;:authored_by&lt;/span&gt;, &lt;span style=&#34;color:#f92672&#34;&gt;-&amp;gt;&lt;/span&gt;(username) { where(&lt;span style=&#34;color:#e6db74&#34;&gt;user&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;User&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;where(&lt;span style=&#34;color:#e6db74&#34;&gt;username&lt;/span&gt;: username)) }
+
+  validates &lt;span style=&#34;color:#e6db74&#34;&gt;:title&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;presence&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;allow_blank&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;
+  validates &lt;span style=&#34;color:#e6db74&#34;&gt;:body&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;presence&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;, &lt;span style=&#34;color:#e6db74&#34;&gt;allow_blank&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;
+
+  before_validation &lt;span style=&#34;color:#66d9ef&#34;&gt;do&lt;/span&gt;
+    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;slug &lt;span style=&#34;color:#f92672&#34;&gt;||=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;#{&lt;/span&gt;title&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;to_s&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;parameterize&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;#{&lt;/span&gt;rand(&lt;span style=&#34;color:#ae81ff&#34;&gt;36&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;**&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt;)&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;to_s(&lt;span style=&#34;color:#ae81ff&#34;&gt;36&lt;/span&gt;)&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;There’s a lot to unpack here.&lt;/p&gt;
+&lt;p&gt;First, we notice this object is describing relationships, cascade deletion and nullable attributes. Exactly what you would expect from an Object-Relational Mapper. Quite transparent!&lt;/p&gt;
+&lt;p&gt;Next, let’s consider for a moment. What is important for us when representing an Article?:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;We should be able to harness the full power of the language we are using&lt;/strong&gt;. When we are using Java, we want to be able to use OO patterns and inheritance freely. When we are using Haskell, we want to use union types and records.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;We should be able to store our data in different formats and databases&lt;/strong&gt;. This allows us to use ElasticSearch for performant searches, PostgreSQL for a consistent state and Redis to keep our autosave feature fast enough.
+ORM models offer neither, because they are just a way to interface with a SQL database. We still need to represent and manipulate our data somewhere else. The problem is, once you accept this statement, using an ORM seems awkward or overkill. This is what we mean:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-ruby&#34; data-lang=&#34;ruby&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# Let&amp;#39;s say we have a series of entities in our domain that we use to represent an article.&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Article&lt;/span&gt;; &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# The big picture&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Tag&lt;/span&gt;; &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;RichText&lt;/span&gt;; &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# Headings, bold, cross-references, …&lt;/span&gt;
+
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# Now we need an interface to store the article&amp;#39;s content in our SQL database.&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ArticleStore&lt;/span&gt;
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;store&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;title&lt;/span&gt;:, &lt;span style=&#34;color:#e6db74&#34;&gt;body&lt;/span&gt;:, &lt;span style=&#34;color:#e6db74&#34;&gt;tags&lt;/span&gt;:, &lt;span style=&#34;color:#e6db74&#34;&gt;author&lt;/span&gt;:)
+    &lt;span style=&#34;color:#75715e&#34;&gt;# Ruby doesn&amp;#39;t have explicit interfaces, but you get the point&lt;/span&gt;
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;raise&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;NotImplementedError&lt;/span&gt;
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# Using an ORM creates an additional level of indirection that looks pointless&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ArticleORMStore&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;ArticleStore&lt;/span&gt;
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;store&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;title&lt;/span&gt;:, &lt;span style=&#34;color:#e6db74&#34;&gt;body&lt;/span&gt;:, &lt;span style=&#34;color:#e6db74&#34;&gt;tags&lt;/span&gt;:, &lt;span style=&#34;color:#e6db74&#34;&gt;author&lt;/span&gt;:)
+    &lt;span style=&#34;color:#66d9ef&#34;&gt;ArticleModel&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;create(&lt;span style=&#34;color:#e6db74&#34;&gt;title&lt;/span&gt;: title, &lt;span style=&#34;color:#e6db74&#34;&gt;body&lt;/span&gt;: body, &lt;span style=&#34;color:#e6db74&#34;&gt;tags&lt;/span&gt;: tags, &lt;span style=&#34;color:#e6db74&#34;&gt;author&lt;/span&gt;: &lt;span style=&#34;color:#66d9ef&#34;&gt;UserModel&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;get(author&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;id))
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+
+
+&lt;span style=&#34;color:#75715e&#34;&gt;# A low-level SQL library feels simpler in comparison.&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ArticleSimpleStore&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;ArticleStore&lt;/span&gt;
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;store&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;title&lt;/span&gt;:, &lt;span style=&#34;color:#e6db74&#34;&gt;body&lt;/span&gt;:, &lt;span style=&#34;color:#e6db74&#34;&gt;tags&lt;/span&gt;:, &lt;span style=&#34;color:#e6db74&#34;&gt;author&lt;/span&gt;:)
+    article_table&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;insert(&lt;span style=&#34;color:#e6db74&#34;&gt;title&lt;/span&gt;: title, &lt;span style=&#34;color:#e6db74&#34;&gt;body&lt;/span&gt;: body, &lt;span style=&#34;color:#e6db74&#34;&gt;tags&lt;/span&gt;: tags, &lt;span style=&#34;color:#e6db74&#34;&gt;author&lt;/span&gt;: author&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;id)
+  &lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;span style=&#34;color:#66d9ef&#34;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The bottom line here is: &lt;strong&gt;You can use ORMs, but don’t use them as the only way to represent and manipulate your data&lt;/strong&gt;. That’s far from their purpose.&lt;/p&gt;
+&lt;h2 id=&#34;5-use-events-to-keep-your-application-connected-and-your-code-decoupled&#34;&gt;5. Use events to keep your application connected and your code decoupled&lt;/h2&gt;
+&lt;p&gt;If two parts of an application are connected, the code must connected somehow, right?&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://martinfowler.com/articles/201701-event-driven.html&#34;&gt;Event-driven&lt;/a&gt; programming does a wonderful job at keeping your app interconnected, but your code easy to write and maintain. In fact it does such a good job that similar ideas have become pervasive in mobile and frontend development under the name of &lt;a href=&#34;https://medium.com/exploring-code/what-is-reactive-programming-da37c1611382&#34;&gt;Reactive Programming&lt;/a&gt;, and in the operations world, with &lt;a href=&#34;https://thenewstack.io/event-driven-architecture-wave-future/&#34;&gt;cloud providers and companies betting hard on it&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The basic idea is that every change to your domain is represented as an atomic event.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-md&#34; data-lang=&#34;md&#34;&gt;article_published(...) 1 minute ago
+article_draft_created(...) 5 minutes ago
+user_signed_in(...) 25 minutes ago
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;All events are published through some kind of event bus, and random observers can subscribe and react to interesting events without bothering the other components too much.&lt;/p&gt;
+&lt;p&gt;It takes a bit of an extra effort at first, as you need to lay the foundation for the event bus and think about the properties and atomicity of each event, but in the long run it’s definitely worth it.&lt;/p&gt;
+&lt;p&gt;Here are some examples of features that are very easy to implement with event-driven architectures, and hard to think about and maintain otherwise:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Listen for comments on an article and increase a counter (purpose: faster comment counts).&lt;/li&gt;
+&lt;li&gt;Send a welcome email to a new user.&lt;/li&gt;
+&lt;li&gt;Notify the author of an article that it has new comments.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Try to imagine how you would do each of these tasks in an imperative way vs. a reactive way.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Event-driven programming avoids long functions with many different side effects, and makes your tests nicer and more isolated.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;p&gt;In the next article we’ll explain how we put all these pieces together to create our own architecture.&lt;/p&gt;
+</description>
     </item>
     
   </channel>

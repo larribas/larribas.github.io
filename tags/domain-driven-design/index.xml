@@ -17,8 +17,119 @@
       <pubDate>Sat, 22 Feb 2020 00:00:00 +0000</pubDate>
       
       <guid>https://larribas.me/posts/the-identity-of-a-microservice/</guid>
-      <description>Little boxes on the hillside&amp;hellip;  My current company is undergoing a transition to microservices. This is a new challenge for the company since, until this point, all our processes and tooling revolve around a monolith, shaped by all the decisions we made in the past (the good ones and the bad ones).
-The way we decided to start is by migrating one single component into a microservice, and laying down a “golden path” for other services to follow.</description>
+      <description>
+
+&lt;figure&gt;
+    
+
+    
+
+    &lt;img
+        src=&#34;https://larribas.me/posts/the-identity-of-a-microservice/images/little_boxes_on_the_hillside.jpeg&#34;
+        alt=&#34;Aerial photo of a suburban area&#34;
+        
+    &gt;
+
+    
+
+    &lt;figcaption&gt;Little boxes on the hillside&amp;hellip;&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+
+&lt;p&gt;My current company is undergoing a transition to microservices. This is a new challenge for the company since, until this point, all our processes and tooling revolve around a monolith, shaped by all the decisions we made in the past (the good ones and the bad ones).&lt;/p&gt;
+&lt;p&gt;The way we decided to start is by migrating one single component into a microservice, and laying down a “golden path” for other services to follow. This is helping us streamline the process, and kicking off some really interesting discussions about the topic.&lt;/p&gt;
+&lt;p&gt;Today was the last big debate. 15 people in a room, all with different backgrounds, debating whether it made sense for us to deploy a service to 2 clusters of machines (one serving the HTTP API and the other listening to different event streams and materializing information to the database), or to a single cluster of machines with those 2 responsibilities.&lt;/p&gt;
+&lt;p&gt;The outcome of the debate was pragmatic and the right fit for our current needs, but I was surprised to discover that we could not agree on one of the most basic aspects: &lt;strong&gt;When does a microservice stop being a microservice?&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;I was going home and I couldn’t shake the thought out of my head, so I decided to write this (highly opinionated) article. Hopefully it will resonate with some people, and some comments will challenge my current assumptions.&lt;/p&gt;
+&lt;h1 id=&#34;setting-some-boundaries&#34;&gt;Setting some boundaries&lt;/h1&gt;
+&lt;p&gt;One of the first concepts we learn when doing microservices is the concept of bounded contexts, or boundaries between two different parts of our business. Setting the right boundaries is really hard, because all the parts of a business are interconnected one way or the other. But let’s say we’ve found a reasonable approximation to a bounded context, and we have a service P which handles payments.&lt;/p&gt;
+&lt;p&gt;Service P (as you can imagine) is quite popular in the company. And it has a lot of other components that want to talk to it, so it needs to define a way for them to speak. That’s the interface, or the API of the service.&lt;/p&gt;
+&lt;h1 id=&#34;a-foreword-on-interfaces-and-sharing-the-database&#34;&gt;A foreword on interfaces and sharing the database&lt;/h1&gt;
+&lt;p&gt;Now, us, the people who work on Web Services, tend to associate the term interface with a classical Java interface, and the term API with a REST HTTP API, but for this article’s sake I would like to emphasize that an interface can be ANYTHING!&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;It can be an series of HTTP endpoints.&lt;/li&gt;
+&lt;li&gt;A queue where you send job parameters encoded in JSON.&lt;/li&gt;
+&lt;li&gt;A series of CSV files in an S3 bucket.&lt;/li&gt;
+&lt;li&gt;A SQL database.&lt;/li&gt;
+&lt;li&gt;Your colleague Mike, owner of &lt;em&gt;the script&lt;/em&gt; you need to run when a customer calls you with &lt;em&gt;that&lt;/em&gt; problem.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;If you work on backend/frontend, chances are you’re used to options 1–2, and options 3–4 sound deranged. If you work on data, you’re probably doing 3–4 quite often. And if you’ve been in the industry for a while, you’ve probably experienced the pain of option 5.&lt;/p&gt;
+&lt;p&gt;But the point is, they are all interfaces, and they all make sense given the right context. &lt;strong&gt;The important part is to find a contract the client can use, and the server can guarantee.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;So I think when we hear one of those strong statements about microservices, we should put it into context.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Myth: “2 microservices must not share the same database”&lt;/p&gt;
+&lt;p&gt;Reality: “2 microservices must not share the same database to store internal state”&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;the-logical-and-physical-interfaces-of-a-microservice&#34;&gt;The logical and physical interfaces of a microservice&lt;/h1&gt;
+&lt;p&gt;I usually look at a service’s interface from two angles.&lt;/p&gt;
+&lt;p&gt;On the one hand, we have the “logical” interface. This is comprised by the way the inputs and outputs are structured, or the way we name and organize different endpoints, commands or tables.&lt;/p&gt;
+
+
+&lt;figure&gt;
+    
+
+    
+
+    &lt;img
+        src=&#34;https://larribas.me/posts/the-identity-of-a-microservice/images/logical_interface.png&#34;
+        alt=&#34;A service’s interface may be composed of different parts. In this example, the service exposes an HTTP API and emits events with a specific schema.&#34;
+        
+    &gt;
+
+    
+
+    &lt;figcaption&gt;A service’s interface may be composed of different parts. In this example, the service exposes an HTTP API and emits events with a specific schema.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+
+&lt;p&gt;On the other hand, we have the “physical” interface. This has to do with the way the interface is exposed. How do we address the HTTP API or the Database? Is it exposed publicly or through a private network/vpn?&lt;/p&gt;
+
+
+&lt;figure&gt;
+    
+
+    
+
+    &lt;img
+        src=&#34;https://larribas.me/posts/the-identity-of-a-microservice/images/physical_interface.png&#34;
+        alt=&#34;The physical interface for the example above might expose the HTTP API on a public domain, emit events to a specific Kafka topic and store events inside of an S3 bucket for easier access later on.&#34;
+        
+    &gt;
+
+    
+
+    &lt;figcaption&gt;The physical interface for the example above might expose the HTTP API on a public domain, emit events to a specific Kafka topic and store events inside of an S3 bucket for easier access later on.&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+
+&lt;p&gt;What I’ve come to realize today is that the intersection between the logical and the physical, and between the interface and the implementation details, is a grey area that causes a lot of confusion. So I’m going to ask you some philosophical questions, and as a thought exercise, you can jot down what your first intuition is.&lt;/p&gt;
+&lt;h1 id=&#34;does-a-microservice-stop-being-a-microservice-because-we-refactor-the-internal-code&#34;&gt;Does a microservice stop being a microservice because we refactor the internal code?&lt;/h1&gt;
+&lt;p&gt;If we carried out an internal refactor of our code, preserving the current interface, would we call it a different microservice?&lt;/p&gt;
+&lt;p&gt;If we modularized certain parts of the service, would it become something else?&lt;/p&gt;
+&lt;h1 id=&#34;does-a-microservice-stop-being-a-microservice-because-we-change-how-we-deploy-it&#34;&gt;Does a microservice stop being a microservice because we change how we deploy it?&lt;/h1&gt;
+&lt;p&gt;If we deployed a service to multiple regions, or &lt;a href=&#34;https://en.wikipedia.org/wiki/Multicloud&#34;&gt;multiple clouds&lt;/a&gt;, would they become different services?&lt;/p&gt;
+&lt;p&gt;If we deployed a service to 2 independent clusters (one handling iOS clients and the other Android clients, for isolation purposes), would that make them different? What if this required implementing custom logic for the load balancer?&lt;/p&gt;
+&lt;p&gt;If we deployed the same codebase in 2 different flavors (one handling HTTP requests and the other consuming events), would that mean we’re not doing microservices?&lt;/p&gt;
+&lt;p&gt;If our deployment was composed of 6 serverless functions, 2 HTTP servers and 1 database, all deployed and updated independently, but sharing the same codebase, would you identify them as two separate microservices?&lt;/p&gt;
+&lt;h1 id=&#34;got-your-answers&#34;&gt;Got your answers?&lt;/h1&gt;
+&lt;p&gt;If your intuition was to answer “no” to the questions in the first section, and “yes” to some of the questions in the second section, I have to tell you I disagree with you. But let me ask for two favors:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Hear me out.&lt;/li&gt;
+&lt;li&gt;Share your thoughts and counter-arguments in the comment section. I’d really like to know!&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1 id=&#34;my-current-point-ofview&#34;&gt;My (Current) Point of View&lt;/h1&gt;
+&lt;p&gt;For me, a microservice is identified exclusively by the interface it exposes.&lt;/p&gt;
+&lt;p&gt;How the different code files, modules and variables are laid out internally does not change its identity, and I feel that&amp;rsquo;s easy to agree on.&lt;/p&gt;
+&lt;p&gt;But I would argue that the same reasoning should be applied to the physical implementation details. At any point, we may:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Deploy the service to multiple regions or clouds.&lt;/li&gt;
+&lt;li&gt;Split the deployment in each region between 3 clusters, to bulkhead different workloads.&lt;/li&gt;
+&lt;li&gt;Deploy version 2 as a canary release, to only 10% of our users.&lt;/li&gt;
+&lt;li&gt;Rewrite 2 event listeners as serverless functions.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;These decisions will make the solution more reliable. They will also make it much more complex to maintain. But they won&amp;rsquo;t change the identity of our microservice in any way, nor will they represent an antipattern of microservice architectures.&lt;/p&gt;
+&lt;p&gt;&amp;hellip; Right?&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -27,9 +138,32 @@ The way we decided to start is by migrating one single component into a microser
       <pubDate>Wed, 10 Oct 2018 00:00:00 +0000</pubDate>
       
       <guid>https://larribas.me/projects/colmena/</guid>
-      <description>Around 2015, @hecrj and I were having serious trouble maintaining a Django codebase we had started just one year ago!
-We knew we were doing something wrong, and we had serious doubts about MVC as a healthy, long-term architecture for complex applications.
-After doing some research and debating a few ideas, we decided to ditch frameworks and experiment with our own system, drawing inspiration from many other patterns we liked, such as the Hexagonal Architecture, Event Sourcing, CQRS, Domain-Driven Design.</description>
+      <description>&lt;p&gt;Around 2015, &lt;a href=&#34;https://github.com/hecrj&#34;&gt;@hecrj&lt;/a&gt; and I were having serious trouble maintaining a &lt;a href=&#34;https://www.djangoproject.com/&#34;&gt;Django&lt;/a&gt; codebase we had started &lt;em&gt;just one year ago!&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;We knew we were doing something wrong, and we had serious doubts about MVC as a healthy, long-term architecture for complex applications.&lt;/p&gt;
+&lt;p&gt;After doing some research and debating a few ideas, we decided to ditch frameworks and experiment with our own system, drawing inspiration from many other patterns we liked, such as the Hexagonal Architecture, Event Sourcing, CQRS, Domain-Driven Design.&lt;/p&gt;
+&lt;p&gt;What came out of this process was an architecture we called &lt;em&gt;Colmena&lt;/em&gt; (Beehive in Spanish), because it was composed of many small cells that used the hexagonal architecture.&lt;/p&gt;
+&lt;p&gt;We&amp;rsquo;ve written a few articles introducing this architecture and the ideas it champions. You can find them in &lt;a href=&#34;https://larribas.me/posts/&#34;&gt;my blog&lt;/a&gt; and &lt;a href=&#34;https://dev.to/hecrj&#34;&gt;hecrj&amp;rsquo;s&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;We&amp;rsquo;ve also published a &lt;a href=&#34;https://github.com/schoolhouse-io/colmena-realworld-example-app&#34;&gt;RealWorld API example&lt;/a&gt; in Ruby to showcase these ideas in a real context.&lt;/p&gt;
+
+
+&lt;figure&gt;
+    
+
+    
+
+    &lt;img
+        src=&#34;https://larribas.me/projects/colmena/images/beehive.jpg&#34;
+        alt=&#34;Beehive&#34;
+        
+    &gt;
+
+    
+
+    
+&lt;/figure&gt;
+
+
+</description>
     </item>
     
   </channel>

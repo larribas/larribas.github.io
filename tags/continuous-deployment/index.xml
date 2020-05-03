@@ -17,8 +17,137 @@
       <pubDate>Thu, 03 Oct 2019 00:00:00 +0000</pubDate>
       
       <guid>https://larribas.me/posts/meaningful-web-service-health-checks/</guid>
-      <description>About 10 years ago, I deployed my first web service. It was a nice, silly PHP application to store game cheat sheets. Interestingly, what made me really proud about it was the fact that I was able to release new versions with a single command, with a weird mix of git hooks and rsync-powered bash scripts.
-When I think about the massive transformation that our field has undergone in the last few years in terms of continuous delivery and service orchestration, I always come back to that memory, and I can&amp;rsquo;t help laughing a bit.</description>
+      <description>&lt;p&gt;About 10 years ago, I deployed my first web service. It was a nice, silly PHP application to store game cheat sheets. Interestingly, what made me &lt;em&gt;really&lt;/em&gt; proud about it was the fact that I was able to release new versions with a single command, with a weird mix of git hooks and rsync-powered bash scripts.&lt;/p&gt;
+&lt;p&gt;When I think about the massive transformation that our field has undergone in the last few years in terms of continuous delivery and service orchestration, I always come back to that memory, and I can&amp;rsquo;t help laughing a bit.&lt;/p&gt;
+&lt;p&gt;Cloud platforms such as &lt;em&gt;AWS&lt;/em&gt;, &lt;em&gt;Heroku&lt;/em&gt;, &lt;em&gt;Azure&lt;/em&gt; or &lt;em&gt;Kubernetes&lt;/em&gt; have enabled us to use deployment strategies, such as canary releases, staged rollouts, or blue-green deployments, regardless of whether we&amp;rsquo;re deploying a side project or a critical enterprise service.&lt;/p&gt;
+&lt;p&gt;All of these strategies have but one goal: to &lt;strong&gt;minimise client-facing downtime&lt;/strong&gt;. Which brings me to an important (yet somehow easily forgotten) topic: Health checks.&lt;/p&gt;
+
+
+&lt;figure&gt;
+    
+
+    
+
+    &lt;img
+        src=&#34;https://larribas.me/posts/meaningful-web-service-health-checks/images/ok_xray_scan.jpeg&#34;
+        alt=&#34;X-ray scan of a hand saying &amp;#39;ok&amp;#39;&#34;
+        
+    &gt;
+
+    
+
+    
+&lt;/figure&gt;
+
+
+&lt;p&gt;A health check is a way for a service to report whether it&amp;rsquo;s running properly or not. Web services usually expose this via a &lt;code&gt;/health&lt;/code&gt; HTTP endpoint. Then orchestration components, such as load balancers or service discovery systems, poll that endpoint to monitor the health of a fleet of services and make some key decisions, such as:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Is a new version of the service ready to receive requests?&lt;/li&gt;
+&lt;li&gt;Should we roll back a deployment?&lt;/li&gt;
+&lt;li&gt;Should we restart an instance?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;anemic-healthchecks&#34;&gt;Anemic health checks&lt;/h1&gt;
+&lt;p&gt;In my short experience (I&amp;rsquo;ve been in the industry for about 6 years), I&amp;rsquo;ve seen a bunch of health checks for different services and I&amp;rsquo;ve realised that most of them are pretty basic. They attempt to establish a connection to their downstream dependencies (select something from the database, ping Redis…) and report that they&amp;rsquo;re okay as soon as they:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Can process a request to the &lt;code&gt;/health&lt;/code&gt; endpoint (that must mean our application is fully loaded);&lt;/li&gt;
+&lt;li&gt;Can connect to their dependencies.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;After that, we&amp;rsquo;re basically good to go.&lt;/p&gt;
+&lt;p&gt;So when I needed to write my own health check for a new service, I copied that pattern.&lt;/p&gt;
+&lt;p&gt;And then we had an outage. We had deployed a new version with a bug and my engineering manager asked me a very basic question: &lt;strong&gt;Is our health check giving us enough information to prevent this?&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;That made me reflect and realise that our health checks were anemic. We speak of &lt;a href=&#34;https://en.wikipedia.org/wiki/Anemic_domain_model&#34;&gt;anemic domain models&lt;/a&gt; when a domain is so silly that it doesn&amp;rsquo;t contain any business logic. It&amp;rsquo;s just there, being dull and irrelevant. And so were our health checks.&lt;/p&gt;
+&lt;h1 id=&#34;10-rules-for-meaningful-health-checks&#34;&gt;10 rules for meaningful health checks&lt;/h1&gt;
+&lt;p&gt;I immediately turned to Google, Stack Overflow &amp;amp; co. looking for best practices for health checks. I couldn’t find any! No philosophical discussions on health checks, no epic rants about how we’re doing everything wrong…&lt;/p&gt;
+&lt;p&gt;Maybe I had lost my googling mojo or maybe nobody cared about health checks, but I do! And if you do too, here’s a good list of things to keep in mind when you’re implementing a health check for your service.&lt;/p&gt;
+&lt;h2 id=&#34;rule-1-take-your-business-use-cases-into-account&#34;&gt;Rule #1. Take your business use cases into account&lt;/h2&gt;
+&lt;p&gt;Being healthy can mean different things in different contexts. For typical web services exposing an HTTP API, it might be enough to consider the ratio of internal server errors. For other services, such as tasks that need to run periodically or subscribers that need to consume events, a healthy state might mean something completely different.&lt;/p&gt;
+&lt;p&gt;When asked the question: &lt;em&gt;when am I operating healthily?&lt;/em&gt;, think twice about the use cases your service is supposed to fulfil.&lt;/p&gt;
+&lt;h2 id=&#34;rule-2-check-your-downstream-dependencies&#34;&gt;Rule #2. Check your downstream dependencies&lt;/h2&gt;
+&lt;p&gt;A health check shouldn’t just rely on its downstream dependencies, but they’re definitely an important part of the equation.&lt;/p&gt;
+&lt;p&gt;Typically, you’ll want to answer these questions:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Can I grab a connection from my connection pool?&lt;/li&gt;
+&lt;li&gt;Can I request something simple from the database?&lt;/li&gt;
+&lt;li&gt;Does the request finish within an acceptable time?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;rule-3-return-machine-readable-data&#34;&gt;Rule #3. Return machine-readable data&lt;/h2&gt;
+&lt;p&gt;Health checks will be mainly used by machines for a wide range of scenarios (visualisation, decision-making, load balancing, alerting…).&lt;/p&gt;
+&lt;p&gt;Your health checks should return data in a machine-readable format (there’s a &lt;a href=&#34;https://inadarei.github.io/rfc-healthcheck/&#34;&gt;nice RFC proposing a standard&lt;/a&gt;) that looks the same for all the services of your company.&lt;/p&gt;
+&lt;p&gt;For bonus points, try to be transparent about the checks you perform, which ones failed and why. As your deployment and routing strategies get more sophisticated, this information will become invaluable.&lt;/p&gt;
+&lt;h2 id=&#34;rule-4-report-health-as-a-spectrum&#34;&gt;Rule #4. Report health as a spectrum&lt;/h2&gt;
+&lt;p&gt;People’s health is not binary. They are not either completely healthy or dead. Servers aren’t either.&lt;/p&gt;
+&lt;p&gt;There are several reasons why we might want to react to an unhealthy status. We might want to roll back a release, restart the service, reduce traffic, page our on-call engineer. This will highly depend on our ability to distinguish between different shades of grey.&lt;/p&gt;
+&lt;p&gt;Can you imagine getting back a medical report with no more information than OK or KO?&lt;/p&gt;
+
+
+&lt;figure&gt;
+    
+
+    
+
+    &lt;img
+        src=&#34;https://larribas.me/posts/meaningful-web-service-health-checks/images/blood_type_joke.png&#34;
+        alt=&#34;What&amp;#39;s your blood type? Red!&#34;
+        
+    &gt;
+
+    
+
+    
+&lt;/figure&gt;
+
+
+&lt;h2 id=&#34;rule-5-consider-different-checks-readiness-liveness&#34;&gt;Rule #5. Consider different checks (readiness, liveness…)&lt;/h2&gt;
+&lt;p&gt;Orchestration platforms like &lt;em&gt;Kubernetes&lt;/em&gt; make a distinction between a liveness check and a readiness check (although, in &lt;em&gt;Kubernetes&lt;/em&gt; jargon, they call them probes).&lt;/p&gt;
+&lt;p&gt;A &lt;strong&gt;readiness check&lt;/strong&gt; answers the question: &lt;em&gt;Can I start processing work?&lt;/em&gt; Plus, it might check things like:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Can I establish a connection to the database?&lt;/li&gt;
+&lt;li&gt;Are all important caches warmed up?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;A &lt;strong&gt;liveness check&lt;/strong&gt; answers the question: &lt;em&gt;Should I keep running?&lt;/em&gt; It might depend on things like:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Is my error rate acceptable?&lt;/li&gt;
+&lt;li&gt;Am I running out of memory? Might I have a slow memory leak?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;rule-6-dont-confuse-overall-health-with-individual-health&#34;&gt;Rule #6. Don’t confuse overall health with individual health&lt;/h2&gt;
+&lt;p&gt;A health check is concerned with the health of a particular instance of your server, so we don’t want to report health based on aggregated metrics like:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The overall error rate of your cluster;&lt;/li&gt;
+&lt;li&gt;The number of customer sign-ups.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In fact, the whole point is that you spot the bad apples from the good ones, and replace them without affecting your end customer at all.&lt;/p&gt;
+&lt;h2 id=&#34;rule-7-dont-expose-the-health-endpoint-publicly&#34;&gt;Rule #7. Don’t expose the health endpoint publicly&lt;/h2&gt;
+&lt;p&gt;Health endpoints are supposed to contain debug-level information. They leak very important details about their internal implementation, what your service uses and what it doesn’t use.&lt;/p&gt;
+&lt;p&gt;You can be transparent with the community and keep a &lt;a href=&#34;https://www.githubstatus.com/&#34;&gt;nice status page&lt;/a&gt;, but keep the endpoint itself safe behind closed doors.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Treat the privacy of your services as you would treat the privacy of your customers. They go hand in hand.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;rule-8-delegate-to-smaller-subcomponent-checks&#34;&gt;Rule #8. Delegate to smaller subcomponent checks&lt;/h2&gt;
+&lt;p&gt;Some services are fairly small. Some are big monoliths. In the first case, you might not be worried if your health endpoint is tightly coupled with some other parts of your system. If you’re checking the health of a big monolith, however, your concerns might be a bit different.&lt;/p&gt;
+&lt;p&gt;If it makes sense for you, consider providing a way for other components to implement their own health checks in a way that the main health endpoint can invoke them without being coupled to its internal representation.&lt;/p&gt;
+&lt;p&gt;Be careful, however, and think about the ripple effect that you want each component to have over your monolith. Should you report an unhealthy instance just because one component is in a failing state? Should you keep your report waiting if a component takes too long to process theirs?&lt;/p&gt;
+&lt;h2 id=&#34;rule-9-health-checks-should-be-efficient&#34;&gt;Rule #9. Health checks should be efficient&lt;/h2&gt;
+&lt;p&gt;If you have a high-volume service, an endpoint that gets queried a dozen times per minute might look like a drop in the ocean. However, keep in mind that the orchestration services calling your health endpoint also have timeouts and they might decide you’re unhealthy if you take too long to answer. For that reason, it pays to follow some simple patterns:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Perform every individual check in parallel and join the results.&lt;/li&gt;
+&lt;li&gt;Use timeouts to ensure the latency is within acceptable bounds.&lt;/li&gt;
+&lt;li&gt;Even better, perform the checks periodically in the background and keep a centralized, up-to-date status. That way, the health endpoint can return immediately and you will not be limited by its performance.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;rule-10-monitor-the-history-of-your-health-checks&#34;&gt;Rule #10. Monitor the history of your health checks&lt;/h2&gt;
+&lt;p&gt;Health checks make for very good time-series data.&lt;/p&gt;
+&lt;p&gt;Whenever you generate a health report, send metrics to your observability system. This will enable you to answer questions such as:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;How long does it take for my instances to become ready?&lt;/li&gt;
+&lt;li&gt;For how long has my system remained healthy?&lt;/li&gt;
+&lt;li&gt;How often do I have partially unhealthy states? What are the causes?&lt;/li&gt;
+&lt;li&gt;How many requests is my health check receiving?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Which in turn will allow you to prevent issues, identify the root cause of an outage, or optimise some key areas of your application.&lt;/p&gt;
+&lt;h1 id=&#34;in-summary&#34;&gt;In summary&lt;/h1&gt;
+&lt;p&gt;Orchestration platforms allow us to control the availability and reliability of our services, and reduce the risk of deploying a bad version of our code.&lt;/p&gt;
+&lt;p&gt;These deployment strategies rely heavily on our ability to report the health of our instances in an accurate and timely way.&lt;/p&gt;
+&lt;p&gt;Our services have a rich business logic, and the health checks we write should reflect that wealth of use cases and follow some best practices to ensure we make the most out of them.&lt;/p&gt;
+</description>
     </item>
     
   </channel>

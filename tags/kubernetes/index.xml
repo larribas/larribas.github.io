@@ -17,9 +17,50 @@
       <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
       
       <guid>https://larribas.me/projects/schoolhouse-io/</guid>
-      <description>I am one of the co-founders of SchoolHouse.io, an ed-tech startup that&amp;rsquo;s been on production since late 2016 and now helps hundreds of teachers provide a better experience to their students.
-On the technical side, we are a 2-person team (@hecrj and I) who take care of the full stack, from graphical design to deployment and infrastructure monitoring.
-Main challenges  Building interactive presentations in real time with WebSocket.</description>
+      <description>
+
+&lt;figure&gt;
+    
+
+    
+
+    &lt;img
+        src=&#34;https://larribas.me/projects/schoolhouse-io/images/landing-banner.png&#34;
+        alt=&#34;Banner for SchoolHouse.io&amp;#39;s landing page&#34;
+        
+    &gt;
+
+    
+
+    
+&lt;/figure&gt;
+
+
+&lt;p&gt;I am one of the co-founders of &lt;a href=&#34;https://schoolhouse.io&#34;&gt;SchoolHouse.io&lt;/a&gt;, an ed-tech startup that&amp;rsquo;s been on production since late 2016 and now helps hundreds of teachers provide a better experience to their students.&lt;/p&gt;
+&lt;p&gt;On the technical side, we are a 2-person team (&lt;a href=&#34;https://github.com/hecrj&#34;&gt;@hecrj&lt;/a&gt; and I) who take care of the full stack, from graphical design to deployment and infrastructure monitoring.&lt;/p&gt;
+&lt;h2 id=&#34;main-challenges&#34;&gt;Main challenges&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Building interactive presentations in real time with WebSocket.&lt;/li&gt;
+&lt;li&gt;Making the app a Progressive Web Application our users can install and use offline.&lt;/li&gt;
+&lt;li&gt;Automating the full development cycle, from commit to deployment, via Kubernetes.&lt;/li&gt;
+&lt;li&gt;Ensuring the application is free of runtime errors, self-healing and easy to maintain.&lt;/li&gt;
+&lt;li&gt;Optimizing the user acquisition and retention pipeline based on analytical data.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;stack&#34;&gt;Stack&lt;/h2&gt;
+&lt;p&gt;
+    &lt;a href=&#34;https://stackshare.io/schoolhouse-io/complete-stack&#34;&gt;See in Stackshare&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;a
+    frameborder=&#34;0&#34;
+    data-theme=&#34;dark&#34;
+    data-layers=&#34;1,2,3,4&#34;
+    data-stack-embed=&#34;true&#34;
+    href=&#34;https://embed.stackshare.io/stacks/embed/8ec5a39a9e997d800b44464b5f7e53&#34;/&gt;
+&lt;/a&gt;
+&lt;script async src=&#34;https://cdn1.stackshare.io/javascripts/client-code.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+
+</description>
     </item>
     
   </channel>

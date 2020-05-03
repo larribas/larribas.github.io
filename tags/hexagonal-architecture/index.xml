@@ -17,9 +17,32 @@
       <pubDate>Wed, 10 Oct 2018 00:00:00 +0000</pubDate>
       
       <guid>https://larribas.me/projects/colmena/</guid>
-      <description>Around 2015, @hecrj and I were having serious trouble maintaining a Django codebase we had started just one year ago!
-We knew we were doing something wrong, and we had serious doubts about MVC as a healthy, long-term architecture for complex applications.
-After doing some research and debating a few ideas, we decided to ditch frameworks and experiment with our own system, drawing inspiration from many other patterns we liked, such as the Hexagonal Architecture, Event Sourcing, CQRS, Domain-Driven Design.</description>
+      <description>&lt;p&gt;Around 2015, &lt;a href=&#34;https://github.com/hecrj&#34;&gt;@hecrj&lt;/a&gt; and I were having serious trouble maintaining a &lt;a href=&#34;https://www.djangoproject.com/&#34;&gt;Django&lt;/a&gt; codebase we had started &lt;em&gt;just one year ago!&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;We knew we were doing something wrong, and we had serious doubts about MVC as a healthy, long-term architecture for complex applications.&lt;/p&gt;
+&lt;p&gt;After doing some research and debating a few ideas, we decided to ditch frameworks and experiment with our own system, drawing inspiration from many other patterns we liked, such as the Hexagonal Architecture, Event Sourcing, CQRS, Domain-Driven Design.&lt;/p&gt;
+&lt;p&gt;What came out of this process was an architecture we called &lt;em&gt;Colmena&lt;/em&gt; (Beehive in Spanish), because it was composed of many small cells that used the hexagonal architecture.&lt;/p&gt;
+&lt;p&gt;We&amp;rsquo;ve written a few articles introducing this architecture and the ideas it champions. You can find them in &lt;a href=&#34;https://larribas.me/posts/&#34;&gt;my blog&lt;/a&gt; and &lt;a href=&#34;https://dev.to/hecrj&#34;&gt;hecrj&amp;rsquo;s&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;We&amp;rsquo;ve also published a &lt;a href=&#34;https://github.com/schoolhouse-io/colmena-realworld-example-app&#34;&gt;RealWorld API example&lt;/a&gt; in Ruby to showcase these ideas in a real context.&lt;/p&gt;
+
+
+&lt;figure&gt;
+    
+
+    
+
+    &lt;img
+        src=&#34;https://larribas.me/projects/colmena/images/beehive.jpg&#34;
+        alt=&#34;Beehive&#34;
+        
+    &gt;
+
+    
+
+    
+&lt;/figure&gt;
+
+
+</description>
     </item>
     
   </channel>
