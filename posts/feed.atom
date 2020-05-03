@@ -1,0 +1,973 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  
+  <id>https://larribas.me/posts/index.xml</id>
+  <link href="https://larribas.me/posts/index.xml" rel="self"/>
+  
+
+  <title>Blog Posts on Lorenzo Arribas</title>
+	<subtitle>Recent blog posts</subtitle>
+  <author>
+    
+
+    
+
+    <uri>https://larribas.me/posts/</uri>
+  </author>
+	<updated>Sat, 22 Feb 2020 00:00:00 +0000</updated>
+	
+  
+	<entry>
+    <id>https://larribas.me/posts/the-identity-of-a-microservice/</id>
+    <title>The identity of a Microservice</title>
+    <link href="https://larribas.me/posts/the-identity-of-a-microservice/" />
+		<updated>Sat, 22 Feb 2020 00:00:00 +0000</updated>
+    <summary>Do deployment strategies and infrastructure patterns affect what we define as a microservice?</summary>
+<content type="html"><![CDATA[
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/the-identity-of-a-microservice/images/little_boxes_on_the_hillside.jpeg"
+        alt="Aerial photo of a suburban area"
+        
+    >
+
+    
+
+    <figcaption>Little boxes on the hillside&hellip;</figcaption>
+</figure>
+
+
+<p>My current company is undergoing a transition to microservices. This is a new challenge for the company since, until this point, all our processes and tooling revolve around a monolith, shaped by all the decisions we made in the past (the good ones and the bad ones).</p>
+<p>The way we decided to start is by migrating one single component into a microservice, and laying down a “golden path” for other services to follow. This is helping us streamline the process, and kicking off some really interesting discussions about the topic.</p>
+<p>Today was the last big debate. 15 people in a room, all with different backgrounds, debating whether it made sense for us to deploy a service to 2 clusters of machines (one serving the HTTP API and the other listening to different event streams and materializing information to the database), or to a single cluster of machines with those 2 responsibilities.</p>
+<p>The outcome of the debate was pragmatic and the right fit for our current needs, but I was surprised to discover that we could not agree on one of the most basic aspects: <strong>When does a microservice stop being a microservice?</strong></p>
+<p>I was going home and I couldn’t shake the thought out of my head, so I decided to write this (highly opinionated) article. Hopefully it will resonate with some people, and some comments will challenge my current assumptions.</p>
+<h1 id="setting-some-boundaries">Setting some boundaries</h1>
+<p>One of the first concepts we learn when doing microservices is the concept of bounded contexts, or boundaries between two different parts of our business. Setting the right boundaries is really hard, because all the parts of a business are interconnected one way or the other. But let’s say we’ve found a reasonable approximation to a bounded context, and we have a service P which handles payments.</p>
+<p>Service P (as you can imagine) is quite popular in the company. And it has a lot of other components that want to talk to it, so it needs to define a way for them to speak. That’s the interface, or the API of the service.</p>
+<h1 id="a-foreword-on-interfaces-and-sharing-the-database">A foreword on interfaces and sharing the database</h1>
+<p>Now, us, the people who work on Web Services, tend to associate the term interface with a classical Java interface, and the term API with a REST HTTP API, but for this article’s sake I would like to emphasize that an interface can be ANYTHING!</p>
+<ol>
+<li>It can be an series of HTTP endpoints.</li>
+<li>A queue where you send job parameters encoded in JSON.</li>
+<li>A series of CSV files in an S3 bucket.</li>
+<li>A SQL database.</li>
+<li>Your colleague Mike, owner of <em>the script</em> you need to run when a customer calls you with <em>that</em> problem.</li>
+</ol>
+<p>If you work on backend/frontend, chances are you’re used to options 1–2, and options 3–4 sound deranged. If you work on data, you’re probably doing 3–4 quite often. And if you’ve been in the industry for a while, you’ve probably experienced the pain of option 5.</p>
+<p>But the point is, they are all interfaces, and they all make sense given the right context. <strong>The important part is to find a contract the client can use, and the server can guarantee.</strong></p>
+<p>So I think when we hear one of those strong statements about microservices, we should put it into context.</p>
+<blockquote>
+<p>Myth: “2 microservices must not share the same database”</p>
+<p>Reality: “2 microservices must not share the same database to store internal state”</p>
+</blockquote>
+<h1 id="the-logical-and-physical-interfaces-of-a-microservice">The logical and physical interfaces of a microservice</h1>
+<p>I usually look at a service’s interface from two angles.</p>
+<p>On the one hand, we have the “logical” interface. This is comprised by the way the inputs and outputs are structured, or the way we name and organize different endpoints, commands or tables.</p>
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/the-identity-of-a-microservice/images/logical_interface.png"
+        alt="A service’s interface may be composed of different parts. In this example, the service exposes an HTTP API and emits events with a specific schema."
+        
+    >
+
+    
+
+    <figcaption>A service’s interface may be composed of different parts. In this example, the service exposes an HTTP API and emits events with a specific schema.</figcaption>
+</figure>
+
+
+<p>On the other hand, we have the “physical” interface. This has to do with the way the interface is exposed. How do we address the HTTP API or the Database? Is it exposed publicly or through a private network/vpn?</p>
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/the-identity-of-a-microservice/images/physical_interface.png"
+        alt="The physical interface for the example above might expose the HTTP API on a public domain, emit events to a specific Kafka topic and store events inside of an S3 bucket for easier access later on."
+        
+    >
+
+    
+
+    <figcaption>The physical interface for the example above might expose the HTTP API on a public domain, emit events to a specific Kafka topic and store events inside of an S3 bucket for easier access later on.</figcaption>
+</figure>
+
+
+<p>What I’ve come to realize today is that the intersection between the logical and the physical, and between the interface and the implementation details, is a grey area that causes a lot of confusion. So I’m going to ask you some philosophical questions, and as a thought exercise, you can jot down what your first intuition is.</p>
+<h1 id="does-a-microservice-stop-being-a-microservice-because-we-refactor-the-internal-code">Does a microservice stop being a microservice because we refactor the internal code?</h1>
+<p>If we carried out an internal refactor of our code, preserving the current interface, would we call it a different microservice?</p>
+<p>If we modularized certain parts of the service, would it become something else?</p>
+<h1 id="does-a-microservice-stop-being-a-microservice-because-we-change-how-we-deploy-it">Does a microservice stop being a microservice because we change how we deploy it?</h1>
+<p>If we deployed a service to multiple regions, or <a href="https://en.wikipedia.org/wiki/Multicloud">multiple clouds</a>, would they become different services?</p>
+<p>If we deployed a service to 2 independent clusters (one handling iOS clients and the other Android clients, for isolation purposes), would that make them different? What if this required implementing custom logic for the load balancer?</p>
+<p>If we deployed the same codebase in 2 different flavors (one handling HTTP requests and the other consuming events), would that mean we’re not doing microservices?</p>
+<p>If our deployment was composed of 6 serverless functions, 2 HTTP servers and 1 database, all deployed and updated independently, but sharing the same codebase, would you identify them as two separate microservices?</p>
+<h1 id="got-your-answers">Got your answers?</h1>
+<p>If your intuition was to answer “no” to the questions in the first section, and “yes” to some of the questions in the second section, I have to tell you I disagree with you. But let me ask for two favors:</p>
+<ol>
+<li>Hear me out.</li>
+<li>Share your thoughts and counter-arguments in the comment section. I’d really like to know!</li>
+</ol>
+<h1 id="my-current-point-ofview">My (Current) Point of View</h1>
+<p>For me, a microservice is identified exclusively by the interface it exposes.</p>
+<p>How the different code files, modules and variables are laid out internally does not change its identity, and I feel that&rsquo;s easy to agree on.</p>
+<p>But I would argue that the same reasoning should be applied to the physical implementation details. At any point, we may:</p>
+<ul>
+<li>Deploy the service to multiple regions or clouds.</li>
+<li>Split the deployment in each region between 3 clusters, to bulkhead different workloads.</li>
+<li>Deploy version 2 as a canary release, to only 10% of our users.</li>
+<li>Rewrite 2 event listeners as serverless functions.</li>
+</ul>
+<p>These decisions will make the solution more reliable. They will also make it much more complex to maintain. But they won&rsquo;t change the identity of our microservice in any way, nor will they represent an antipattern of microservice architectures.</p>
+<p>&hellip; Right?</p>
+]]></content>
+
+    
+    <category term="microservices"/>
+    
+    <category term="web-services"/>
+    
+    <category term="domain-driven-design"/>
+    
+	</entry>
+  
+	<entry>
+    <id>https://larribas.me/posts/paving-the-way-for-distributed-asynchronous-tasks/</id>
+    <title>Paving the way for distributed asynchronous tasks</title>
+    <link href="https://larribas.me/posts/paving-the-way-for-distributed-asynchronous-tasks/" />
+		<updated>Fri, 25 Oct 2019 00:00:00 +0000</updated>
+    <summary>In this article, we discuss queues, schedulers, idempotency and optimistic/pessimistic locking, and how we designed our distributed system.</summary>
+<content type="html"><![CDATA[
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/paving-the-way-for-distributed-asynchronous-tasks/images/clock.jpeg"
+        alt="Clock with a road in the background"
+        
+    >
+
+    
+
+    <figcaption>Source: <!-- raw HTML omitted --><a href="http://sarahrussellpottery.com/galleries/clocks/">http://sarahrussellpottery.com/galleries/clocks/</a><!-- raw HTML omitted --></figcaption>
+</figure>
+
+
+<p>In a <a href="/posts/migrating-glovos-dispatching-service-from-a-single-machine-to-a-distributed-system/">previous article</a>, we discussed the dispatching system we use at Glovo to find the best courier to deliver each order.</p>
+<p>To recap, we have a service named Jarvis. Every few seconds, Jarvis retrieves the current state of the city and makes a series of decisions based on mathematical models and optimisation algorithms. We can think of it as <strong><em>N</em> tasks running periodically, where <em>N</em> is the number of cities</strong>.</p>
+<p>Up until a few months ago, Jarvis ran on a single machine. Our goal with this project was to make it run in a distributed cluster and reach high availability.</p>
+<p>In this article, we’ll talk about our journey: the different solutions we considered and how we decided to implement it.</p>
+<h1 id="making-your-wish-list">Making your wish list</h1>
+<p>One of the main challenges of designing a distributed system is guaranteeing that it will behave correctly under the uncertainty introduced by network latencies and partitions, instance failures and so on.</p>
+<p>In distributed systems, there are two properties that are hard to guarantee at the same time:</p>
+<ul>
+<li><strong>Liveness</strong>, or the promise that the system will eventually work as expected.</li>
+<li><strong>Safety</strong>, or the promise that the system will not produce the wrong behavior.</li>
+</ul>
+<p><a href="https://pt.coursera.org/lecture/cloud-computing/1-4-safety-and-liveness-sFeOE">This video</a> provides a good explanation for both.</p>
+<p>In our case, we <em>needed</em> safety. If two workers published conflicting decisions about the same city, it would be extremely difficult to understand the consequences of these decisions and fix them after the fact.</p>
+<p>At the same time, liveness was important. If a worker suffered, say, a hardware failure, we wanted another worker to eventually pick up the task, with no human intervention.</p>
+<p>So we decided to evaluate different solutions in terms of these properties. On top of that, we added other nice-to-haves, like simplicity, ease to onboard people, or ease to mitigate and debug if something goes very wrong.</p>
+<blockquote>
+<p>Lesson one: Before you start evaluating different potential implementations, make sure you have a good framework to compare them.</p>
+</blockquote>
+<h1 id="queues-and-workers">Queues and Workers</h1>
+<p>A very common pattern is to have a series of workers subscribed to a queue. Every time there is a task to run, a worker would pick it up and start processing it.</p>
+<p>This is a very common architecture, and there are many technologies that would make the implementation somewhat trivial, such as <a href="https://aws.amazon.com/sqs/">AWS SQS</a>, <a href="https://www.rabbitmq.com/">RabbitMQ</a>, <a href="https://kafka.apache.org/">Kafka</a>.</p>
+<p>That said, since we are dealing with a periodic task, we would still need to have some kind of process that schedules new jobs, tries not to overflow the queue, and is aware of domain events like a city being created or disabled. On top of this, the workers would still need to ensure they don’t make conflicting decisions for the same city at the same time, either by being idempotent, or having some kind of locking mechanism.</p>
+<blockquote>
+<p>Lesson two: If a solution for a complex problem looks too easy, be suspicious. Is it that great, or is it hiding the complexity under the rug?</p>
+</blockquote>
+<p><em>Note: If you ever go with a queue system to distribute a task, keep in mind that <a href="https://bravenewgeek.com/you-cannot-have-exactly-once-delivery/">queues cannot guarantee each message is delivered exactly once</a>. Your options are either at-most-once delivery (if you’re okay with missing some executions), and at-least-once delivery, which would require your task to be idempotent.</em></p>
+<h1 id="do-developers-dream-of-idempotent-tasks">Do developers dream of idempotent tasks?</h1>
+<p>Generally speaking, when you want to distribute a task (or a message subscriber), your ideal scenario is making the behavior idempotent which means that it doesn’t really matter whether it runs once or ten times: the outcome will be the same. Then, issues like race conditions become irrelevant and distributing the tasks is somewhat trivial.</p>
+<p>For a while, we were toying with the idea, but pretty soon we realised it would have required a radical redesign of our service.</p>
+<blockquote>
+<p>Lesson three: When the ideal solution is not practical, it’s not a solution.</p>
+</blockquote>
+<h1 id="trusting-the-scheduler">Trusting the scheduler</h1>
+<p>Another popular option is to rely on a task scheduling system to ensure tasks are run periodically and with specific constraints. This is the job of technologies like <a href="https://sidekiq.org/">Sidekiq</a> in the Ruby community, or <a href="http://www.quartz-scheduler.org/">Quartz</a> in Java’s.</p>
+<p>These tools were designed to solve a lot of the problems we had but, in order to ensure high availability, we would need to deploy and maintain a cluster of schedulers that worked in consensus. Otherwise, they would become a single point of failure for our own system.</p>
+<p>Our dispatching system was complex enough as it was, and the simpler the solution we managed to find, the easier it would be to maintain it in the future.</p>
+<blockquote>
+<p>Lesson four: Some problems are complex, but so is maintaining 3rd-party services. Think about which of the two would minimise the error surface of your application.</p>
+</blockquote>
+<h1 id="shared-resources-and-locks">Shared resources and locks</h1>
+<p>Once we discarded the idea of having an external system telling our workers what to do and when to do it, we started thinking about alternative ways to coordinate them.</p>
+<p>The conclusion we came to was that we needed a central resource (say, a database table) that contained locks for all existing cities. When a worker found a lock that was free, it would grab it and execute the task.</p>
+<p>From the very beginning, our team was divided between <a href="https://en.wikipedia.org/wiki/Record_locking">pessimistic</a> and <a href="https://en.wikipedia.org/wiki/Optimistic_concurrency_control">optimistic locking</a>. The first technique involves creating a lock that, while held by a worker, blocks any other worker from acquiring the same resource. This would be safe and avoid situations like two couriers being assigned to the same order (scary stuff!).</p>
+<p>That said, the other half of our team was even more scared of the following situation:</p>
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/paving-the-way-for-distributed-asynchronous-tasks/images/fencing.png"
+        alt="Without any fencing strategy, if a worker took longer than its timeout to complete, it would not be able to commit."
+        
+    >
+
+    
+
+    <figcaption>Without any fencing strategy, if a worker took longer than its timeout to complete, it would not be able to commit.</figcaption>
+</figure>
+
+
+<p>What would happen if a machine hung up or died? Sure, we could have a reasonable timeout for the lock and have another worker pick up the task after a while, but even that wouldn’t protect us completely from livelocks.</p>
+<blockquote>
+<p>After some interesting <!-- raw HTML omitted -->bribes<!-- raw HTML omitted --> debates, we decided to see the glass half full and go with an optimistic locking strategy, where two tasks may run at the same time, but ultimately only one will be able to modify the database, via a <a href="https://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html">fencing strategy</a>.</p>
+</blockquote>
+<hr>
+<p><em>I’d like to thank Andre Lopes for his review and his constant search for new edge cases and guarantees :P</em></p>
+<p>In the next article, we’ll get a bit more practical and discuss the implementation of an optimistic locking mechanism using MySQL 5.6 and Java. Stay tuned!</p>
+]]></content>
+
+    
+    <category term="distributed-systems"/>
+    
+    <category term="high-availability"/>
+    
+    <category term="backend"/>
+    
+    <category term="web-services"/>
+    
+	</entry>
+  
+	<entry>
+    <id>https://larribas.me/posts/meaningful-web-service-health-checks/</id>
+    <title>Meaningful web service /health checks</title>
+    <link href="https://larribas.me/posts/meaningful-web-service-health-checks/" />
+		<updated>Thu, 03 Oct 2019 00:00:00 +0000</updated>
+    <summary>Health checks are an important part of the lifecycle of our systems. Here are 10 best practices to make them richer and more useful.</summary>
+<content type="html"><![CDATA[<p>About 10 years ago, I deployed my first web service. It was a nice, silly PHP application to store game cheat sheets. Interestingly, what made me <em>really</em> proud about it was the fact that I was able to release new versions with a single command, with a weird mix of git hooks and rsync-powered bash scripts.</p>
+<p>When I think about the massive transformation that our field has undergone in the last few years in terms of continuous delivery and service orchestration, I always come back to that memory, and I can&rsquo;t help laughing a bit.</p>
+<p>Cloud platforms such as <em>AWS</em>, <em>Heroku</em>, <em>Azure</em> or <em>Kubernetes</em> have enabled us to use deployment strategies, such as canary releases, staged rollouts, or blue-green deployments, regardless of whether we&rsquo;re deploying a side project or a critical enterprise service.</p>
+<p>All of these strategies have but one goal: to <strong>minimise client-facing downtime</strong>. Which brings me to an important (yet somehow easily forgotten) topic: Health checks.</p>
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/meaningful-web-service-health-checks/images/ok_xray_scan.jpeg"
+        alt="X-ray scan of a hand saying &#39;ok&#39;"
+        
+    >
+
+    
+
+    
+</figure>
+
+
+<p>A health check is a way for a service to report whether it&rsquo;s running properly or not. Web services usually expose this via a <code>/health</code> HTTP endpoint. Then orchestration components, such as load balancers or service discovery systems, poll that endpoint to monitor the health of a fleet of services and make some key decisions, such as:</p>
+<ul>
+<li>Is a new version of the service ready to receive requests?</li>
+<li>Should we roll back a deployment?</li>
+<li>Should we restart an instance?</li>
+</ul>
+<h1 id="anemic-healthchecks">Anemic health checks</h1>
+<p>In my short experience (I&rsquo;ve been in the industry for about 6 years), I&rsquo;ve seen a bunch of health checks for different services and I&rsquo;ve realised that most of them are pretty basic. They attempt to establish a connection to their downstream dependencies (select something from the database, ping Redis…) and report that they&rsquo;re okay as soon as they:</p>
+<ul>
+<li>Can process a request to the <code>/health</code> endpoint (that must mean our application is fully loaded);</li>
+<li>Can connect to their dependencies.</li>
+</ul>
+<p>After that, we&rsquo;re basically good to go.</p>
+<p>So when I needed to write my own health check for a new service, I copied that pattern.</p>
+<p>And then we had an outage. We had deployed a new version with a bug and my engineering manager asked me a very basic question: <strong>Is our health check giving us enough information to prevent this?</strong></p>
+<p>That made me reflect and realise that our health checks were anemic. We speak of <a href="https://en.wikipedia.org/wiki/Anemic_domain_model">anemic domain models</a> when a domain is so silly that it doesn&rsquo;t contain any business logic. It&rsquo;s just there, being dull and irrelevant. And so were our health checks.</p>
+<h1 id="10-rules-for-meaningful-health-checks">10 rules for meaningful health checks</h1>
+<p>I immediately turned to Google, Stack Overflow &amp; co. looking for best practices for health checks. I couldn’t find any! No philosophical discussions on health checks, no epic rants about how we’re doing everything wrong…</p>
+<p>Maybe I had lost my googling mojo or maybe nobody cared about health checks, but I do! And if you do too, here’s a good list of things to keep in mind when you’re implementing a health check for your service.</p>
+<h2 id="rule-1-take-your-business-use-cases-into-account">Rule #1. Take your business use cases into account</h2>
+<p>Being healthy can mean different things in different contexts. For typical web services exposing an HTTP API, it might be enough to consider the ratio of internal server errors. For other services, such as tasks that need to run periodically or subscribers that need to consume events, a healthy state might mean something completely different.</p>
+<p>When asked the question: <em>when am I operating healthily?</em>, think twice about the use cases your service is supposed to fulfil.</p>
+<h2 id="rule-2-check-your-downstream-dependencies">Rule #2. Check your downstream dependencies</h2>
+<p>A health check shouldn’t just rely on its downstream dependencies, but they’re definitely an important part of the equation.</p>
+<p>Typically, you’ll want to answer these questions:</p>
+<ul>
+<li>Can I grab a connection from my connection pool?</li>
+<li>Can I request something simple from the database?</li>
+<li>Does the request finish within an acceptable time?</li>
+</ul>
+<h2 id="rule-3-return-machine-readable-data">Rule #3. Return machine-readable data</h2>
+<p>Health checks will be mainly used by machines for a wide range of scenarios (visualisation, decision-making, load balancing, alerting…).</p>
+<p>Your health checks should return data in a machine-readable format (there’s a <a href="https://inadarei.github.io/rfc-healthcheck/">nice RFC proposing a standard</a>) that looks the same for all the services of your company.</p>
+<p>For bonus points, try to be transparent about the checks you perform, which ones failed and why. As your deployment and routing strategies get more sophisticated, this information will become invaluable.</p>
+<h2 id="rule-4-report-health-as-a-spectrum">Rule #4. Report health as a spectrum</h2>
+<p>People’s health is not binary. They are not either completely healthy or dead. Servers aren’t either.</p>
+<p>There are several reasons why we might want to react to an unhealthy status. We might want to roll back a release, restart the service, reduce traffic, page our on-call engineer. This will highly depend on our ability to distinguish between different shades of grey.</p>
+<p>Can you imagine getting back a medical report with no more information than OK or KO?</p>
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/meaningful-web-service-health-checks/images/blood_type_joke.png"
+        alt="What&#39;s your blood type? Red!"
+        
+    >
+
+    
+
+    
+</figure>
+
+
+<h2 id="rule-5-consider-different-checks-readiness-liveness">Rule #5. Consider different checks (readiness, liveness…)</h2>
+<p>Orchestration platforms like <em>Kubernetes</em> make a distinction between a liveness check and a readiness check (although, in <em>Kubernetes</em> jargon, they call them probes).</p>
+<p>A <strong>readiness check</strong> answers the question: <em>Can I start processing work?</em> Plus, it might check things like:</p>
+<ul>
+<li>Can I establish a connection to the database?</li>
+<li>Are all important caches warmed up?</li>
+</ul>
+<p>A <strong>liveness check</strong> answers the question: <em>Should I keep running?</em> It might depend on things like:</p>
+<ul>
+<li>Is my error rate acceptable?</li>
+<li>Am I running out of memory? Might I have a slow memory leak?</li>
+</ul>
+<h2 id="rule-6-dont-confuse-overall-health-with-individual-health">Rule #6. Don’t confuse overall health with individual health</h2>
+<p>A health check is concerned with the health of a particular instance of your server, so we don’t want to report health based on aggregated metrics like:</p>
+<ul>
+<li>The overall error rate of your cluster;</li>
+<li>The number of customer sign-ups.</li>
+</ul>
+<p>In fact, the whole point is that you spot the bad apples from the good ones, and replace them without affecting your end customer at all.</p>
+<h2 id="rule-7-dont-expose-the-health-endpoint-publicly">Rule #7. Don’t expose the health endpoint publicly</h2>
+<p>Health endpoints are supposed to contain debug-level information. They leak very important details about their internal implementation, what your service uses and what it doesn’t use.</p>
+<p>You can be transparent with the community and keep a <a href="https://www.githubstatus.com/">nice status page</a>, but keep the endpoint itself safe behind closed doors.</p>
+<blockquote>
+<p>Treat the privacy of your services as you would treat the privacy of your customers. They go hand in hand.</p>
+</blockquote>
+<h2 id="rule-8-delegate-to-smaller-subcomponent-checks">Rule #8. Delegate to smaller subcomponent checks</h2>
+<p>Some services are fairly small. Some are big monoliths. In the first case, you might not be worried if your health endpoint is tightly coupled with some other parts of your system. If you’re checking the health of a big monolith, however, your concerns might be a bit different.</p>
+<p>If it makes sense for you, consider providing a way for other components to implement their own health checks in a way that the main health endpoint can invoke them without being coupled to its internal representation.</p>
+<p>Be careful, however, and think about the ripple effect that you want each component to have over your monolith. Should you report an unhealthy instance just because one component is in a failing state? Should you keep your report waiting if a component takes too long to process theirs?</p>
+<h2 id="rule-9-health-checks-should-be-efficient">Rule #9. Health checks should be efficient</h2>
+<p>If you have a high-volume service, an endpoint that gets queried a dozen times per minute might look like a drop in the ocean. However, keep in mind that the orchestration services calling your health endpoint also have timeouts and they might decide you’re unhealthy if you take too long to answer. For that reason, it pays to follow some simple patterns:</p>
+<ul>
+<li>Perform every individual check in parallel and join the results.</li>
+<li>Use timeouts to ensure the latency is within acceptable bounds.</li>
+<li>Even better, perform the checks periodically in the background and keep a centralized, up-to-date status. That way, the health endpoint can return immediately and you will not be limited by its performance.</li>
+</ul>
+<h2 id="rule-10-monitor-the-history-of-your-health-checks">Rule #10. Monitor the history of your health checks</h2>
+<p>Health checks make for very good time-series data.</p>
+<p>Whenever you generate a health report, send metrics to your observability system. This will enable you to answer questions such as:</p>
+<ul>
+<li>How long does it take for my instances to become ready?</li>
+<li>For how long has my system remained healthy?</li>
+<li>How often do I have partially unhealthy states? What are the causes?</li>
+<li>How many requests is my health check receiving?</li>
+</ul>
+<p>Which in turn will allow you to prevent issues, identify the root cause of an outage, or optimise some key areas of your application.</p>
+<h1 id="in-summary">In summary</h1>
+<p>Orchestration platforms allow us to control the availability and reliability of our services, and reduce the risk of deploying a bad version of our code.</p>
+<p>These deployment strategies rely heavily on our ability to report the health of our instances in an accurate and timely way.</p>
+<p>Our services have a rich business logic, and the health checks we write should reflect that wealth of use cases and follow some best practices to ensure we make the most out of them.</p>
+]]></content>
+
+    
+    <category term="dev-ops"/>
+    
+    <category term="backend"/>
+    
+    <category term="web-services"/>
+    
+    <category term="continuous-deployment"/>
+    
+	</entry>
+  
+	<entry>
+    <id>https://larribas.me/posts/migrating-glovos-dispatching-service-from-a-single-machine-to-a-distributed-system/</id>
+    <title>Migrating Glovo’s dispatching service from a single machine to a distributed system</title>
+    <link href="https://larribas.me/posts/migrating-glovos-dispatching-service-from-a-single-machine-to-a-distributed-system/" />
+		<updated>Tue, 20 Aug 2019 00:00:00 +0000</updated>
+    <summary>How we re-engineered one of our main web services to make it highly available. Part One.</summary>
+<content type="html"><![CDATA[<p>At Glovo, we have one vision: Connecting our customers to their cities. We do that by facilitating access to different services (like restaurants, supermarkets, and other stores) through a single mobile application and a fleet of independent couriers.</p>
+<blockquote>
+<p>Anything you want. Delivered in minutes.</p>
+</blockquote>
+<p>Of course, that is easier said than done. Behind the scenes, there are hundreds of factors that affect the experience of our customers and couriers.</p>
+<p>One of the key factors in this equation is <strong>who is the perfect courier to deliver an order</strong>. This is very important for us because finding the best match means our customers will receive their orders faster, our couriers will deliver more orders every hour (and earn more money), and our partners will be able to receive more orders.</p>
+<p>Answering that question is the main job of our dispatching team. And more specifically: the job of <em>Jarvis</em>.</p>
+<h2 id="meet-jarvis-our-dispatching-service">Meet Jarvis, our Dispatching Service</h2>
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/migrating-glovos-dispatching-service-from-a-single-machine-to-a-distributed-system/images/mainframe.jpeg"
+        alt="Busy people around an old mainframe computer"
+        
+    >
+
+    
+
+    <figcaption>This is how I feel our team works when we&rsquo;re having a live issue with Jarvis. <!-- raw HTML omitted -->Source<!-- raw HTML omitted --></figcaption>
+</figure>
+
+
+<p>Jarvis is Glovo&rsquo;s dispatching service. Its goal is to make cities as efficient as possible. I&rsquo;d say Jarvis stands out from other services in three different ways:</p>
+<ul>
+<li><strong>Its domain is very mathematical</strong>. We are running an optimisation problem based on estimations we get from machine learning models (e.g. how much time will it take the courier to reach a point? When will the partner have the order ready?).</li>
+<li><strong>Its behavior is different in every city</strong>. Each city has its own geography, its own demographic distribution, its own traffic… and, most importantly, its own personality. We need to account for those differences; adjusting thresholds, activating different heuristics, and so on.</li>
+<li>During peak hours, our highest-volume cities will have tens of thousands of couriers in different areas and states. At the same time, we will have hundreds of new orders coming in every minute. We need to be able to evaluate every possible combination of orders and couriers, and choose the best match in real-time, so <strong>high performance is critical</strong>.</li>
+</ul>
+<h2 id="from-pets-tocattle">From pets to cattle</h2>
+<p>A few months ago, we had a big problem: Jarvis was one of the most critical pieces in our system. However, it was also one of the most fragile.</p>
+<p>This is how everything worked back then:</p>
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/migrating-glovos-dispatching-service-from-a-single-machine-to-a-distributed-system/images/diagram.png"
+        alt="Diagram of our dispatching system running on a single instance, and how releases and rollbacks affected its availability"
+        
+    >
+
+    
+
+    <figcaption>Jarvis ran on one single instance. This instance used the actor concurrency model to make decisions for different cities concurrently. Whenever there was a release (and a rollback), we would have a few minutes of downtime, delaying order delivery.</figcaption>
+</figure>
+
+
+<p>We used the actor model to run hundreds of concurrent actors. Each actor would control a particular city. Our main problem was that two actors could not be in charge of the same city, as they could potentially make conflicting decisions. This meant we could not distribute the service: we needed to rely on a single physical machine.</p>
+<p>As a result, every time we deployed a new version we would have a few minutes of downtime, increasing our delivery time (one of our most important KPIs). If the version was faulty and we needed to roll back, we would have twice as much downtime.</p>
+<p>Last quarter, we decided to change this and transition from a we-have-a-single-machine-please-cross-your-fingers architecture to a highly available, distributed architecture.</p>
+<p>The task was at the same time daunting and very interesting. We had to make some fundamental changes to our system, but it was absolutely essential to make them gradually, without disrupting the service at all. To put it another way: we needed to change the plane&rsquo;s engine in the middle of the flight.</p>
+<h2 id="whiteboard-session-no1-requirements">Whiteboard session No.1: Requirements</h2>
+<p>The first thing we did was gather the whole team and come up with a list of requirements. Roughly speaking:</p>
+<ol>
+<li>The service should be distributed. At any time, there should be multiple machines in different availability zones or regions, competing to run the assignment problem for a city.</li>
+<li>It is vital that we ensure the service&rsquo;s liveness: if a machine dies while making decisions for a particular city, it should not prevent other machines from picking up that city in the future.</li>
+<li>The decisions we make must not cause conflicts (e.g. we don&rsquo;t want to assign two orders to a courier at the same time). Therefore, two tasks for the same city may not run concurrently or, if they do, both should not publish the decisions.</li>
+<li>We should strive for simplicity. Jarvis is a critical piece of our system. The more technical complexity we add, and the more services we depend upon, the higher the chance of service unavailability.</li>
+</ol>
+<h2 id="whiteboard-session-no2-andbeyond">Whiteboard session No.2: (And beyond…)</h2>
+<p>We don&rsquo;t want to make this post overly long and, to tell the truth, we would be really glad to hear from you and how you would approach this problem! So let&rsquo;s leave it here for now.</p>
+<p>In the next article, we&rsquo;ll follow up with our approach, with a couple of surprising plot twists that made us redefine our solution.</p>
+]]></content>
+
+    
+    <category term="distributed-systems"/>
+    
+    <category term="web-services"/>
+    
+    <category term="high-availability"/>
+    
+    <category term="backend"/>
+    
+	</entry>
+  
+	<entry>
+    <id>https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/</id>
+    <title>Colmena, an Architecture for Highly-Scalable Web Services</title>
+    <link href="https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/" />
+		<updated>Tue, 06 Nov 2018 00:00:00 +0000</updated>
+    <summary>We ditched MVC frameworks and designed our own architecture, combining ideas like Event Sourcing, CQRS &amp; Hexagonal. Here&#39;s what we learned.</summary>
+<content type="html"><![CDATA[<p>About 3 years ago, our startup pivoted from a Q&amp;A app for doctors to an education platform (which we named <a href="https://schoolhouse.io/en/">SchoolHouse.io</a>). It was a big product shift, and we knew many technical changes would follow.</p>
+<p>At the time, we had a 1-year-old Python+Django codebase that was <em>already</em> getting rusty and hard to maintain. How did we cross the legacy line so fast?</p>
+<p>(sigh)</p>
+<p>We were clearly doing something wrong, and we wanted to understand <em>what</em>, so we made a list of our <strong>main pain points</strong>:</p>
+<ul>
+<li>
+<p>To understand how a feature worked, we needed to jump a lot between our code and the framework&rsquo;s, sometimes through long inheritance hierarchies, decorators, hooks and conventions documented somewhere. Thus, every time we needed to trace a bug or make a change we needed to put on our Indiana Jones hat.</p>
+</li>
+<li>
+<p>It wasn&rsquo;t obvious where many changes (like some permissions, relationships or validations) belonged. This generated a lot of interesting but ultimately time-wasting debates.</p>
+</li>
+<li>
+<p>Unit tests were ridden with stubs and mocks, and when they weren&rsquo;t, they had to be busy understanding HTTP parameters or making sure the database was clean.</p>
+</li>
+</ul>
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/colmena-an-architecture-for-highly-scalable-web-services/images/dry.jpg"
+        alt="We&#39;re good. This framework is DRY"
+        
+    >
+
+    
+
+    <figcaption>We tried to be DRY, but working on our codebase felt like drowning.</figcaption>
+</figure>
+
+
+<h2 id="we-ditched-mvc-frameworks-and-did-it-our-way">We ditched MVC frameworks and did it our way</h2>
+<p>Those issues made us unproductive and made our codebase messy over time.</p>
+<p>On top of that, we suspected we wouldn&rsquo;t be able to solve our pain points if we kept using an MVC framework by the book, so we set out to <strong>design our own architecture<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>, optimized for long-term productivity and maintainability</strong>.</p>
+<h2 id="-so-was-it-worth-it">&hellip; So, was it worth it?</h2>
+<p>3 years later, we&rsquo;ve seen our product change A LOT, fell in love with functional languages like Elm and Haskell, and went beyond full-stack, taking care of graphic design, frontend engineering, system administration, and data science. And despite all these changes, we believe something extraordinary has happened: <strong>We are as comfortable with our backend as the first day (no large refactors!).</strong></p>
+<p>Our architectural choices have consistently made our lives easier, and now we&rsquo;d like to share what we&rsquo;ve learned with the community. We&rsquo;ve also published <a href="https://github.com/schoolhouse-io/colmena-realworld-example-app">an implementation of the RealWorld spec</a> to provide realistic code examples<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>.</p>
+<h2 id="ok-im-listening-what-is-it-about">OK. I&rsquo;m listening. What is it about?</h2>
+<p>A <em>Colmena</em> app is composed of multiple cells.</p>
+<p><strong>Cells are self-contained services</strong> that follow the <a href="https://fideloper.com/hexagonal-architecture">hexagonal architecture</a>. Each cell:</p>
+<ol>
+<li>Has a clear purpose and responsibility.</li>
+<li>Has some internal domain that represents, validates and transforms the cell&rsquo;s state.</li>
+<li>Relies on a series of interfaces to receive input from (and send output to) external services and technologies.</li>
+<li>Exposes a public API (a contract stating what it can do).</li>
+</ol>
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/colmena-an-architecture-for-highly-scalable-web-services/images/basic_cell.png"
+        alt="A basic authentication cell exposes operations to create new credentials, check them and update them. It also needs to communicate with an Oauth service and a database."
+        
+    >
+
+    
+
+    
+</figure>
+
+
+<p>You can think of cells as <strong>very small microservices</strong>. In fact, we encourage you to try to make your cells as small as possible. In our experience, granulating your domain around entities and relationships helps you understand, test and maintain the codebase in the long run. These are the cells of the <a href="https://github.com/schoolhouse-io/colmena-realworld-example-app">RealWorld backend</a>:</p>
+<ul>
+<li><strong>user</strong></li>
+<li><strong>auth</strong></li>
+<li><strong>follow</strong> (user)</li>
+<li><strong>article</strong></li>
+<li><strong>tag</strong></li>
+<li><strong>comment</strong> (article)</li>
+<li>(article) <strong>feed</strong></li>
+</ul>
+<p>If we told you our app is a blogging platform, the purpose of each cell becomes pretty clear. It would only take a glance at the <a href="https://github.com/schoolhouse-io/colmena-realworld-example-app/tree/master/lib/real_world"><code>lib/real_world</code> directory</a> to find out where a certain feature might be defined. From there, a developer can quickly look at the API to learn about the operations it supports and navigate the implementation in a very gradual and natural way.</p>
+<h3 id="an-event-based-functional-domain">An event-based, functional domain</h3>
+<p>Each cell models a small domain. This domain may correspond to an entity (e.g. a user), a relationship (e.g. a user follows another), or a special feature (e.g. each user has their own materialized feed of articles).</p>
+<p>In <em>Colmena</em>, <strong>changes to the domain are represented as a sequence of events</strong>. This sequence of events is append-only, as events are immutable (they are <em>facts</em> that have already taken place). In <a href="https://www.youtube.com/watch?v=8JKjvY4etTY">event sourcing</a>, this sequence is called a &ldquo;Source of truth&rdquo;, and it provides:</p>
+<ul>
+<li>An audit log of all the actions that have modified the domain.</li>
+<li>The ability for other components (in the same or different cells) to listen to certain events and react to them.</li>
+</ul>
+<p>The latter practice is commonly known as <em>event-driven</em> or <em>reactive programming</em>, and it has proven a really useful way to implement certain features with very low coupling.</p>
+<p>Moreover, since we have a sequence of immutable data, <strong>everything the domain does can be conceived as a pure function</strong> (no side effects, just deterministic data transformations). In Ruby (or any other object-oriented language for that matter), this translates to:</p>
+<ul>
+<li>No classes, class instances, or methods.</li>
+<li>No calls to any external technology or service.</li>
+<li>No need for stubs, mocks, or any other test artifacts that make our tests slow or complicated.</li>
+</ul>
+<blockquote>
+<p>We can <a href="https://github.com/schoolhouse-io/colmena-realworld-example-app/blob/master/lib/real_world/follow/domain.rb">validate and describe our app&rsquo;s behavior</a> in a way that is both simple and very powerful, forgetting about the noise.</p>
+</blockquote>
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/colmena-an-architecture-for-highly-scalable-web-services/images/evented_domain.png"
+        alt="A functional, evented domain takes a current state (pure data), some arguments (pure data) and produces a deterministic output (pure data)."
+        
+    >
+
+    
+
+    
+</figure>
+
+
+<h3 id="a-public-contract">A public contract</h3>
+<p>Every <em>useful</em> application needs to let the world do something with it. We&rsquo;ll continue with our RealWorld example.</p>
+<p>Our <code>follow</code> cell is there to fulfill a few use cases:</p>
+<ul>
+<li>A user follows another profile.</li>
+<li>A user stops following another profile.</li>
+<li>Someone wants to know whether a particular user follows a particular profile.</li>
+<li>Someone wants to know which profiles a user is following.</li>
+</ul>
+<p>You&rsquo;ll notice the first two use cases are actions that <em>may</em> (if validation rules allow it) change the cell&rsquo;s state, whereas the last two use cases are just querying the current state.</p>
+<p>In <em>Colmena</em>, we call the former <em>commands</em> and the latter <em>queries</em>, and we deal with them in a slightly different way. This pattern is called <a href="https://martinfowler.com/bliki/CQRS.html">CQRS (command-query responsibility segregation)</a>. The linked article does a very good job at explaining the pros and cons of this approach, so we&rsquo;ll focus on our particular implementation for this RealWorld codebase:</p>
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/colmena-an-architecture-for-highly-scalable-web-services/images/cqrs_sequence_diagram.png"
+        alt="A query reads from a database (which could be optimized for a particular kind of read operation), whereas a command might need to read from a database, find out what to do and store the changes, all of this within a transaction."
+        
+    >
+
+    
+
+    
+</figure>
+
+
+<p>It is extremely valuable for a project to <strong>make sure the contracts for all these public-facing components are properly documented and semantically versioned</strong>. Developers need to be able to learn and trust, at any point:</p>
+<ul>
+<li>What types of events does this cell publish? What data do they contain?</li>
+<li>Which are the arguments to this command? How about this query?</li>
+</ul>
+<h3 id="keep-acid-properties-in-mind">Keep ACID properties in mind</h3>
+<p>Given that this is a distributed architecture with many components and cells working separately, it&rsquo;s fair to wonder&hellip; Are changes atomic? How do we keep them consistent?</p>
+<p>When commands need to be atomic (they usually do), they are decorated by a transaction. This transaction is responsible for publishing the sequence of events the command generates and running the proper materializers. In turn, these <strong>materializers enforce consistency and integrity</strong>. A materializer takes a sequence of events and propagates their changes to the several &ldquo;read models&rdquo; the queries use.</p>
+<p>For instance, the transaction in the previous diagram might call these materializers:</p>
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/colmena-an-architecture-for-highly-scalable-web-services/images/materialization_diagram.png"
+        alt="A transaction makes sure the events are materialized in different ways."
+        
+    >
+
+    
+
+    
+</figure>
+
+
+<p>Let&rsquo;s try with a second example as well. We&rsquo;re dealing with <em>articles</em> now. A materializer might get the following sequence of events:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-markdown" data-lang="markdown">article_published(...)
+article_tagged(...)
+</code></pre></div><p>And perform the following operations:</p>
+<ul>
+<li>Store the whole article in a document-oriented database (e.g. MongoDB) to optimize read operations.</li>
+<li>Store the article in a reverse index of <code>tag -&gt; articles</code> to fetch articles with certain tags.</li>
+<li>Store the article&rsquo;s title and description in a database optimized for search (e.g. ElasticSearch).</li>
+</ul>
+<p>Some parts of this materialization process must happen synchronously (if consistency is a requirement). Others may happen asynchronously (when <a href="http://guide.couchdb.org/draft/consistency.html">eventual consistency</a> is enough).</p>
+<h3 id="rely-on-interfaces-not-concrete-implementations">Rely on interfaces, not concrete implementations</h3>
+<p>At this point, our cell accepts requests from a potentially untrusted source, stores and retrieves data from a database, and may need to call other cells.</p>
+<p>These operations are the weak links of software development. The network can fail, databases can be corrupted and public APIs can&rsquo;t be trusted. So, what can we do to minimize these risks?</p>
+<p>In <em>Colmena</em>, <strong>we define every input/output component as an interface (a port in the hexagonal jargon)</strong>. A particular cell might rely on:</p>
+<ul>
+<li>A <code>repository</code> port, which persists and reads domain data.</li>
+<li>An <code>event publisher</code> port, which allows events to be made public.</li>
+<li>A <code>router</code> port, which communicates with other cells.</li>
+</ul>
+<p>In Ruby, we specify the behavior these interfaces should satisfy with a <a href="https://github.com/schoolhouse-io/colmena-realworld-example-app/blob/master/lib/real_world/follow/ports/repository/spec_shared_examples.rb">shared example</a>. All implementations (adapters in the hexagonal jargon) must comply with the spec if they are to be trusted, and provide explicit error handling so that risks can be gracefully handled, logged, and mitigated.</p>
+<p>Relying on interfaces is one of the most basic design principles, and it has immediate practical benefits:</p>
+<ul>
+<li>We can write a single test for multiple components.</li>
+<li>We can apply the <a href="https://softwareengineering.stackexchange.com/questions/234747/dependency-inversion-principle-vs-program-to-an-interface-not-an-implementatio">dependency inversion principle</a> to inject the adapters we need for each environment (e.g. a fast SQLite database for testing and a fully scalable cloud database in production).<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></li>
+<li>We can switch to a different technology without changing our cell&rsquo;s code.</li>
+</ul>
+<h3 id="your-application-is-made-up-of-multiple-cells">Your application is made up of multiple cells</h3>
+<p>Cells have clearly defined boundaries, but they still need to communicate with one another. In <em>Colmena</em>, cells can talk to each other in two different ways:</p>
+<ul>
+<li>Synchronously, invoking a command or query on the other cell. This is a traditional <a href="https://en.wikipedia.org/wiki/Remote_procedure_call">remote procedure call</a> we perform through a <a href="https://microservices.io/patterns/service-registry.html">central service registry</a> we call <a href="https://github.com/schoolhouse-io/colmena-realworld-example-app/blob/master/lib/real_world/ports/router/in_memory.rb"><em>the router</em></a>.</li>
+<li>Asynchronously, listening to events produced by the other cell and reacting to them. We do this through an <a href="https://github.com/schoolhouse-io/colmena-realworld-example-app/blob/master/lib/real_world/ports/event_broker/in_memory.rb">event broker</a>.</li>
+</ul>
+<blockquote>
+<p>In our example app, both the router and event broker ports are implemented in-memory. The beauty of these interfaces is that they can be implemented by a service like RabbitMQ or Amazon Kinesis and connect cells deployed on different parts of the world; or even cells written in different programming languages!</p>
+</blockquote>
+<p>Here are a few examples of how we glue cells together in this RealWorld service:</p>
+<ul>
+<li>A <a href="https://github.com/schoolhouse-io/colmena-realworld-example-app/blob/master/lib/real_world/tag/listeners/counter.rb">counter listener</a> reacts to tags being added to or removed from an article and it updates a total count on the times a tag has been used. All the while, the <code>article</code> cell doesn&rsquo;t even know the <code>tag</code> cell exists.</li>
+<li>The <code>api</code> cell is a bit special. It exposes some of the behavior of all cells in a RESTful HTTP API. As such, it needs to deal with authentication and authorization, hiding private data and aggregating several operations into <a href="https://github.com/schoolhouse-io/colmena-realworld-example-app/blob/master/lib/real_world/api/commands/api_register.rb">a more useful endpoint</a>, making several sub-calls to other cells in the process. We&rsquo;ve recently found out this pattern <a href="https://microservices.io/patterns/data/api-composition.html">has its own name</a>.</li>
+</ul>
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/colmena-an-architecture-for-highly-scalable-web-services/images/cell_layers.png"
+        alt="In the hexagonal architecture, a cell has several layers. The outmost layer is the framework layer, where we interface with specific tools, services or libraries. Beneath it is the aplication layer, where we expose all public-facing features (commands, queries and listeners in our case). Beneath the application is the domain."
+        
+    >
+
+    
+
+    <figcaption>The layers in the hexagonal architecture, as applied to the concepts in <em>Colmena</em>.</figcaption>
+</figure>
+
+
+<h2 id="hence-_colmena_">Hence, <em>Colmena</em></h2>
+<p>We felt it was better to start explaining this architecture from the bottom up, so we haven&rsquo;t had the time to explain properly what the heck a <em>Colmena</em> is.</p>
+<p><em>Colmena</em> means Beehive in Spanish. Like our architecture, :bee:-hives are composed of many small hexagonal units that are isolated from one another but work together as a powerful system. Isn&rsquo;t that beautiful?</p>
+<p>Hence, the name.</p>
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/colmena-an-architecture-for-highly-scalable-web-services/images/beehive.jpg"
+        alt="A beehive is made up of many hexagonal cells that work together"
+        
+    >
+
+    
+
+    
+</figure>
+
+
+<hr>
+<p><em>In this article, we&rsquo;ve presented an overview of the Colmena architecture and the reasons that brought us to use it in the first place.</em></p>
+<p><em>In the next ones, we&rsquo;ll zoom into some of the main features and provide more details and code examples.</em></p>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p>By what we mean, do a lot of research and combine the ideas we liked the most with our own use cases <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p>The example app is written in Ruby, but we&rsquo;ve applied the same ideas to codebases in Go and Haskell, with the same effects. <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3" role="doc-endnote">
+<p>Just remember to <strong>test every adapter</strong> before releasing to production, not just the ones you use for your development environment. <a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+]]></content>
+
+    
+    <category term="architecture"/>
+    
+    <category term="design-patterns"/>
+    
+    <category term="event-sourcing"/>
+    
+    <category term="cqrs"/>
+    
+    <category term="microservices"/>
+    
+    <category term="web-services"/>
+    
+	</entry>
+  
+	<entry>
+    <id>https://larribas.me/posts/5-ways-to-make-your-codebase-withstand-the-test-of-time/</id>
+    <title>5 ways to make your codebase withstand the test of time</title>
+    <link href="https://larribas.me/posts/5-ways-to-make-your-codebase-withstand-the-test-of-time/" />
+		<updated>Wed, 17 Oct 2018 00:00:00 +0000</updated>
+    <summary>If you don’t treat your codebase carefully you may end up maintaining a huge pile of technical debt. Here are 5 ideas to fight against legacy code… and win.</summary>
+<content type="html"><![CDATA[<p><em>This is the first in a series of articles where @hecrj and I share what we have learned after working on a large, fast-changing codebase for the past 3 years, and being perfectly happy with the result!</em></p>
+<hr>
+<p>If you are a web developer, you are probably used to having new frameworks, libraries and technologies come out every other week.</p>
+<blockquote>
+<p>We are on a never-ending quest to find better tools and patterns, but does that mean our code is doomed to become old and wrinkly?</p>
+</blockquote>
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/posts/5-ways-to-make-your-codebase-withstand-the-test-of-time/images/legacy-meme.jpg"
+        alt="Your decisions will always impact many other people"
+        
+    >
+
+    
+
+    
+</figure>
+
+
+<p>How do you anchor your project so that it resists the <em>Winds of Trend</em>? Here are 5 tips that have worked out pretty well for us.</p>
+<h2 id="1-split-your-code-based-on-domain-concepts-not-tech-concepts">1. Split your code based on domain concepts, not tech concepts</h2>
+<p>One of the first questions you may have when starting a new project is how should you structure it. There are two popular schools of thought here: Either we split our files by tech concepts, or by domain concepts.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-md" data-lang="md"># Split by tech concepts        # Split by domain concepts
+
+|- src                          |- auth
+|  |- controllers               |  |- controllers
+|  |  |- auth                   |  |- models
+|  |  |- profile                |  |- views
+|  |  |- article                |  |- tests
+|  |- models                    |- profile
+|  |- views                     |- article
+|- test                         (...)
+|  |- controllers
+|  |  |- auth
+(...)
+</code></pre></div><p>If you’ve read the header you might have an idea of what we’ll recommend, but let’s back that up with a few thoughts.</p>
+<p>Say you arrive at the root of a project with a specific goal (hunting down a bug, adding a feature, removing it, etc.). You need to find the appropriate code, navigate through related files, take a look at the tests, and when you feel confident enough, make those changes to the codebase.</p>
+<p>As developers, this process is our bread and butter, so we better make it efficient.</p>
+<blockquote>
+<p>What is easier to maintain, a codebase with 10 files or one with 100 files?</p>
+</blockquote>
+<p>Splitting code by domain concepts allows you to focus on a small part of your codebase, whereas doing it by tech concept forces you to jump around.</p>
+<h2 id="2-provide-a-public-contract-api-for-all-your-domain-concepts">2. Provide a public contract (API) for all your domain concepts</h2>
+<p>Imagine your project has a <code>payments</code> directory where you keep all 💰-related code. We have a series of components to store our payments in a database or connect to 3rd-party services like <em>Stripe</em>.</p>
+<p>All <strong>those components are there to fulfill a contract</strong>, that is, to make sure <code>payments</code> behave they way they should.</p>
+<p>Just to be clear, we are <em>not</em> talking about the HTTP API your mobile app will call to charge users. We are talking about an internal API that turns your payments directory into its own &ldquo;microservice&rdquo; (using the term freely).</p>
+<p>Why, you ask?</p>
+<p>Because having an explicit API provides:</p>
+<ul>
+<li>A clear picture of the expected behavior.</li>
+<li>A minimum test coverage everyone can agree upon and commit to.</li>
+<li>The freedom to change anything from the underlying implementation.</li>
+</ul>
+<p>Furthermore, <strong>it is important for this API to know as little as possible of external concepts such as users, permissions or environments</strong>. These are not part of the domain. They are the way we solve a problem with the communication layer (a public HTTP endpoint is inherently insecure) or our development workflow.</p>
+<p>For instance, we can imagine having:</p>
+<ul>
+<li>A public-facing API that exposes <em>some</em> of the domain behavior and controls authentication and authorization.</li>
+<li>A private admin API + panel to provide easy customer support and look into bugs without ever touching any database or console.</li>
+<li>A really easy way to write fixtures, examples and migrations.</li>
+</ul>
+<h2 id="3-rely-on-small-interfaces">3. Rely on small interfaces</h2>
+<p>This one is pretty popular. As developers, we are constantly reminded to rely on abstractions instead of concrete implementations, <a href="https://en.wikipedia.org/wiki/Interface_segregation_principle">segregate our interfaces</a> and <a href="https://en.wikipedia.org/wiki/Dependency_inversion_principle">invert our dependencies</a>.</p>
+<p>You can easily find plenty of material covering the theory, so let’s focus on some practical examples. Our <code>Payments</code> app might need to talk to these interfaces:</p>
+<ul>
+<li>An event publisher</li>
+<li>An event subscriber</li>
+<li>A credit card charger</li>
+<li>An email sender</li>
+</ul>
+<p>All these interfaces have a small and clearly defined role. Later on, we will inject the particular implementations:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby">production <span style="color:#f92672">=</span> <span style="color:#66d9ef">Payments</span><span style="color:#f92672">.</span>new(
+  <span style="color:#e6db74">event_publisher</span>: rabbitmq,
+  <span style="color:#e6db74">event_subscriber</span>: rabbitmq_replicas,
+  <span style="color:#e6db74">credit_card_charger</span>: stripe,
+  <span style="color:#e6db74">email_sender</span>: mailgun,
+)
+
+development <span style="color:#f92672">=</span> <span style="color:#66d9ef">Payments</span><span style="color:#f92672">.</span>new(
+  <span style="color:#e6db74">event_publisher</span>: in_memory_bus,
+  <span style="color:#e6db74">event_subscriber</span>: in_memory_bus,
+  <span style="color:#e6db74">credit_card_charger</span>: stripe_test_mode,
+  <span style="color:#e6db74">email_sender</span>: muted_mailer,
+)
+</code></pre></div><p>As you can see, small interfaces allow us to create well-defined tests and choose the best strategy for each action depending on the environment. On the other hand, we usually write implementations based on particular technologies, to centralize all the knowledge and helper functions around them.</p>
+<h2 id="4-decouple-your-data-from-your-storage-strategy">4. Decouple your data from your storage strategy</h2>
+<p>Let’s get it out of the way: We think ORMs are wrong (or maybe it’s people who are doing them wrong). Take a look at this <em>Ruby on Rails</em> code:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Article</span> <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">ActiveRecord</span><span style="color:#f92672">::</span><span style="color:#66d9ef">Base</span>
+  belongs_to <span style="color:#e6db74">:user</span>
+  has_many <span style="color:#e6db74">:comments</span>, <span style="color:#e6db74">dependent</span>: <span style="color:#e6db74">:destroy</span>
+
+  scope <span style="color:#e6db74">:authored_by</span>, <span style="color:#f92672">-&gt;</span>(username) { where(<span style="color:#e6db74">user</span>: <span style="color:#66d9ef">User</span><span style="color:#f92672">.</span>where(<span style="color:#e6db74">username</span>: username)) }
+
+  validates <span style="color:#e6db74">:title</span>, <span style="color:#e6db74">presence</span>: <span style="color:#66d9ef">true</span>, <span style="color:#e6db74">allow_blank</span>: <span style="color:#66d9ef">false</span>
+  validates <span style="color:#e6db74">:body</span>, <span style="color:#e6db74">presence</span>: <span style="color:#66d9ef">true</span>, <span style="color:#e6db74">allow_blank</span>: <span style="color:#66d9ef">false</span>
+
+  before_validation <span style="color:#66d9ef">do</span>
+    self<span style="color:#f92672">.</span>slug <span style="color:#f92672">||=</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">#{</span>title<span style="color:#f92672">.</span>to_s<span style="color:#f92672">.</span>parameterize<span style="color:#e6db74">}</span><span style="color:#e6db74">-</span><span style="color:#e6db74">#{</span>rand(<span style="color:#ae81ff">36</span><span style="color:#f92672">**</span><span style="color:#ae81ff">6</span>)<span style="color:#f92672">.</span>to_s(<span style="color:#ae81ff">36</span>)<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+  <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">end</span>
+</code></pre></div><p>There’s a lot to unpack here.</p>
+<p>First, we notice this object is describing relationships, cascade deletion and nullable attributes. Exactly what you would expect from an Object-Relational Mapper. Quite transparent!</p>
+<p>Next, let’s consider for a moment. What is important for us when representing an Article?:</p>
+<ul>
+<li><strong>We should be able to harness the full power of the language we are using</strong>. When we are using Java, we want to be able to use OO patterns and inheritance freely. When we are using Haskell, we want to use union types and records.</li>
+<li><strong>We should be able to store our data in different formats and databases</strong>. This allows us to use ElasticSearch for performant searches, PostgreSQL for a consistent state and Redis to keep our autosave feature fast enough.
+ORM models offer neither, because they are just a way to interface with a SQL database. We still need to represent and manipulate our data somewhere else. The problem is, once you accept this statement, using an ORM seems awkward or overkill. This is what we mean:</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ruby" data-lang="ruby"><span style="color:#75715e"># Let&#39;s say we have a series of entities in our domain that we use to represent an article.</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Article</span>; <span style="color:#66d9ef">end</span> <span style="color:#75715e"># The big picture</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Tag</span>; <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RichText</span>; <span style="color:#66d9ef">end</span> <span style="color:#75715e"># Headings, bold, cross-references, …</span>
+
+
+<span style="color:#75715e"># Now we need an interface to store the article&#39;s content in our SQL database.</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ArticleStore</span>
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">store</span>(<span style="color:#e6db74">title</span>:, <span style="color:#e6db74">body</span>:, <span style="color:#e6db74">tags</span>:, <span style="color:#e6db74">author</span>:)
+    <span style="color:#75715e"># Ruby doesn&#39;t have explicit interfaces, but you get the point</span>
+    <span style="color:#66d9ef">raise</span> <span style="color:#66d9ef">NotImplementedError</span>
+  <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">end</span>
+
+
+<span style="color:#75715e"># Using an ORM creates an additional level of indirection that looks pointless</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ArticleORMStore</span> <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">ArticleStore</span>
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">store</span>(<span style="color:#e6db74">title</span>:, <span style="color:#e6db74">body</span>:, <span style="color:#e6db74">tags</span>:, <span style="color:#e6db74">author</span>:)
+    <span style="color:#66d9ef">ArticleModel</span><span style="color:#f92672">.</span>create(<span style="color:#e6db74">title</span>: title, <span style="color:#e6db74">body</span>: body, <span style="color:#e6db74">tags</span>: tags, <span style="color:#e6db74">author</span>: <span style="color:#66d9ef">UserModel</span><span style="color:#f92672">.</span>get(author<span style="color:#f92672">.</span>id))
+  <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">end</span>
+
+
+<span style="color:#75715e"># A low-level SQL library feels simpler in comparison.</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ArticleSimpleStore</span> <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">ArticleStore</span>
+  <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">store</span>(<span style="color:#e6db74">title</span>:, <span style="color:#e6db74">body</span>:, <span style="color:#e6db74">tags</span>:, <span style="color:#e6db74">author</span>:)
+    article_table<span style="color:#f92672">.</span>insert(<span style="color:#e6db74">title</span>: title, <span style="color:#e6db74">body</span>: body, <span style="color:#e6db74">tags</span>: tags, <span style="color:#e6db74">author</span>: author<span style="color:#f92672">.</span>id)
+  <span style="color:#66d9ef">end</span>
+<span style="color:#66d9ef">end</span>
+</code></pre></div><p>The bottom line here is: <strong>You can use ORMs, but don’t use them as the only way to represent and manipulate your data</strong>. That’s far from their purpose.</p>
+<h2 id="5-use-events-to-keep-your-application-connected-and-your-code-decoupled">5. Use events to keep your application connected and your code decoupled</h2>
+<p>If two parts of an application are connected, the code must connected somehow, right?</p>
+<p><a href="https://martinfowler.com/articles/201701-event-driven.html">Event-driven</a> programming does a wonderful job at keeping your app interconnected, but your code easy to write and maintain. In fact it does such a good job that similar ideas have become pervasive in mobile and frontend development under the name of <a href="https://medium.com/exploring-code/what-is-reactive-programming-da37c1611382">Reactive Programming</a>, and in the operations world, with <a href="https://thenewstack.io/event-driven-architecture-wave-future/">cloud providers and companies betting hard on it</a>.</p>
+<p>The basic idea is that every change to your domain is represented as an atomic event.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-md" data-lang="md">article_published(...) 1 minute ago
+article_draft_created(...) 5 minutes ago
+user_signed_in(...) 25 minutes ago
+</code></pre></div><p>All events are published through some kind of event bus, and random observers can subscribe and react to interesting events without bothering the other components too much.</p>
+<p>It takes a bit of an extra effort at first, as you need to lay the foundation for the event bus and think about the properties and atomicity of each event, but in the long run it’s definitely worth it.</p>
+<p>Here are some examples of features that are very easy to implement with event-driven architectures, and hard to think about and maintain otherwise:</p>
+<ul>
+<li>Listen for comments on an article and increase a counter (purpose: faster comment counts).</li>
+<li>Send a welcome email to a new user.</li>
+<li>Notify the author of an article that it has new comments.</li>
+</ul>
+<p>Try to imagine how you would do each of these tasks in an imperative way vs. a reactive way.</p>
+<blockquote>
+<p>Event-driven programming avoids long functions with many different side effects, and makes your tests nicer and more isolated.</p>
+</blockquote>
+<hr>
+<p>In the next article we’ll explain how we put all these pieces together to create our own architecture.</p>
+]]></content>
+
+    
+    <category term="web-dev"/>
+    
+    <category term="architecture"/>
+    
+    <category term="design-patterns"/>
+    
+    <category term="legacy"/>
+    
+	</entry>
+  
+</feed>

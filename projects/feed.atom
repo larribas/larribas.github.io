@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  
+  <id>https://larribas.me/projects/index.xml</id>
+  <link href="https://larribas.me/projects/index.xml" rel="self"/>
+  
+
+  <title>Selected Projects on Lorenzo Arribas</title>
+	<subtitle>Recent blog posts</subtitle>
+  <author>
+    
+
+    
+
+    <uri>https://larribas.me/projects/</uri>
+  </author>
+	<updated>Wed, 17 Oct 2018 00:00:00 +0000</updated>
+	
+  
+	<entry>
+    <id>https://larribas.me/projects/schoolhouse-io/</id>
+    <title>SchoolHouse.io</title>
+    <link href="https://larribas.me/projects/schoolhouse-io/" />
+		<updated>Wed, 17 Oct 2018 00:00:00 +0000</updated>
+    <summary>SchoolHouse is a web platform that helps teachers create better learning experiences for their students, increasing motivation, daily activity and results.</summary>
+<content type="html"><![CDATA[
+
+<figure>
+    
+
+    
+
+    <img
+        src="/projects/schoolhouse-io/images/landing-banner.png"
+        alt="Banner for SchoolHouse.io&#39;s landing page"
+        
+    >
+
+    
+
+    
+</figure>
+
+
+<p>I am one of the co-founders of <a href="https://schoolhouse.io">SchoolHouse.io</a>, an ed-tech startup that&rsquo;s been on production since late 2016 and now helps hundreds of teachers provide a better experience to their students.</p>
+<p>On the technical side, we are a 2-person team (<a href="https://github.com/hecrj">@hecrj</a> and I) who take care of the full stack, from graphical design to deployment and infrastructure monitoring.</p>
+<h2 id="main-challenges">Main challenges</h2>
+<ul>
+<li>Building interactive presentations in real time with WebSocket.</li>
+<li>Making the app a Progressive Web Application our users can install and use offline.</li>
+<li>Automating the full development cycle, from commit to deployment, via Kubernetes.</li>
+<li>Ensuring the application is free of runtime errors, self-healing and easy to maintain.</li>
+<li>Optimizing the user acquisition and retention pipeline based on analytical data.</li>
+</ul>
+<h2 id="stack">Stack</h2>
+<p>
+    <a href="https://stackshare.io/schoolhouse-io/complete-stack">See in Stackshare</a>
+</p>
+
+<a
+    frameborder="0"
+    data-theme="dark"
+    data-layers="1,2,3,4"
+    data-stack-embed="true"
+    href="https://embed.stackshare.io/stacks/embed/8ec5a39a9e997d800b44464b5f7e53"/>
+</a>
+<script async src="https://cdn1.stackshare.io/javascripts/client-code.js" charset="utf-8"></script>
+
+]]></content>
+
+    
+    <category term="elm"/>
+    
+    <category term="pwa"/>
+    
+    <category term="ruby"/>
+    
+    <category term="postgres"/>
+    
+    <category term="rabbitmq"/>
+    
+    <category term="kubernetes"/>
+    
+	</entry>
+  
+	<entry>
+    <id>https://larribas.me/projects/colmena/</id>
+    <title>Colmena</title>
+    <link href="https://larribas.me/projects/colmena/" />
+		<updated>Wed, 10 Oct 2018 00:00:00 +0000</updated>
+    <summary>Colmena is an architectural pattern oriented towards long-term maintainability and scalability.</summary>
+<content type="html"><![CDATA[<p>Around 2015, <a href="https://github.com/hecrj">@hecrj</a> and I were having serious trouble maintaining a <a href="https://www.djangoproject.com/">Django</a> codebase we had started <em>just one year ago!</em></p>
+<p>We knew we were doing something wrong, and we had serious doubts about MVC as a healthy, long-term architecture for complex applications.</p>
+<p>After doing some research and debating a few ideas, we decided to ditch frameworks and experiment with our own system, drawing inspiration from many other patterns we liked, such as the Hexagonal Architecture, Event Sourcing, CQRS, Domain-Driven Design.</p>
+<p>What came out of this process was an architecture we called <em>Colmena</em> (Beehive in Spanish), because it was composed of many small cells that used the hexagonal architecture.</p>
+<p>We&rsquo;ve written a few articles introducing this architecture and the ideas it champions. You can find them in <a href="/posts/">my blog</a> and <a href="https://dev.to/hecrj">hecrj&rsquo;s</a>.</p>
+<p>We&rsquo;ve also published a <a href="https://github.com/schoolhouse-io/colmena-realworld-example-app">RealWorld API example</a> in Ruby to showcase these ideas in a real context.</p>
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/projects/colmena/images/beehive.jpg"
+        alt="Beehive"
+        
+    >
+
+    
+
+    
+</figure>
+
+
+]]></content>
+
+    
+    <category term="hexagonal-architecture"/>
+    
+    <category term="event-sourcing"/>
+    
+    <category term="domain-driven-design"/>
+    
+    <category term="cqrs"/>
+    
+	</entry>
+  
+	<entry>
+    <id>https://larribas.me/projects/cualy/</id>
+    <title>Cualy</title>
+    <link href="https://larribas.me/projects/cualy/" />
+		<updated>Sat, 05 Aug 2017 00:00:00 +0000</updated>
+    <summary>Cualy uses NFC and QRs to increase the number of people that report quality issues with vending machines, public spaces, and other products.</summary>
+<content type="html"><![CDATA[
+
+
+<p><a href="https://cualy.larribas.me">Cualy</a> is a side project I developed and tried to sell in late 2017. The idea behind it is to enable businesses to improve their quality control over products that are not closely monitored (such as vending machines, gym equipment, public spaces, public bikes&hellip;).</p>
+<p>Businesses can generate and print stickers with NFC + QR for their products and keep track of them via a simple backoffice.</p>
+<h2 id="main-challenges">Main challenges</h2>
+<ul>
+<li>Making the most lightweight and fast page I could so that users could give feedback almost instantly on any connection.</li>
+<li>Localizing both the frontend and backend in several languages.</li>
+</ul>
+<h2 id="stack">Stack</h2>
+<p>
+    <a href="https://stackshare.io/LorenzoArribas/cualy">See in Stackshare</a>
+</p>
+
+<a
+    frameborder="0"
+    data-theme="dark"
+    data-layers="1,2,3,4"
+    data-stack-embed="true"
+    href="https://embed.stackshare.io/stacks/embed/817aab543bcc09bf0a234353972e18"/>
+</a>
+<script async src="https://cdn1.stackshare.io/javascripts/client-code.js" charset="utf-8"></script>
+
+]]></content>
+
+    
+    <category term="html"/>
+    
+    <category term="haskell"/>
+    
+    <category term="elm"/>
+    
+    <category term="postgres"/>
+    
+    <category term="docker"/>
+    
+	</entry>
+  
+	<entry>
+    <id>https://larribas.me/projects/sandcapsule/</id>
+    <title>SandCapsule</title>
+    <link href="https://larribas.me/projects/sandcapsule/" />
+		<updated>Fri, 10 Mar 2017 00:00:00 +0000</updated>
+    <summary>SandCapsule allows you to create time capsules and decide when people will be able to see them. Fire away, and we&#39;ll remind your friends or loved ones when the capsule is open.</summary>
+<content type="html"><![CDATA[
+
+<figure>
+    
+
+    
+
+    <img
+        src="/projects/sandcapsule/images/animation.gif"
+        alt="Send a message. Decide when they see it."
+        style="width: 200px"
+    >
+
+    
+
+    
+</figure>
+
+
+<p>I developed <a href="https://sandcapsule.larribas.me">SandCapsule</a> together with <a href="https://github.com/hecrj">@hecrj</a> back in early 2017 mainly for fun and to give Elm and Haskell (two pure functional languages) a test run (before deciding if we would use them in a more serious project). At first we released it for ourselves, and since then we&rsquo;ve used it to surprise some of our friends and loved ones, make predictions of some games or TV shows, and to send our friends silly messages.</p>
+
+
+<figure>
+    
+
+    
+
+    <img
+        src="/projects/sandcapsule/images/screens.jpg"
+        alt="Screenshots of SandCapsule"
+        
+    >
+
+    
+
+    
+</figure>
+
+
+<h2 id="main-challenges">Main challenges</h2>
+<ul>
+<li>Adapting our thought process to the functional paradigm.</li>
+<li>Making the app SEO- and OpenGraph-friendly.</li>
+<li>Designing and writing a responsive app layout with mobile in mind.</li>
+<li>Working intensively with times and timezones.</li>
+</ul>
+<h2 id="stack">Stack</h2>
+<p>
+    <a href="https://stackshare.io/sandcapsule/app">See in Stackshare</a>
+</p>
+
+<a
+    frameborder="0"
+    data-theme="dark"
+    data-layers="1,2,3,4"
+    data-stack-embed="true"
+    href="https://embed.stackshare.io/stacks/embed/8383753cc42d391bd4d62694353d67"/>
+</a>
+<script async src="https://cdn1.stackshare.io/javascripts/client-code.js" charset="utf-8"></script>
+
+]]></content>
+
+    
+    <category term="elm"/>
+    
+    <category term="haskell"/>
+    
+    <category term="sass"/>
+    
+    <category term="postgres"/>
+    
+    <category term="docker"/>
+    
+	</entry>
+  
+</feed>
