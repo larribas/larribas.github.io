@@ -103,7 +103,7 @@
 &lt;/figure&gt;
 
 
-&lt;p&gt;What I’ve come to realize today is that the intersection between the logical and the physical, and between the interface and the implementation details, is a grey area that causes a lot of confusion. So I’m going to ask you some philosophical questions, and as a thought exercise, you can jot down what your first intuition is.&lt;/p&gt;
+&lt;p&gt;What I’ve come to realize today is that the intersection between the logical and the physical, and between the interface and the implementation details, is a grey area that causes a lot of confusion. So I&amp;rsquo;m going to ask you some philosophical questions, and as a thought exercise, you can jot down what your first intuition is.&lt;/p&gt;
 &lt;h1 id=&#34;does-a-microservice-stop-being-a-microservice-because-we-refactor-the-internal-code&#34;&gt;Does a microservice stop being a microservice because we refactor the internal code?&lt;/h1&gt;
 &lt;p&gt;If we carried out an internal refactor of our code, preserving the current interface, would we call it a different microservice?&lt;/p&gt;
 &lt;p&gt;If we modularized certain parts of the service, would it become something else?&lt;/p&gt;
