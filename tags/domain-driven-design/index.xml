@@ -130,6 +130,13 @@
 &lt;p&gt;These decisions will make the solution more reliable. They will also make it much more complex to maintain. But they won&amp;rsquo;t change the identity of our microservice in any way, nor will they represent an antipattern of microservice architectures.&lt;/p&gt;
 &lt;p&gt;&amp;hellip; Right?&lt;/p&gt;
 </description>
+      
+      <category>microservices</category>
+      
+      <category>web-services</category>
+      
+      <category>domain-driven-design</category>
+      
     </item>
     
     <item>
@@ -164,6 +171,15 @@
 
 
 </description>
+      
+      <category>hexagonal-architecture</category>
+      
+      <category>event-sourcing</category>
+      
+      <category>domain-driven-design</category>
+      
+      <category>cqrs</category>
+      
     </item>
     
   </channel>

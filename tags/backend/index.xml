@@ -107,6 +107,15 @@
 &lt;p&gt;&lt;em&gt;I’d like to thank Andre Lopes for his review and his constant search for new edge cases and guarantees :P&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;In the next article, we’ll get a bit more practical and discuss the implementation of an optimistic locking mechanism using MySQL 5.6 and Java. Stay tuned!&lt;/p&gt;
 </description>
+      
+      <category>distributed-systems</category>
+      
+      <category>high-availability</category>
+      
+      <category>backend</category>
+      
+      <category>web-services</category>
+      
     </item>
     
     <item>
@@ -246,6 +255,15 @@
 &lt;p&gt;These deployment strategies rely heavily on our ability to report the health of our instances in an accurate and timely way.&lt;/p&gt;
 &lt;p&gt;Our services have a rich business logic, and the health checks we write should reflect that wealth of use cases and follow some best practices to ensure we make the most out of them.&lt;/p&gt;
 </description>
+      
+      <category>dev-ops</category>
+      
+      <category>backend</category>
+      
+      <category>web-services</category>
+      
+      <category>continuous-deployment</category>
+      
     </item>
     
     <item>
@@ -325,6 +343,15 @@
 &lt;p&gt;We don&amp;rsquo;t want to make this post overly long and, to tell the truth, we would be really glad to hear from you and how you would approach this problem! So let&amp;rsquo;s leave it here for now.&lt;/p&gt;
 &lt;p&gt;In the next article, we&amp;rsquo;ll follow up with our approach, with a couple of surprising plot twists that made us redefine our solution.&lt;/p&gt;
 </description>
+      
+      <category>distributed-systems</category>
+      
+      <category>web-services</category>
+      
+      <category>high-availability</category>
+      
+      <category>backend</category>
+      
     </item>
     
   </channel>

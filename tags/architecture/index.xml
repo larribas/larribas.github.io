@@ -290,6 +290,19 @@ article_tagged(...)
 &lt;/ol&gt;
 &lt;/section&gt;
 </description>
+      
+      <category>architecture</category>
+      
+      <category>design-patterns</category>
+      
+      <category>event-sourcing</category>
+      
+      <category>cqrs</category>
+      
+      <category>microservices</category>
+      
+      <category>web-services</category>
+      
     </item>
     
     <item>
@@ -463,6 +476,15 @@ user_signed_in(...) 25 minutes ago
 &lt;hr&gt;
 &lt;p&gt;In the next article we’ll explain how we put all these pieces together to create our own architecture.&lt;/p&gt;
 </description>
+      
+      <category>web-dev</category>
+      
+      <category>architecture</category>
+      
+      <category>design-patterns</category>
+      
+      <category>legacy</category>
+      
     </item>
     
   </channel>

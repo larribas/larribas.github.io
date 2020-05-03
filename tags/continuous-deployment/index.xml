@@ -148,6 +148,15 @@
 &lt;p&gt;These deployment strategies rely heavily on our ability to report the health of our instances in an accurate and timely way.&lt;/p&gt;
 &lt;p&gt;Our services have a rich business logic, and the health checks we write should reflect that wealth of use cases and follow some best practices to ensure we make the most out of them.&lt;/p&gt;
 </description>
+      
+      <category>dev-ops</category>
+      
+      <category>backend</category>
+      
+      <category>web-services</category>
+      
+      <category>continuous-deployment</category>
+      
     </item>
     
   </channel>

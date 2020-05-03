@@ -43,6 +43,15 @@
 
 
 </description>
+      
+      <category>hexagonal-architecture</category>
+      
+      <category>event-sourcing</category>
+      
+      <category>domain-driven-design</category>
+      
+      <category>cqrs</category>
+      
     </item>
     
   </channel>

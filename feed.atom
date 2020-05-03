@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   
-  <id>https://larribas.me/index.xml</id>
-  <link href="https://larribas.me/index.xml" rel="self"/>
+  <id>https://larribas.me/feed.atom</id>
+  <link href="https://larribas.me/feed.atom" rel="self"/>
   
+  <uri>https://larribas.me/</uri>
 
   <title>Lorenzo Arribas</title>
 	<subtitle>Recent blog posts</subtitle>
@@ -11,8 +12,6 @@
     
 
     
-
-    <uri>https://larribas.me/</uri>
   </author>
 	<updated>Sat, 22 Feb 2020 00:00:00 +0000</updated>
 	
@@ -137,7 +136,6 @@
 &lt;p&gt;&amp;hellip; Right?&lt;/p&gt;
 </content>
 
-
     
     <category term="microservices"/>
     
@@ -243,7 +241,6 @@
 &lt;p&gt;&lt;em&gt;I’d like to thank Andre Lopes for his review and his constant search for new edge cases and guarantees :P&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;In the next article, we’ll get a bit more practical and discuss the implementation of an optimistic locking mechanism using MySQL 5.6 and Java. Stay tuned!&lt;/p&gt;
 </content>
-
 
     
     <category term="distributed-systems"/>
@@ -394,7 +391,6 @@
 &lt;p&gt;Our services have a rich business logic, and the health checks we write should reflect that wealth of use cases and follow some best practices to ensure we make the most out of them.&lt;/p&gt;
 </content>
 
-
     
     <category term="dev-ops"/>
     
@@ -483,7 +479,6 @@
 &lt;p&gt;We don&amp;rsquo;t want to make this post overly long and, to tell the truth, we would be really glad to hear from you and how you would approach this problem! So let&amp;rsquo;s leave it here for now.&lt;/p&gt;
 &lt;p&gt;In the next article, we&amp;rsquo;ll follow up with our approach, with a couple of surprising plot twists that made us redefine our solution.&lt;/p&gt;
 </content>
-
 
     
     <category term="distributed-systems"/>
@@ -776,7 +771,6 @@ article_tagged(...)
 &lt;/section&gt;
 </content>
 
-
     
     <category term="architecture"/>
     
@@ -964,7 +958,6 @@ user_signed_in(...) 25 minutes ago
 &lt;p&gt;In the next article we’ll explain how we put all these pieces together to create our own architecture.&lt;/p&gt;
 </content>
 
-
     
     <category term="web-dev"/>
     
@@ -1027,7 +1020,6 @@ user_signed_in(...) 25 minutes ago
 
 </content>
 
-
     
     <category term="elm"/>
     
@@ -1076,7 +1068,6 @@ user_signed_in(...) 25 minutes ago
 
 </content>
 
-
     
     <category term="hexagonal-architecture"/>
     
@@ -1119,7 +1110,6 @@ user_signed_in(...) 25 minutes ago
 &lt;script async src=&#34;https://cdn1.stackshare.io/javascripts/client-code.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
 
 </content>
-
 
     
     <category term="html"/>
@@ -1202,7 +1192,6 @@ user_signed_in(...) 25 minutes ago
 
 </content>
 
-
     
     <category term="elm"/>
     
@@ -1235,7 +1224,6 @@ user_signed_in(...) 25 minutes ago
 &lt;hr&gt;
 &lt;p&gt;I&amp;rsquo;m always open to hearing about new opportunities or projects. If you think I can be a good fit, don&amp;rsquo;t hesitate to &lt;a href=&#34;mailto:contact@larribas.me&#34;&gt;drop me an email&lt;/a&gt;.&lt;/p&gt;
 </content>
-
 
     
 	</entry>

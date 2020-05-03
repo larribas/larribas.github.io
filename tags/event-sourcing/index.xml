@@ -290,6 +290,19 @@ article_tagged(...)
 &lt;/ol&gt;
 &lt;/section&gt;
 </description>
+      
+      <category>architecture</category>
+      
+      <category>design-patterns</category>
+      
+      <category>event-sourcing</category>
+      
+      <category>cqrs</category>
+      
+      <category>microservices</category>
+      
+      <category>web-services</category>
+      
     </item>
     
     <item>
@@ -324,6 +337,15 @@ article_tagged(...)
 
 
 </description>
+      
+      <category>hexagonal-architecture</category>
+      
+      <category>event-sourcing</category>
+      
+      <category>domain-driven-design</category>
+      
+      <category>cqrs</category>
+      
     </item>
     
   </channel>

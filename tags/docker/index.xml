@@ -42,6 +42,17 @@
 &lt;script async src=&#34;https://cdn1.stackshare.io/javascripts/client-code.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
 
 </description>
+      
+      <category>html</category>
+      
+      <category>haskell</category>
+      
+      <category>elm</category>
+      
+      <category>postgres</category>
+      
+      <category>docker</category>
+      
     </item>
     
     <item>
@@ -111,6 +122,17 @@
 &lt;script async src=&#34;https://cdn1.stackshare.io/javascripts/client-code.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
 
 </description>
+      
+      <category>elm</category>
+      
+      <category>haskell</category>
+      
+      <category>sass</category>
+      
+      <category>postgres</category>
+      
+      <category>docker</category>
+      
     </item>
     
   </channel>

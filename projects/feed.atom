@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   
-  <id>https://larribas.me/projects/index.xml</id>
-  <link href="https://larribas.me/projects/index.xml" rel="self"/>
+  <id>https://larribas.me/projects/feed.atom</id>
+  <link href="https://larribas.me/projects/feed.atom" rel="self"/>
   
 
   <title>Selected Projects on Lorenzo Arribas</title>

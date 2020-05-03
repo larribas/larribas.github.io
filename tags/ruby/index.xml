@@ -61,6 +61,19 @@
 &lt;script async src=&#34;https://cdn1.stackshare.io/javascripts/client-code.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
 
 </description>
+      
+      <category>elm</category>
+      
+      <category>pwa</category>
+      
+      <category>ruby</category>
+      
+      <category>postgres</category>
+      
+      <category>rabbitmq</category>
+      
+      <category>kubernetes</category>
+      
     </item>
     
   </channel>
