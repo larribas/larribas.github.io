@@ -13,6 +13,7 @@
     
     <item>
       <title>Meaningful web service /health checks</title>
+      <subtitle>Health checks are an important part of the lifecycle of our systems. Here are 10 best practices to make them richer and more useful.</subtitle>
       <link>https://larribas.me/posts/meaningful-web-service-health-checks/</link>
       <pubDate>Thu, 03 Oct 2019 00:00:00 +0000</pubDate>
       

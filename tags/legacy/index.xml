@@ -13,6 +13,7 @@
     
     <item>
       <title>5 ways to make your codebase withstand the test of time</title>
+      <subtitle>If you don’t treat your codebase carefully you may end up maintaining a huge pile of technical debt. Here are 5 ideas to fight against legacy code… and win.</subtitle>
       <link>https://larribas.me/posts/5-ways-to-make-your-codebase-withstand-the-test-of-time/</link>
       <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
       

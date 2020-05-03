@@ -13,6 +13,7 @@
     
     <item>
       <title>Colmena, an Architecture for Highly-Scalable Web Services</title>
+      <subtitle>We ditched MVC frameworks and designed our own architecture, combining ideas like Event Sourcing, CQRS &amp; Hexagonal. Here&#39;s what we learned.</subtitle>
       <link>https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/</link>
       <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
       
@@ -307,6 +308,7 @@ article_tagged(...)
     
     <item>
       <title>Colmena</title>
+      <subtitle>Colmena is an architectural pattern oriented towards long-term maintainability and scalability.</subtitle>
       <link>https://larribas.me/projects/colmena/</link>
       <pubDate>Wed, 10 Oct 2018 00:00:00 +0000</pubDate>
       

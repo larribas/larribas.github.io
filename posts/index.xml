@@ -13,6 +13,7 @@
     
     <item>
       <title>The identity of a Microservice</title>
+      <subtitle>Do deployment strategies and infrastructure patterns affect what we define as a microservice?</subtitle>
       <link>https://larribas.me/posts/the-identity-of-a-microservice/</link>
       <pubDate>Sat, 22 Feb 2020 00:00:00 +0000</pubDate>
       
@@ -141,6 +142,7 @@
     
     <item>
       <title>Paving the way for distributed asynchronous tasks</title>
+      <subtitle>In this article, we discuss queues, schedulers, idempotency and optimistic/pessimistic locking, and how we designed our distributed system.</subtitle>
       <link>https://larribas.me/posts/paving-the-way-for-distributed-asynchronous-tasks/</link>
       <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
       
@@ -248,6 +250,7 @@
     
     <item>
       <title>Meaningful web service /health checks</title>
+      <subtitle>Health checks are an important part of the lifecycle of our systems. Here are 10 best practices to make them richer and more useful.</subtitle>
       <link>https://larribas.me/posts/meaningful-web-service-health-checks/</link>
       <pubDate>Thu, 03 Oct 2019 00:00:00 +0000</pubDate>
       
@@ -396,6 +399,7 @@
     
     <item>
       <title>Migrating Glovo’s dispatching service from a single machine to a distributed system</title>
+      <subtitle>How we re-engineered one of our main web services to make it highly available. Part One.</subtitle>
       <link>https://larribas.me/posts/migrating-glovos-dispatching-service-from-a-single-machine-to-a-distributed-system/</link>
       <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
       
@@ -484,6 +488,7 @@
     
     <item>
       <title>Colmena, an Architecture for Highly-Scalable Web Services</title>
+      <subtitle>We ditched MVC frameworks and designed our own architecture, combining ideas like Event Sourcing, CQRS &amp; Hexagonal. Here&#39;s what we learned.</subtitle>
       <link>https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/</link>
       <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
       
@@ -778,6 +783,7 @@ article_tagged(...)
     
     <item>
       <title>5 ways to make your codebase withstand the test of time</title>
+      <subtitle>If you don’t treat your codebase carefully you may end up maintaining a huge pile of technical debt. Here are 5 ideas to fight against legacy code… and win.</subtitle>
       <link>https://larribas.me/posts/5-ways-to-make-your-codebase-withstand-the-test-of-time/</link>
       <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
       

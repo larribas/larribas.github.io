@@ -13,6 +13,7 @@
     
     <item>
       <title>The identity of a Microservice</title>
+      <subtitle>Do deployment strategies and infrastructure patterns affect what we define as a microservice?</subtitle>
       <link>https://larribas.me/posts/the-identity-of-a-microservice/</link>
       <pubDate>Sat, 22 Feb 2020 00:00:00 +0000</pubDate>
       
@@ -141,6 +142,7 @@
     
     <item>
       <title>Colmena, an Architecture for Highly-Scalable Web Services</title>
+      <subtitle>We ditched MVC frameworks and designed our own architecture, combining ideas like Event Sourcing, CQRS &amp; Hexagonal. Here&#39;s what we learned.</subtitle>
       <link>https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/</link>
       <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
       

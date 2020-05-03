@@ -13,6 +13,7 @@
     
     <item>
       <title>Paving the way for distributed asynchronous tasks</title>
+      <subtitle>In this article, we discuss queues, schedulers, idempotency and optimistic/pessimistic locking, and how we designed our distributed system.</subtitle>
       <link>https://larribas.me/posts/paving-the-way-for-distributed-asynchronous-tasks/</link>
       <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
       
@@ -120,6 +121,7 @@
     
     <item>
       <title>Meaningful web service /health checks</title>
+      <subtitle>Health checks are an important part of the lifecycle of our systems. Here are 10 best practices to make them richer and more useful.</subtitle>
       <link>https://larribas.me/posts/meaningful-web-service-health-checks/</link>
       <pubDate>Thu, 03 Oct 2019 00:00:00 +0000</pubDate>
       
@@ -268,6 +270,7 @@
     
     <item>
       <title>Migrating Glovo’s dispatching service from a single machine to a distributed system</title>
+      <subtitle>How we re-engineered one of our main web services to make it highly available. Part One.</subtitle>
       <link>https://larribas.me/posts/migrating-glovos-dispatching-service-from-a-single-machine-to-a-distributed-system/</link>
       <pubDate>Tue, 20 Aug 2019 00:00:00 +0000</pubDate>
       

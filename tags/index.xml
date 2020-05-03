@@ -13,6 +13,7 @@
     
     <item>
       <title>domain-driven-design</title>
+      <subtitle></subtitle>
       <link>https://larribas.me/tags/domain-driven-design/</link>
       <pubDate>Sat, 22 Feb 2020 00:00:00 +0000</pubDate>
       
@@ -23,6 +24,7 @@
     
     <item>
       <title>microservices</title>
+      <subtitle></subtitle>
       <link>https://larribas.me/tags/microservices/</link>
       <pubDate>Sat, 22 Feb 2020 00:00:00 +0000</pubDate>
       
@@ -33,6 +35,7 @@
     
     <item>
       <title>web-services</title>
+      <subtitle></subtitle>
       <link>https://larribas.me/tags/web-services/</link>
       <pubDate>Sat, 22 Feb 2020 00:00:00 +0000</pubDate>
       
@@ -43,6 +46,7 @@
     
     <item>
       <title>backend</title>
+      <subtitle></subtitle>
       <link>https://larribas.me/tags/backend/</link>
       <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
       
@@ -53,6 +57,7 @@
     
     <item>
       <title>distributed-systems</title>
+      <subtitle></subtitle>
       <link>https://larribas.me/tags/distributed-systems/</link>
       <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
       
@@ -63,6 +68,7 @@
     
     <item>
       <title>high-availability</title>
+      <subtitle></subtitle>
       <link>https://larribas.me/tags/high-availability/</link>
       <pubDate>Fri, 25 Oct 2019 00:00:00 +0000</pubDate>
       
@@ -73,6 +79,7 @@
     
     <item>
       <title>continuous-deployment</title>
+      <subtitle></subtitle>
       <link>https://larribas.me/tags/continuous-deployment/</link>
       <pubDate>Thu, 03 Oct 2019 00:00:00 +0000</pubDate>
       
@@ -83,6 +90,7 @@
     
     <item>
       <title>dev-ops</title>
+      <subtitle></subtitle>
       <link>https://larribas.me/tags/dev-ops/</link>
       <pubDate>Thu, 03 Oct 2019 00:00:00 +0000</pubDate>
       
@@ -93,6 +101,7 @@
     
     <item>
       <title>architecture</title>
+      <subtitle></subtitle>
       <link>https://larribas.me/tags/architecture/</link>
       <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
       
@@ -103,6 +112,7 @@
     
     <item>
       <title>cqrs</title>
+      <subtitle></subtitle>
       <link>https://larribas.me/tags/cqrs/</link>
       <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
       
@@ -113,6 +123,7 @@
     
     <item>
       <title>design-patterns</title>
+      <subtitle></subtitle>
       <link>https://larribas.me/tags/design-patterns/</link>
       <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
       
@@ -123,6 +134,7 @@
     
     <item>
       <title>event-sourcing</title>
+      <subtitle></subtitle>
       <link>https://larribas.me/tags/event-sourcing/</link>
       <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
       
@@ -133,6 +145,7 @@
     
     <item>
       <title>elm</title>
+      <subtitle></subtitle>
       <link>https://larribas.me/tags/elm/</link>
       <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
       
@@ -143,6 +156,7 @@
     
     <item>
       <title>kubernetes</title>
+      <subtitle></subtitle>
       <link>https://larribas.me/tags/kubernetes/</link>
       <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
       
@@ -153,6 +167,7 @@
     
     <item>
       <title>legacy</title>
+      <subtitle></subtitle>
       <link>https://larribas.me/tags/legacy/</link>
       <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
       
@@ -163,6 +178,7 @@
     
     <item>
       <title>postgres</title>
+      <subtitle></subtitle>
       <link>https://larribas.me/tags/postgres/</link>
       <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
       
@@ -173,6 +189,7 @@
     
     <item>
       <title>pwa</title>
+      <subtitle></subtitle>
       <link>https://larribas.me/tags/pwa/</link>
       <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
       
@@ -183,6 +200,7 @@
     
     <item>
       <title>rabbitmq</title>
+      <subtitle></subtitle>
       <link>https://larribas.me/tags/rabbitmq/</link>
       <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
       
@@ -193,6 +211,7 @@
     
     <item>
       <title>ruby</title>
+      <subtitle></subtitle>
       <link>https://larribas.me/tags/ruby/</link>
       <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
       
@@ -203,6 +222,7 @@
     
     <item>
       <title>web-dev</title>
+      <subtitle></subtitle>
       <link>https://larribas.me/tags/web-dev/</link>
       <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
       
@@ -213,6 +233,7 @@
     
     <item>
       <title>hexagonal-architecture</title>
+      <subtitle></subtitle>
       <link>https://larribas.me/tags/hexagonal-architecture/</link>
       <pubDate>Wed, 10 Oct 2018 00:00:00 +0000</pubDate>
       
@@ -223,6 +244,7 @@
     
     <item>
       <title>docker</title>
+      <subtitle></subtitle>
       <link>https://larribas.me/tags/docker/</link>
       <pubDate>Sat, 05 Aug 2017 00:00:00 +0000</pubDate>
       
@@ -233,6 +255,7 @@
     
     <item>
       <title>haskell</title>
+      <subtitle></subtitle>
       <link>https://larribas.me/tags/haskell/</link>
       <pubDate>Sat, 05 Aug 2017 00:00:00 +0000</pubDate>
       
@@ -243,6 +266,7 @@
     
     <item>
       <title>html</title>
+      <subtitle></subtitle>
       <link>https://larribas.me/tags/html/</link>
       <pubDate>Sat, 05 Aug 2017 00:00:00 +0000</pubDate>
       
@@ -253,6 +277,7 @@
     
     <item>
       <title>sass</title>
+      <subtitle></subtitle>
       <link>https://larribas.me/tags/sass/</link>
       <pubDate>Fri, 10 Mar 2017 00:00:00 +0000</pubDate>
       

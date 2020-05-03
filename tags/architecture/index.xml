@@ -13,6 +13,7 @@
     
     <item>
       <title>Colmena, an Architecture for Highly-Scalable Web Services</title>
+      <subtitle>We ditched MVC frameworks and designed our own architecture, combining ideas like Event Sourcing, CQRS &amp; Hexagonal. Here&#39;s what we learned.</subtitle>
       <link>https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/</link>
       <pubDate>Tue, 06 Nov 2018 00:00:00 +0000</pubDate>
       
@@ -307,6 +308,7 @@ article_tagged(...)
     
     <item>
       <title>5 ways to make your codebase withstand the test of time</title>
+      <subtitle>If you don’t treat your codebase carefully you may end up maintaining a huge pile of technical debt. Here are 5 ideas to fight against legacy code… and win.</subtitle>
       <link>https://larribas.me/posts/5-ways-to-make-your-codebase-withstand-the-test-of-time/</link>
       <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
       
