@@ -63,7 +63,7 @@
 &lt;/blockquote&gt;
 &lt;h1 id=&#34;the-logical-and-physical-interfaces-of-a-microservice&#34;&gt;The logical and physical interfaces of a microservice&lt;/h1&gt;
 &lt;p&gt;I usually look at a service’s interface from two angles.&lt;/p&gt;
-&lt;p&gt;On the one hand, we have the “logical” interface. This is comprised by the way the inputs and outputs are structured, or the way we name and organize different endpoints, commands or tables.&lt;/p&gt;
+&lt;p&gt;On the one hand, we have the &amp;ldquo;logical&amp;rdquo; interface. This is comprised by the way the inputs and outputs are structured, or the way we name and organize different endpoints, commands or tables.&lt;/p&gt;
 
 
 &lt;figure&gt;
@@ -83,7 +83,7 @@
 &lt;/figure&gt;
 
 
-&lt;p&gt;On the other hand, we have the “physical” interface. This has to do with the way the interface is exposed. How do we address the HTTP API or the Database? Is it exposed publicly or through a private network/vpn?&lt;/p&gt;
+&lt;p&gt;On the other hand, we have the &amp;ldquo;physical&amp;rdquo; interface. This has to do with the way the interface is exposed. How do we address the HTTP API or the Database? Is it exposed publicly or through a private network/vpn?&lt;/p&gt;
 
 
 &lt;figure&gt;
