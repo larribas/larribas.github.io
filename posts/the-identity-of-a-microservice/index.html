@@ -157,7 +157,7 @@
 
 
 <p>My current company is undergoing a transition to microservices. This is a new challenge for the company since, until this point, all our processes and tooling revolve around a monolith, shaped by all the decisions we made in the past (the good ones and the bad ones).</p>
-<p>The way we decided to start is by migrating one single component into a microservice, and laying down a “golden path” for other services to follow. This is helping us streamline the process, and kicking off some really interesting discussions about the topic.</p>
+<p>The way we decided to start is by migrating one single component into a microservice, and laying down a &ldquo;golden path&rdquo; for other services to follow. This is helping us streamline the process, and kicking off some really interesting discussions about the topic.</p>
 <p>Today was the last big debate. 15 people in a room, all with different backgrounds, debating whether it made sense for us to deploy a service to 2 clusters of machines (one serving the HTTP API and the other listening to different event streams and materializing information to the database), or to a single cluster of machines with those 2 responsibilities.</p>
 <p>The outcome of the debate was pragmatic and the right fit for our current needs, but I was surprised to discover that we could not agree on one of the most basic aspects: <strong>When does a microservice stop being a microservice?</strong></p>
 <p>I was going home and I couldn’t shake the thought out of my head, so I decided to write this (highly opinionated) article. Hopefully it will resonate with some people, and some comments will challenge my current assumptions.</p>
@@ -182,7 +182,7 @@
 </blockquote>
 <h1 id="the-logical-and-physical-interfaces-of-a-microservice">The logical and physical interfaces of a microservice</h1>
 <p>I usually look at a service’s interface from two angles.</p>
-<p>On the one hand, we have the “logical” interface. This is comprised by the way the inputs and outputs are structured, or the way we name and organize different endpoints, commands or tables.</p>
+<p>On the one hand, we have the &ldquo;logical&rdquo; interface. This is comprised by the way the inputs and outputs are structured, or the way we name and organize different endpoints, commands or tables.</p>
 
 
 <figure>
@@ -202,7 +202,7 @@
 </figure>
 
 
-<p>On the other hand, we have the “physical” interface. This has to do with the way the interface is exposed. How do we address the HTTP API or the Database? Is it exposed publicly or through a private network/vpn?</p>
+<p>On the other hand, we have the &ldquo;physical&rdquo; interface. This has to do with the way the interface is exposed. How do we address the HTTP API or the Database? Is it exposed publicly or through a private network/vpn?</p>
 
 
 <figure>
@@ -222,7 +222,7 @@
 </figure>
 
 
-<p>What I’ve come to realize today is that the intersection between the logical and the physical, and between the interface and the implementation details, is a grey area that causes a lot of confusion. So I’m going to ask you some philosophical questions, and as a thought exercise, you can jot down what your first intuition is.</p>
+<p>What I’ve come to realize today is that the intersection between the logical and the physical, and between the interface and the implementation details, is a grey area that causes a lot of confusion. So I&rsquo;m going to ask you some philosophical questions, and as a thought exercise, you can jot down what your first intuition is.</p>
 <h1 id="does-a-microservice-stop-being-a-microservice-because-we-refactor-the-internal-code">Does a microservice stop being a microservice because we refactor the internal code?</h1>
 <p>If we carried out an internal refactor of our code, preserving the current interface, would we call it a different microservice?</p>
 <p>If we modularized certain parts of the service, would it become something else?</p>

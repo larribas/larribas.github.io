@@ -38,7 +38,7 @@
 
 
 &lt;p&gt;My current company is undergoing a transition to microservices. This is a new challenge for the company since, until this point, all our processes and tooling revolve around a monolith, shaped by all the decisions we made in the past (the good ones and the bad ones).&lt;/p&gt;
-&lt;p&gt;The way we decided to start is by migrating one single component into a microservice, and laying down a “golden path” for other services to follow. This is helping us streamline the process, and kicking off some really interesting discussions about the topic.&lt;/p&gt;
+&lt;p&gt;The way we decided to start is by migrating one single component into a microservice, and laying down a &amp;ldquo;golden path&amp;rdquo; for other services to follow. This is helping us streamline the process, and kicking off some really interesting discussions about the topic.&lt;/p&gt;
 &lt;p&gt;Today was the last big debate. 15 people in a room, all with different backgrounds, debating whether it made sense for us to deploy a service to 2 clusters of machines (one serving the HTTP API and the other listening to different event streams and materializing information to the database), or to a single cluster of machines with those 2 responsibilities.&lt;/p&gt;
 &lt;p&gt;The outcome of the debate was pragmatic and the right fit for our current needs, but I was surprised to discover that we could not agree on one of the most basic aspects: &lt;strong&gt;When does a microservice stop being a microservice?&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;I was going home and I couldn’t shake the thought out of my head, so I decided to write this (highly opinionated) article. Hopefully it will resonate with some people, and some comments will challenge my current assumptions.&lt;/p&gt;
@@ -63,7 +63,7 @@
 &lt;/blockquote&gt;
 &lt;h1 id=&#34;the-logical-and-physical-interfaces-of-a-microservice&#34;&gt;The logical and physical interfaces of a microservice&lt;/h1&gt;
 &lt;p&gt;I usually look at a service’s interface from two angles.&lt;/p&gt;
-&lt;p&gt;On the one hand, we have the “logical” interface. This is comprised by the way the inputs and outputs are structured, or the way we name and organize different endpoints, commands or tables.&lt;/p&gt;
+&lt;p&gt;On the one hand, we have the &amp;ldquo;logical&amp;rdquo; interface. This is comprised by the way the inputs and outputs are structured, or the way we name and organize different endpoints, commands or tables.&lt;/p&gt;
 
 
 &lt;figure&gt;
@@ -83,7 +83,7 @@
 &lt;/figure&gt;
 
 
-&lt;p&gt;On the other hand, we have the “physical” interface. This has to do with the way the interface is exposed. How do we address the HTTP API or the Database? Is it exposed publicly or through a private network/vpn?&lt;/p&gt;
+&lt;p&gt;On the other hand, we have the &amp;ldquo;physical&amp;rdquo; interface. This has to do with the way the interface is exposed. How do we address the HTTP API or the Database? Is it exposed publicly or through a private network/vpn?&lt;/p&gt;
 
 
 &lt;figure&gt;
@@ -103,7 +103,7 @@
 &lt;/figure&gt;
 
 
-&lt;p&gt;What I’ve come to realize today is that the intersection between the logical and the physical, and between the interface and the implementation details, is a grey area that causes a lot of confusion. So I’m going to ask you some philosophical questions, and as a thought exercise, you can jot down what your first intuition is.&lt;/p&gt;
+&lt;p&gt;What I’ve come to realize today is that the intersection between the logical and the physical, and between the interface and the implementation details, is a grey area that causes a lot of confusion. So I&amp;rsquo;m going to ask you some philosophical questions, and as a thought exercise, you can jot down what your first intuition is.&lt;/p&gt;
 &lt;h1 id=&#34;does-a-microservice-stop-being-a-microservice-because-we-refactor-the-internal-code&#34;&gt;Does a microservice stop being a microservice because we refactor the internal code?&lt;/h1&gt;
 &lt;p&gt;If we carried out an internal refactor of our code, preserving the current interface, would we call it a different microservice?&lt;/p&gt;
 &lt;p&gt;If we modularized certain parts of the service, would it become something else?&lt;/p&gt;
@@ -1208,8 +1208,8 @@ user_signed_in(...) 25 minutes ago
       
       <guid>https://larribas.me/about/</guid>
       <description>&lt;p&gt;I&amp;rsquo;m Lorenzo Arribas, a Software Engineer based in Barcelona, Spain.&lt;/p&gt;
-&lt;p&gt;Over the past 7 years, I have worked in 2 hypergrowth start-ups and seen them turn into well-established multi-national companies. I&amp;rsquo;ve also ventured into creating my own company for a couple of years.&lt;/p&gt;
-&lt;p&gt;I like fast-paced environments where I can have an impact and feel like every day is challenging. I try not to stay within my comfort zone. During the last 7 years I&amp;rsquo;ve put frontend applications into production, developed event-driven microservices and set up complex infrastructure topologies.&lt;/p&gt;
+&lt;p&gt;Over the last decade, I have worked in 2 hypergrowth start-ups and seen them turn into well-established multi-national companies. I also ventured into creating my own company for a couple of years.&lt;/p&gt;
+&lt;p&gt;I like fast-paced environments where I can have an impact, work with brilliant colleagues and feel like every day is challenging. I try not to stay within my comfort zone. I’ve put frontend applications into production, developed event-driven services, worked on process automation to train and deploy ML systems, and implemented Kubernetes in my organization.&lt;/p&gt;
 &lt;p&gt;From time to time, I also post my thoughts and projects on &lt;a href=&#34;https://larribas.me/posts/&#34;&gt;my blog&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Some of my last projects have involved:&lt;/p&gt;
 &lt;ul&gt;
