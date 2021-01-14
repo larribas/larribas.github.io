@@ -39,14 +39,15 @@
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/images/dry.jpg&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/images/dry.jpg&#34;
         alt=&#34;We&amp;#39;re good. This framework is DRY&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     &lt;figcaption&gt;We tried to be DRY, but working on our codebase felt like drowning.&lt;/figcaption&gt;
 &lt;/figure&gt;
@@ -73,14 +74,15 @@
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/images/basic_cell.png&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/images/basic_cell.png&#34;
         alt=&#34;A basic authentication cell exposes operations to create new credentials, check them and update them. It also needs to communicate with an Oauth service and a database.&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     
 &lt;/figure&gt;
@@ -120,14 +122,15 @@
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/images/evented_domain.png&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/images/evented_domain.png&#34;
         alt=&#34;A functional, evented domain takes a current state (pure data), some arguments (pure data) and produces a deterministic output (pure data).&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     
 &lt;/figure&gt;
@@ -150,14 +153,15 @@
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/images/cqrs_sequence_diagram.png&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/images/cqrs_sequence_diagram.png&#34;
         alt=&#34;A query reads from a database (which could be optimized for a particular kind of read operation), whereas a command might need to read from a database, find out what to do and store the changes, all of this within a transaction.&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     
 &lt;/figure&gt;
@@ -178,14 +182,15 @@
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/images/materialization_diagram.png&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/images/materialization_diagram.png&#34;
         alt=&#34;A transaction makes sure the events are materialized in different ways.&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     
 &lt;/figure&gt;
@@ -237,14 +242,15 @@ article_tagged(...)
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/images/cell_layers.png&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/images/cell_layers.png&#34;
         alt=&#34;In the hexagonal architecture, a cell has several layers. The outmost layer is the framework layer, where we interface with specific tools, services or libraries. Beneath it is the aplication layer, where we expose all public-facing features (commands, queries and listeners in our case). Beneath the application is the domain.&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     &lt;figcaption&gt;The layers in the hexagonal architecture, as applied to the concepts in &lt;em&gt;Colmena&lt;/em&gt;.&lt;/figcaption&gt;
 &lt;/figure&gt;
@@ -260,14 +266,15 @@ article_tagged(...)
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/images/beehive.jpg&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/images/beehive.jpg&#34;
         alt=&#34;A beehive is made up of many hexagonal cells that work together&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     
 &lt;/figure&gt;
@@ -325,14 +332,15 @@ article_tagged(...)
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/5-ways-to-make-your-codebase-withstand-the-test-of-time/images/legacy-meme.jpg&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/5-ways-to-make-your-codebase-withstand-the-test-of-time/images/legacy-meme.jpg&#34;
         alt=&#34;Your decisions will always impact many other people&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     
 &lt;/figure&gt;

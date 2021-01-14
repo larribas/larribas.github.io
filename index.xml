@@ -24,14 +24,15 @@
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/the-identity-of-a-microservice/images/little_boxes_on_the_hillside.jpeg&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/the-identity-of-a-microservice/images/little_boxes_on_the_hillside.jpeg&#34;
         alt=&#34;Aerial photo of a suburban area&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     &lt;figcaption&gt;Little boxes on the hillside&amp;hellip;&lt;/figcaption&gt;
 &lt;/figure&gt;
@@ -70,14 +71,15 @@
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/the-identity-of-a-microservice/images/logical_interface.png&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/the-identity-of-a-microservice/images/logical_interface.png&#34;
         alt=&#34;A service’s interface may be composed of different parts. In this example, the service exposes an HTTP API and emits events with a specific schema.&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     &lt;figcaption&gt;A service’s interface may be composed of different parts. In this example, the service exposes an HTTP API and emits events with a specific schema.&lt;/figcaption&gt;
 &lt;/figure&gt;
@@ -90,14 +92,15 @@
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/the-identity-of-a-microservice/images/physical_interface.png&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/the-identity-of-a-microservice/images/physical_interface.png&#34;
         alt=&#34;The physical interface for the example above might expose the HTTP API on a public domain, emit events to a specific Kafka topic and store events inside of an S3 bucket for easier access later on.&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     &lt;figcaption&gt;The physical interface for the example above might expose the HTTP API on a public domain, emit events to a specific Kafka topic and store events inside of an S3 bucket for easier access later on.&lt;/figcaption&gt;
 &lt;/figure&gt;
@@ -153,14 +156,15 @@
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/paving-the-way-for-distributed-asynchronous-tasks/images/clock.jpeg&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/paving-the-way-for-distributed-asynchronous-tasks/images/clock.jpeg&#34;
         alt=&#34;Clock with a road in the background&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     &lt;figcaption&gt;Source: &lt;!-- raw HTML omitted --&gt;&lt;a href=&#34;http://sarahrussellpottery.com/galleries/clocks/&#34;&gt;http://sarahrussellpottery.com/galleries/clocks/&lt;/a&gt;&lt;!-- raw HTML omitted --&gt;&lt;/figcaption&gt;
 &lt;/figure&gt;
@@ -216,14 +220,15 @@
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/paving-the-way-for-distributed-asynchronous-tasks/images/fencing.png&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/paving-the-way-for-distributed-asynchronous-tasks/images/fencing.png&#34;
         alt=&#34;Without any fencing strategy, if a worker took longer than its timeout to complete, it would not be able to commit.&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     &lt;figcaption&gt;Without any fencing strategy, if a worker took longer than its timeout to complete, it would not be able to commit.&lt;/figcaption&gt;
 &lt;/figure&gt;
@@ -265,14 +270,15 @@
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/meaningful-web-service-health-checks/images/ok_xray_scan.jpeg&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/meaningful-web-service-health-checks/images/ok_xray_scan.jpeg&#34;
         alt=&#34;X-ray scan of a hand saying &amp;#39;ok&amp;#39;&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     
 &lt;/figure&gt;
@@ -322,14 +328,15 @@
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/meaningful-web-service-health-checks/images/blood_type_joke.png&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/meaningful-web-service-health-checks/images/blood_type_joke.png&#34;
         alt=&#34;What&amp;#39;s your blood type? Red!&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     
 &lt;/figure&gt;
@@ -418,14 +425,15 @@
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/migrating-glovos-dispatching-service-from-a-single-machine-to-a-distributed-system/images/mainframe.jpeg&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/migrating-glovos-dispatching-service-from-a-single-machine-to-a-distributed-system/images/mainframe.jpeg&#34;
         alt=&#34;Busy people around an old mainframe computer&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     &lt;figcaption&gt;This is how I feel our team works when we&amp;rsquo;re having a live issue with Jarvis. &lt;!-- raw HTML omitted --&gt;Source&lt;!-- raw HTML omitted --&gt;&lt;/figcaption&gt;
 &lt;/figure&gt;
@@ -446,14 +454,15 @@
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/migrating-glovos-dispatching-service-from-a-single-machine-to-a-distributed-system/images/diagram.png&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/migrating-glovos-dispatching-service-from-a-single-machine-to-a-distributed-system/images/diagram.png&#34;
         alt=&#34;Diagram of our dispatching system running on a single instance, and how releases and rollbacks affected its availability&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     &lt;figcaption&gt;Jarvis ran on one single instance. This instance used the actor concurrency model to make decisions for different cities concurrently. Whenever there was a release (and a rollback), we would have a few minutes of downtime, delaying order delivery.&lt;/figcaption&gt;
 &lt;/figure&gt;
@@ -514,14 +523,15 @@
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/images/dry.jpg&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/images/dry.jpg&#34;
         alt=&#34;We&amp;#39;re good. This framework is DRY&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     &lt;figcaption&gt;We tried to be DRY, but working on our codebase felt like drowning.&lt;/figcaption&gt;
 &lt;/figure&gt;
@@ -548,14 +558,15 @@
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/images/basic_cell.png&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/images/basic_cell.png&#34;
         alt=&#34;A basic authentication cell exposes operations to create new credentials, check them and update them. It also needs to communicate with an Oauth service and a database.&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     
 &lt;/figure&gt;
@@ -595,14 +606,15 @@
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/images/evented_domain.png&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/images/evented_domain.png&#34;
         alt=&#34;A functional, evented domain takes a current state (pure data), some arguments (pure data) and produces a deterministic output (pure data).&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     
 &lt;/figure&gt;
@@ -625,14 +637,15 @@
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/images/cqrs_sequence_diagram.png&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/images/cqrs_sequence_diagram.png&#34;
         alt=&#34;A query reads from a database (which could be optimized for a particular kind of read operation), whereas a command might need to read from a database, find out what to do and store the changes, all of this within a transaction.&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     
 &lt;/figure&gt;
@@ -653,14 +666,15 @@
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/images/materialization_diagram.png&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/images/materialization_diagram.png&#34;
         alt=&#34;A transaction makes sure the events are materialized in different ways.&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     
 &lt;/figure&gt;
@@ -712,14 +726,15 @@ article_tagged(...)
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/images/cell_layers.png&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/images/cell_layers.png&#34;
         alt=&#34;In the hexagonal architecture, a cell has several layers. The outmost layer is the framework layer, where we interface with specific tools, services or libraries. Beneath it is the aplication layer, where we expose all public-facing features (commands, queries and listeners in our case). Beneath the application is the domain.&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     &lt;figcaption&gt;The layers in the hexagonal architecture, as applied to the concepts in &lt;em&gt;Colmena&lt;/em&gt;.&lt;/figcaption&gt;
 &lt;/figure&gt;
@@ -735,14 +750,15 @@ article_tagged(...)
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/images/beehive.jpg&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/colmena-an-architecture-for-highly-scalable-web-services/images/beehive.jpg&#34;
         alt=&#34;A beehive is made up of many hexagonal cells that work together&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     
 &lt;/figure&gt;
@@ -800,14 +816,15 @@ article_tagged(...)
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/5-ways-to-make-your-codebase-withstand-the-test-of-time/images/legacy-meme.jpg&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/5-ways-to-make-your-codebase-withstand-the-test-of-time/images/legacy-meme.jpg&#34;
         alt=&#34;Your decisions will always impact many other people&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     
 &lt;/figure&gt;
@@ -977,14 +994,15 @@ user_signed_in(...) 25 minutes ago
     
 
     
+    &lt;a href=&#34;https://larribas.me/projects/schoolhouse-io/images/landing-banner.png&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/projects/schoolhouse-io/images/landing-banner.png&#34;
         alt=&#34;Banner for SchoolHouse.io&amp;#39;s landing page&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     
 &lt;/figure&gt;
@@ -1049,14 +1067,15 @@ user_signed_in(...) 25 minutes ago
     
 
     
+    &lt;a href=&#34;https://larribas.me/projects/colmena/images/beehive.jpg&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/projects/colmena/images/beehive.jpg&#34;
         alt=&#34;Beehive&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     
 &lt;/figure&gt;
@@ -1132,14 +1151,15 @@ user_signed_in(...) 25 minutes ago
     
 
     
+    &lt;a href=&#34;https://larribas.me/projects/sandcapsule/images/animation.gif&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/projects/sandcapsule/images/animation.gif&#34;
         alt=&#34;Send a message. Decide when they see it.&#34;
         style=&#34;width: 200px&#34;
     &gt;
-
-    
+    &lt;/a&gt;
 
     
 &lt;/figure&gt;
@@ -1152,14 +1172,15 @@ user_signed_in(...) 25 minutes ago
     
 
     
+    &lt;a href=&#34;https://larribas.me/projects/sandcapsule/images/screens.jpg&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/projects/sandcapsule/images/screens.jpg&#34;
         alt=&#34;Screenshots of SandCapsule&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     
 &lt;/figure&gt;

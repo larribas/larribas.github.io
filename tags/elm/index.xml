@@ -24,14 +24,15 @@
     
 
     
+    &lt;a href=&#34;https://larribas.me/projects/schoolhouse-io/images/landing-banner.png&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/projects/schoolhouse-io/images/landing-banner.png&#34;
         alt=&#34;Banner for SchoolHouse.io&amp;#39;s landing page&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     
 &lt;/figure&gt;
@@ -135,14 +136,15 @@
     
 
     
+    &lt;a href=&#34;https://larribas.me/projects/sandcapsule/images/animation.gif&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/projects/sandcapsule/images/animation.gif&#34;
         alt=&#34;Send a message. Decide when they see it.&#34;
         style=&#34;width: 200px&#34;
     &gt;
-
-    
+    &lt;/a&gt;
 
     
 &lt;/figure&gt;
@@ -155,14 +157,15 @@
     
 
     
+    &lt;a href=&#34;https://larribas.me/projects/sandcapsule/images/screens.jpg&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/projects/sandcapsule/images/screens.jpg&#34;
         alt=&#34;Screenshots of SandCapsule&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     
 &lt;/figure&gt;

@@ -24,14 +24,15 @@
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/paving-the-way-for-distributed-asynchronous-tasks/images/clock.jpeg&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/paving-the-way-for-distributed-asynchronous-tasks/images/clock.jpeg&#34;
         alt=&#34;Clock with a road in the background&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     &lt;figcaption&gt;Source: &lt;!-- raw HTML omitted --&gt;&lt;a href=&#34;http://sarahrussellpottery.com/galleries/clocks/&#34;&gt;http://sarahrussellpottery.com/galleries/clocks/&lt;/a&gt;&lt;!-- raw HTML omitted --&gt;&lt;/figcaption&gt;
 &lt;/figure&gt;
@@ -87,14 +88,15 @@
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/paving-the-way-for-distributed-asynchronous-tasks/images/fencing.png&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/paving-the-way-for-distributed-asynchronous-tasks/images/fencing.png&#34;
         alt=&#34;Without any fencing strategy, if a worker took longer than its timeout to complete, it would not be able to commit.&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     &lt;figcaption&gt;Without any fencing strategy, if a worker took longer than its timeout to complete, it would not be able to commit.&lt;/figcaption&gt;
 &lt;/figure&gt;
@@ -140,14 +142,15 @@
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/migrating-glovos-dispatching-service-from-a-single-machine-to-a-distributed-system/images/mainframe.jpeg&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/migrating-glovos-dispatching-service-from-a-single-machine-to-a-distributed-system/images/mainframe.jpeg&#34;
         alt=&#34;Busy people around an old mainframe computer&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     &lt;figcaption&gt;This is how I feel our team works when we&amp;rsquo;re having a live issue with Jarvis. &lt;!-- raw HTML omitted --&gt;Source&lt;!-- raw HTML omitted --&gt;&lt;/figcaption&gt;
 &lt;/figure&gt;
@@ -168,14 +171,15 @@
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/migrating-glovos-dispatching-service-from-a-single-machine-to-a-distributed-system/images/diagram.png&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/migrating-glovos-dispatching-service-from-a-single-machine-to-a-distributed-system/images/diagram.png&#34;
         alt=&#34;Diagram of our dispatching system running on a single instance, and how releases and rollbacks affected its availability&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     &lt;figcaption&gt;Jarvis ran on one single instance. This instance used the actor concurrency model to make decisions for different cities concurrently. Whenever there was a release (and a rollback), we would have a few minutes of downtime, delaying order delivery.&lt;/figcaption&gt;
 &lt;/figure&gt;

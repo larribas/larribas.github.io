@@ -24,14 +24,15 @@
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/the-identity-of-a-microservice/images/little_boxes_on_the_hillside.jpeg&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/the-identity-of-a-microservice/images/little_boxes_on_the_hillside.jpeg&#34;
         alt=&#34;Aerial photo of a suburban area&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     &lt;figcaption&gt;Little boxes on the hillside&amp;hellip;&lt;/figcaption&gt;
 &lt;/figure&gt;
@@ -70,14 +71,15 @@
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/the-identity-of-a-microservice/images/logical_interface.png&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/the-identity-of-a-microservice/images/logical_interface.png&#34;
         alt=&#34;A service’s interface may be composed of different parts. In this example, the service exposes an HTTP API and emits events with a specific schema.&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     &lt;figcaption&gt;A service’s interface may be composed of different parts. In this example, the service exposes an HTTP API and emits events with a specific schema.&lt;/figcaption&gt;
 &lt;/figure&gt;
@@ -90,14 +92,15 @@
     
 
     
+    &lt;a href=&#34;https://larribas.me/posts/the-identity-of-a-microservice/images/physical_interface.png&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/posts/the-identity-of-a-microservice/images/physical_interface.png&#34;
         alt=&#34;The physical interface for the example above might expose the HTTP API on a public domain, emit events to a specific Kafka topic and store events inside of an S3 bucket for easier access later on.&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     &lt;figcaption&gt;The physical interface for the example above might expose the HTTP API on a public domain, emit events to a specific Kafka topic and store events inside of an S3 bucket for easier access later on.&lt;/figcaption&gt;
 &lt;/figure&gt;
@@ -159,14 +162,15 @@
     
 
     
+    &lt;a href=&#34;https://larribas.me/projects/colmena/images/beehive.jpg&#34;&gt;
+    
 
     &lt;img
         src=&#34;https://larribas.me/projects/colmena/images/beehive.jpg&#34;
         alt=&#34;Beehive&#34;
         
     &gt;
-
-    
+    &lt;/a&gt;
 
     
 &lt;/figure&gt;
