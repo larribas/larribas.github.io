@@ -6,10 +6,54 @@
     <description>Recent content in Tags on Lorenzo Arribas</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 22 Feb 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 15 Jan 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://larribas.me/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>cost-optimization</title>
+      <subtitle></subtitle>
+      <link>https://larribas.me/tags/cost-optimization/</link>
+      <pubDate>Fri, 15 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/cost-optimization/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>kubernetes</title>
+      <subtitle></subtitle>
+      <link>https://larribas.me/tags/kubernetes/</link>
+      <pubDate>Fri, 15 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/kubernetes/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>monitoring</title>
+      <subtitle></subtitle>
+      <link>https://larribas.me/tags/monitoring/</link>
+      <pubDate>Fri, 15 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/monitoring/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>observability</title>
+      <subtitle></subtitle>
+      <link>https://larribas.me/tags/observability/</link>
+      <pubDate>Fri, 15 Jan 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://larribas.me/tags/observability/</guid>
+      <description></description>
+      
+    </item>
     
     <item>
       <title>domain-driven-design</title>
@@ -150,17 +194,6 @@
       <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
       
       <guid>https://larribas.me/tags/elm/</guid>
-      <description></description>
-      
-    </item>
-    
-    <item>
-      <title>kubernetes</title>
-      <subtitle></subtitle>
-      <link>https://larribas.me/tags/kubernetes/</link>
-      <pubDate>Wed, 17 Oct 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://larribas.me/tags/kubernetes/</guid>
       <description></description>
       
     </item>

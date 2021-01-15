@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+  <head>
+    
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117511810-2"></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
+
+ gtag('config', 'UA-117511810-2');
+</script>
+
+
+    <meta property="og:title" content="A quick approach for cost monitoring on Kubernetes">
+<meta property="og:description" content="How to get cost insights about the projects running on Kubernetes without introducing any extra components. I describe an approach to approximate the costs a specific project/team generates based on the ratio of resources allocated to them / total resources in the cluster">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://larribas.me/posts/monitoring-kubernetes-costs-with-no-extra-tools/">
+
+
+  <meta property="og:image" content="https://larribas.me/posts/monitoring-kubernetes-costs-with-no-extra-tools/images/aws_budgets.png">
+
+
+    <meta itemprop="name" content="A quick approach for cost monitoring on Kubernetes">
+<meta itemprop="description" content="How to get cost insights about the projects running on Kubernetes without introducing any extra components. I describe an approach to approximate the costs a specific project/team generates based on the ratio of resources allocated to them / total resources in the cluster">
+<meta itemprop="datePublished" content="2021-01-15T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2021-01-15T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1514">
+
+
+
+<meta itemprop="keywords" content="kubernetes,monitoring,observability,cost-optimization," />
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="A quick approach for cost monitoring on Kubernetes"/>
+<meta name="twitter:description" content="How to get cost insights about the projects running on Kubernetes without introducing any extra components. I describe an approach to approximate the costs a specific project/team generates based on the ratio of resources allocated to them / total resources in the cluster"/>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="author" content="Lorenzo Arribas">
+    <meta name="description" content="Personal blog and portfolio of Lorenzo Arribas, a Software Engineer based in Barcelona, Spain">
+    <meta name="keywords" content="blog,portfolio,software,developer,personal">
+
+    <title>
+  A quick approach for cost monitoring on Kubernetes · Lorenzo Arribas
+</title>
+    <link rel="canonical" href="https://larribas.me/posts/monitoring-kubernetes-costs-with-no-extra-tools/">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700|Source+Serif+Pro:400,700|Changa+One|Source+Code+Pro:400,700" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css" integrity="sha256-oSrCnRYXvHG31SBifqP2PM1uje7SJUyX0nTwO2RJV54=" crossorigin="anonymous" />
+
+    
+    
+    <link rel="stylesheet" href="/css/coder.min.bead4502fb216e1d816ad619a1d5f7b75bcc20cc5cffaa45476c21298e70618b.css" integrity="sha256-vq1FAvshbh2BatYZodX3t1vMIMxc/6pFR2whKY5wYYs=" crossorigin="anonymous" media="screen" />
+
+    
+
+    <link rel="icon" type="image/png" href="https://larribas.me/images/favicon_32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://larribas.me/images/favicon_16.png" sizes="16x16">
+
+    <meta name="generator" content="Hugo 0.69.2" />
+  </head>
+
+  <body class="">
+    <main class="wrapper">
+      <nav class="navigation">
+  <section class="container">
+    <a class="navigation-title" href="https://larribas.me">
+      Lorenzo Arribas
+    </a>
+    <input type="checkbox" id="menu-toggle" />
+    <label class="menu-button float-right" for="menu-toggle"><i class="fas fa-bars"></i></label>
+    <ul class="navigation-list">
+      
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/about">About</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/projects/">Portfolio</a>
+          </li>
+        
+          <li class="navigation-item">
+            <a class="navigation-link" href="/posts/">Blog</a>
+          </li>
+        
+      
+      
+    </ul>
+  </section>
+</nav>
+
+
+      <div class="content">
+        
+  <section class="container post">
+    <article>
+      <header>
+        <div class="post-title">
+          <h1 class="title">A quick approach for cost monitoring on Kubernetes</h1>
+        </div>
+        <div class="post-meta">
+          <span class="posted-on indicator">
+            📆
+            <time datetime='2021-01-15'>
+              January 15, 2021
+            </time>
+          </span>
+          <span class="reading-time indicator">
+            🕐
+            8 minutes read
+          </span>
+          
+        </div>
+        <ul class="tags">
+            
+            <li>kubernetes</li>
+            
+            <li>monitoring</li>
+            
+            <li>observability</li>
+            
+            <li>cost-optimization</li>
+            
+        </ul>
+      </header>
+
+      <div>
+        <p><em>This article presents an approach to approximate the costs a specific project/team generates on Kubernetes, based on the ratio of resources allocated to them vs. the total resources in the cluster.</em></p>
+<p><em>Our Kubernetes cluster is deployed using <a href="https://aws.amazon.com/eks/">AWS EKS</a>, and we use <a href="https://www.datadoghq.com/">DataDog</a> as a monitoring solution. The screenshots and pieces of code that illustrate this article are based on those technologies, but the general principles and formulas apply to any other stack.</em></p>
+<h2 id="the-problem-of-cost-visibility-on-kubernetes">The problem of cost visibility on Kubernetes</h2>
+<p>We recently migrated all of <a href="https://about.glovoapp.com/en/">Glovo&rsquo;s</a> Machine Learning services to Kubernetes. Before that, each of our services used to run in a dedicated cluster of EC2 instances (cloud VMs).</p>
+<p>One of the results we expected to achieve with this transition was a significant cost reduction. With Kubernetes, all our projects (big and small) would be able to share the same underlying infrastructure and thus leave less room for idle resources.</p>
+
+
+<figure>
+    
+
+    
+    <a href="/posts/monitoring-kubernetes-costs-with-no-extra-tools/images/vms_vs_k8s.png">
+    
+
+    <img
+        src="/posts/monitoring-kubernetes-costs-with-no-extra-tools/images/vms_vs_k8s.png"
+        alt="One cluster per project and one replica per machine vs. A shared cluster where replicas of multiple projects share the same machines"
+        
+    >
+    </a>
+
+    
+</figure>
+
+
+<p>Before the transition to Kubernetes, each team could go to the AWS Cost Explorer and see how much money each of their projects was spending. Naturally, we wanted to maintain that level of visibility.</p>
+<p>The challenge with Kubernetes is that, because different pods share a pool of resources, attributing a part of the total cost to a specific project (or team, or environment, &hellip;) is not trivial. At the moment, the built-in budgeting tools of most cloud platforms I know (AWS in our case) do not provide a straightforward way to explore these costs either, so we were left with two alternatives:</p>
+<ol>
+<li>Install a 3rd-party component to monitor costs (we considered <a href="https://kubecost.com/">Kubecost</a> and <a href="https://www.cloudzero.com/">CloudZero</a>)</li>
+<li>Approximate the cost based on the metrics we were already processing</li>
+</ol>
+<p>We briefly considered option (1), but decided to hold off on adopting a solution that would require extra maintenance and/or procurement.</p>
+<p>What follows is our implementation of option (2): A low-hanging-fruit approach to cost monitoring on Kubernetes.</p>
+<h2 id="approximating-costs-on-kubernetes">Approximating costs on Kubernetes</h2>
+<p>If you are deploying on a cloud provider, the cost of running a specific project in Kubernetes would come down to a formula like this one:</p>
+<pre><code>cumulative sum over time:
+  share of resources allocated to the project * cost of those resources
+</code></pre><p>For instance, if a project <code>P</code> runs 5 pods for 1 hour, and each pod takes up 30% of machine <code>M</code>, then it will be charged <code>0.3 * 5 * price/hour of M</code>.</p>
+<p><em>Of course, projects incur in other costs like databases, block storage, load balancers and network traffic. Fortunately, the budgeting tools offered by cloud providers can already segment those costs, so we&rsquo;ll focus on &lsquo;compute&rsquo; power</em>.</p>
+<p>To run this calculation, the cost monitoring tool needs to be aware of the machine each pod is running on, and the current price of that machine.</p>
+<p>Our goal was to spare the need for an extra service backed by its own database, and we decided to leverage the metrics we were already collecting in <a href="https://docs.datadoghq.com/agent/kubernetes/data_collected">DataDog</a>.</p>
+<p>Assuming all the machines in the cluster have similar prices per unit of CPU/memory, you can approximate the cost with this formula:</p>
+<pre><code>cumulative sum over time:
+  cost of running the cluster * ( share of resources allocated to the project / sum of resources in the cluster )
+</code></pre><p>If that were not the case, you would need to partition this formula by <em>instance type</em> to get a more accurate approximation.</p>
+<h3 id="part-i-getting-the-total-cost-of-running-a-cluster">Part I: Getting the total cost of running a cluster</h3>
+<p>The first thing we needed to do was tag all nodes of our Kubernetes cluster (EC2 machines in AWS) with a <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/custom-tags.html">set of tags</a> that uniquely identified our cluster. Then, we used those tags to create a Budget that tracked the cost of those machines over time (in our case with a monthly periodicity).</p>
+<p>DataDog&rsquo;s <a href="https://docs.datadoghq.com/integrations/amazon_billing/">integration with AWS Billing</a> captures a gauge metric with the actual and forecasted costs for that budget.</p>
+
+
+<figure>
+    
+
+    
+    <a href="/posts/monitoring-kubernetes-costs-with-no-extra-tools/images/aws_budgets.png">
+    
+
+    <img
+        src="/posts/monitoring-kubernetes-costs-with-no-extra-tools/images/aws_budgets.png"
+        alt="After creating an AWS budget and enabling the official integration between AWS Billing and DataDog, the latter will capture the actual (current) and forecasted costs of each budget in a gauge metric that resets periodically"
+        
+    >
+    </a>
+
+    
+</figure>
+
+
+<p>Depending on your particular goals, you may want to include the cost of running Kubernetes (the cost of the control plane, the network, any load balancers&hellip;) in the budget.</p>
+<h3 id="part-ii-collecting-kubernetes-metrics">Part II: Collecting Kubernetes metrics</h3>
+<p>Before, we said costs were a function of the resources allocated to each project. Therefore, we need to configure our monitoring solution to track the resource utilization and requests for all pods, and inject those custom labels into the metrics it emits.</p>
+<p>In our case, we are installing DataDog agents through the <a href="https://github.com/DataDog/helm-charts/tree/master/charts/datadog">official Helm chart</a> and instructing it to segment the metrics it collects about the pods with a bunch of relevant custom pod labels.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">nodeLabelsAsTags</span>:
+  <span style="color:#66d9ef">glovoapp.com/instance-type-family</span>: <span style="color:#e6db74">&#34;instance-type-family&#34;</span>
+  <span style="color:#66d9ef">glovoapp.com/instance-type-generation</span>: <span style="color:#e6db74">&#34;instance-type-generation&#34;</span>
+<span style="color:#66d9ef">podLabelsAsTags</span>:
+  <span style="color:#66d9ef">glovoapp.com/team</span>: <span style="color:#e6db74">&#34;team&#34;</span>
+  <span style="color:#66d9ef">glovoapp.com/project</span>: <span style="color:#e6db74">&#34;project&#34;</span>
+  <span style="color:#66d9ef">glovoapp.com/service</span>: <span style="color:#e6db74">&#34;service&#34;</span>
+  <span style="color:#66d9ef">glovoapp.com/env</span>: <span style="color:#e6db74">&#34;env&#34;</span>
+  <span style="color:#66d9ef">glovoapp.com/version</span>: <span style="color:#e6db74">&#34;version&#34;</span>
+</code></pre></div><p>After this, we have <a href="https://docs.datadoghq.com/agent/kubernetes/data_collected">all the data we need</a> in order to start crafting our formulas.</p>
+
+
+<figure>
+    
+
+    
+    <a href="/posts/monitoring-kubernetes-costs-with-no-extra-tools/images/metrics_collected.png">
+    
+
+    <img
+        src="/posts/monitoring-kubernetes-costs-with-no-extra-tools/images/metrics_collected.png"
+        alt="We can see some of the metrics we are collecting from Kubernetes in DataDog&#39;s metric explorer"
+        
+    >
+    </a>
+
+    
+</figure>
+
+
+<h3 id="part-iii-calculating-the-share-of-resources-allocated-to-each-project">Part III: Calculating the share of resources allocated to each project</h3>
+<p>Here comes the core of the problem: Getting an idea of what percentage of the total cost of the cluster can be attributed to each specific project (and when I say project, I really mean any transversal <em>label</em> that identifies your workloads; for instance, a team, or a business unit).</p>
+<p>The following formula gives us the share of resources a specific resource was allocated at a specific point in time <code>t</code>.</p>
+<pre><code>let cpu_over_total = kubernetes.cpu.requests(project) / kubernetes_state.node.cpu_capacity
+let memory_over_total = kubernetes.memory.requests(project) / kubernetes_state.node.memory_capacity
+# other resources over total
+
+let resources_over_total = mean(cpu_over_total, memory_over_total, ...)
+</code></pre><p>Now, because we&rsquo;re interested in how costs evolve over time, we calculate the cumulative sum over <code>t</code> and multiply it with the total cost of the cluster (which should also be cumulative) to get our final cost per project.</p>
+<pre><code>with resources_over_total 
+let actual_spend = aws.billing.actual_spend
+
+cumulative_sum(resources_over_total) * actual_spend
+</code></pre><h3 id="part-iv-making-these-insights-actionable-for-teams">Part IV: Making these insights actionable for teams</h3>
+<p>Access to this data helped us understand and validate the impact of our migration to Kubernetes.</p>
+<p>However, we are a platform team, and as such, one of our goals is to make these insights accessible and actionable for the teams we support.</p>
+<p>After a few iterations, we settled on a customer-oriented dashboard with the following features:</p>
+<p>On top of the dashboard, we:</p>
+<ul>
+<li>Are transparent about the purpose and caveats of the dashboard.</li>
+<li>Provide general guidance on how to use it.</li>
+<li>Allow customers to filter by environment, team or project.</li>
+</ul>
+
+
+<figure>
+    
+
+    
+    <a href="/posts/monitoring-kubernetes-costs-with-no-extra-tools/images/dashboard_top.png">
+    
+
+    <img
+        src="/posts/monitoring-kubernetes-costs-with-no-extra-tools/images/dashboard_top.png"
+        alt="Top of the dashboard, where customers can select a specific team/project and see some guidance"
+        
+    >
+    </a>
+
+    
+</figure>
+
+
+<p>Next, we present two isomorphic sections, one segmented by &ldquo;team&rdquo; and another segmented by &ldquo;project&rdquo;. In there, we present:</p>
+<ul>
+<li>The spending generated by each team/project.</li>
+<li>The evolution of that spending.</li>
+<li>The spending normalized by prediction (we use this to put costs in the context of the units of work those workloads are performing; as per usual, the semantics or complexity of the work done by each service may vary wildly, so we have to take it with a grain of salt).</li>
+<li>The forecasted spending, or how much that team/project will consume by the end of the budget period, given the same traffic patterns displayed so far.</li>
+<li>The potential savings if the team/project was 100% efficient. This gives teams a quick idea about the ROI of spending part of their resources into making the services more efficient.</li>
+</ul>
+
+
+<figure>
+    
+
+    
+    <a href="/posts/monitoring-kubernetes-costs-with-no-extra-tools/images/dashboard_spending.png">
+    
+
+    <img
+        src="/posts/monitoring-kubernetes-costs-with-no-extra-tools/images/dashboard_spending.png"
+        alt="Spending section of the dashboard, with tables with how much each team or project spend, the evolution of that spending, the forecasted spend at the end of the budgeting cycle, and the potential savings if all inefficiencies were removed."
+        
+    >
+    </a>
+
+    
+</figure>
+
+
+<p>The last 2 sections focus on inefficiencies and are useful for teams that want to find out why the cost of a specific project has skyrocketed, or whether we can achieve some quick wins and save a few thousand bucks per month with just a few hours of work. Inefficiencies often come in the form of:</p>
+<ul>
+<li>Projects using much fewer resources than they request.</li>
+<li>Nodes with idle resources due to a mismatch in how these resources scale with respect to the workloads. For instance, if all our workloads requested CPU:memory in a proportion of 1:1 (say, 1 core:1 GB), but our machines were optimized for memory and had a proportion of 1:4, then we would keep 3/4ths of memory idle all the time.</li>
+</ul>
+<p>Reducing those inefficiencies as much as possible is part of our &ldquo;Cost optimization&rdquo; strategy, and a shared responsibility between platform and product teams at Glovo.</p>
+
+
+<figure>
+    
+
+    
+    <a href="/posts/monitoring-kubernetes-costs-with-no-extra-tools/images/dashboard_inefficiencies.png">
+    
+
+    <img
+        src="/posts/monitoring-kubernetes-costs-with-no-extra-tools/images/dashboard_inefficiencies.png"
+        alt="Section of the dashboard that points out all existing inefficiencies, and the utilization and idleness of existing resources."
+        
+    >
+    </a>
+
+    
+</figure>
+
+
+<p><em>I wanted to make this article as useful as possible for teams in the same situation as ours, so I&rsquo;ve open-sourced the dashboard we are using. You can find the Terraform + JSON code in <a href="https://gist.github.com/larribas/2f4fcf652e86674a7892a01ca1dab5d2">this gist</a>.</em></p>
+<h2 id="next-steps-more-accurate-cost-monitoring">Next steps: More accurate cost monitoring</h2>
+<p>The basic premise of our <em>guerrilla</em> approach was to get a good value with minimal effort.</p>
+<p>As our volumes grow and the projects deployed to our Kubernetes cluster become more diverse, it will make sense to start leveraging a proper cost monitoring solution that can:</p>
+<ul>
+<li>Determine the cost of a pod based on the specific machine it runs on (and works with different pricing systems such as Spot and Reserved Instances).</li>
+<li>Aggregate costs inside and outside of the Kubernetes cluster.</li>
+<li>Aggregate costs of multiple Kubernetes clusters and expose them through a single interface.</li>
+<li>Provide extra insights and recommendations.</li>
+<li>Integrate with existing enterprise tools for monitoring, messaging, or incident management.</li>
+</ul>
+<p>If you&rsquo;re interested in exploring more about this area, I&rsquo;d recommend checking the <a href="https://kubecost.com/">Kubecost</a> project.</p>
+<p>More generally, some SaaS companies provide cost optimization services for the cloud (including integration with Kubernetes clusters). We&rsquo;ve started exploring <a href="https://www.cloudzero.com/">CloudZero</a>, but I&rsquo;m sure there are many alternatives. Perhaps some will list themselves in the comments section :)</p>
+
+      </div>
+
+      <footer>
+        
+      </footer>
+    </article>
+
+    
+  </section>
+
+      </div>
+
+      <footer class="footer">
+  <section class="container">
+     © 2021
+    
+    
+    
+  </section>
+</footer>
+
+    </main>
+  </body>
+</html>
