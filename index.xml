@@ -219,8 +219,8 @@ cumulative_sum(resources_over_total) * actual_spend
 
 &lt;p&gt;&lt;em&gt;I wanted to make this article as useful as possible for teams in the same situation as ours, so I&amp;rsquo;ve open-sourced the dashboard we are using. You can find the Terraform + JSON code in &lt;a href=&#34;https://gist.github.com/larribas/2f4fcf652e86674a7892a01ca1dab5d2&#34;&gt;this gist&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
 &lt;h2 id=&#34;next-steps-more-accurate-cost-monitoring&#34;&gt;Next steps: More accurate cost monitoring&lt;/h2&gt;
-&lt;p&gt;The basic premise of our &lt;em&gt;guerrilla&lt;/em&gt; approach was to get a good value with minimal effort.&lt;/p&gt;
-&lt;p&gt;As our volumes grow and the projects deployed to our Kubernetes cluster become more diverse, it will make sense to start leveraging a proper cost monitoring solution that can:&lt;/p&gt;
+&lt;p&gt;The basic premise of our &lt;em&gt;guerrilla&lt;/em&gt; approach is to get a good value with minimal effort.&lt;/p&gt;
+&lt;p&gt;As your volumes grow and the projects deployed to your Kubernetes cluster become more diverse, it will make sense to start leveraging a proper cost monitoring solution that can:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Determine the cost of a pod based on the specific machine it runs on (and works with different pricing systems such as Spot and Reserved Instances).&lt;/li&gt;
 &lt;li&gt;Aggregate costs inside and outside of the Kubernetes cluster.&lt;/li&gt;

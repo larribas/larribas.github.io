@@ -54,7 +54,7 @@
 
     
     
-    <link rel="stylesheet" href="/css/coder.min.bead4502fb216e1d816ad619a1d5f7b75bcc20cc5cffaa45476c21298e70618b.css" integrity="sha256-vq1FAvshbh2BatYZodX3t1vMIMxc/6pFR2whKY5wYYs=" crossorigin="anonymous" media="screen" />
+    <link rel="stylesheet" href="/css/coder.min.8f105af36c56f9894ca69b0a10bd3676423b75af31eabf0e33e31ba1bf81c01c.css" integrity="sha256-jxBa82xW&#43;YlMppsKEL02dkI7da8x6r8OM&#43;Mbob&#43;BwBw=" crossorigin="anonymous" media="screen" />
 
     
 
@@ -113,6 +113,15 @@
           <span class="reading-time indicator">
             🕐
             8 minutes read
+          </span>
+          
+          <span class="read-on-other-platforms indicator">
+              Read on
+              
+              
+                
+                <a href="https://medium.com/@larribas/cost-monitoring-on-kubernetes-with-no-extra-components-3feb0de6a783">Medium</a>
+              
           </span>
           
         </div>
@@ -331,8 +340,8 @@ cumulative_sum(resources_over_total) * actual_spend
 
 <p><em>I wanted to make this article as useful as possible for teams in the same situation as ours, so I&rsquo;ve open-sourced the dashboard we are using. You can find the Terraform + JSON code in <a href="https://gist.github.com/larribas/2f4fcf652e86674a7892a01ca1dab5d2">this gist</a>.</em></p>
 <h2 id="next-steps-more-accurate-cost-monitoring">Next steps: More accurate cost monitoring</h2>
-<p>The basic premise of our <em>guerrilla</em> approach was to get a good value with minimal effort.</p>
-<p>As our volumes grow and the projects deployed to our Kubernetes cluster become more diverse, it will make sense to start leveraging a proper cost monitoring solution that can:</p>
+<p>The basic premise of our <em>guerrilla</em> approach is to get a good value with minimal effort.</p>
+<p>As your volumes grow and the projects deployed to your Kubernetes cluster become more diverse, it will make sense to start leveraging a proper cost monitoring solution that can:</p>
 <ul>
 <li>Determine the cost of a pod based on the specific machine it runs on (and works with different pricing systems such as Spot and Reserved Instances).</li>
 <li>Aggregate costs inside and outside of the Kubernetes cluster.</li>
@@ -346,6 +355,16 @@ cumulative_sum(resources_over_total) * actual_spend
       </div>
 
       <footer>
+        
+        <hr>
+        <span>
+            Got any comments? Please, write them on
+            
+            
+              
+              <a href="https://medium.com/@larribas/cost-monitoring-on-kubernetes-with-no-extra-components-3feb0de6a783">Medium</a>
+            
+        </span>
         
       </footer>
     </article>
