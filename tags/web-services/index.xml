@@ -322,26 +322,6 @@
 &lt;p&gt;People’s health is not binary. They are not either completely healthy or dead. Servers aren’t either.&lt;/p&gt;
 &lt;p&gt;There are several reasons why we might want to react to an unhealthy status. We might want to roll back a release, restart the service, reduce traffic, page our on-call engineer. This will highly depend on our ability to distinguish between different shades of grey.&lt;/p&gt;
 &lt;p&gt;Can you imagine getting back a medical report with no more information than OK or KO?&lt;/p&gt;
-
-
-&lt;figure&gt;
-    
-
-    
-    &lt;a href=&#34;https://larribas.me/posts/meaningful-web-service-health-checks/images/blood_type_joke.png&#34;&gt;
-    
-
-    &lt;img
-        src=&#34;https://larribas.me/posts/meaningful-web-service-health-checks/images/blood_type_joke.png&#34;
-        alt=&#34;What&amp;#39;s your blood type? Red!&#34;
-        
-    &gt;
-    &lt;/a&gt;
-
-    
-&lt;/figure&gt;
-
-
 &lt;h2 id=&#34;rule-5-consider-different-checks-readiness-liveness&#34;&gt;Rule #5. Consider different checks (readiness, liveness…)&lt;/h2&gt;
 &lt;p&gt;Orchestration platforms like &lt;em&gt;Kubernetes&lt;/em&gt; make a distinction between a liveness check and a readiness check (although, in &lt;em&gt;Kubernetes&lt;/em&gt; jargon, they call them probes).&lt;/p&gt;
 &lt;p&gt;A &lt;strong&gt;readiness check&lt;/strong&gt; answers the question: &lt;em&gt;Can I start processing work?&lt;/em&gt; Plus, it might check things like:&lt;/p&gt;
